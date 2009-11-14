@@ -1,5 +1,6 @@
 #header{background:#8e0000 url('../images/header-maroon-bg.png') repeat-x 50% 100%;height:89px;}
 #footer{background:#8e0000 url('../images/footer-maroon-bg.png') repeat-x 50% 0px;min-height:36px;}
+#footer-text{color:white; font:12px sans-serif;vertical-align:middle;}
 #content{background:#e2e2e2 url('../images/content.png') repeat-y 50% 100%;min-height:500px;}
 body{background:#8e0000;}
 /*Maroon:#8e0000*/
