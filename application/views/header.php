@@ -9,11 +9,23 @@
 			<div class="left">
 				<h3>For Students:</h3>
 				<p class="grey">use your UP Webmail account for logging in</p>
-				<h3>For Organizations:</h3
+				<h3>For Organizations:</h3>
 				<p class="grey">use the account details provided by OSA</p>
 			</div>
 			<div class="left right">
 				<!-- Login Form -->
+				<?php echo form_open('login/',array('class'=>'clearfix'))."\n";?>
+					<h1>Login</h1>
+					<?php echo form_label('Username:','log',array('class'=>'grey'))."\n"; ?>
+					<?php echo form_input(array('class'=>'field','type'=>'text','name'=>'log','id'=>'log','value'=>'','size'=>'23'))."\n";?>
+					<?php echo form_label('Password:','pwd',array('class'=>'grey'))."\n"; ?>
+					<?php echo form_input(array('class'=>'field','type'=>'password','name'=>'pwd','id'=>'pwd','size'=>'23'))."\n";?>
+					<?php echo form_label(form_input(array('type'=>'checkbox','name'=>'rememberme','id'=>'rememberme','checked'=>'checked','value'=>'forever')).' &nbsp;Remember me')."\n";?>
+					<div class="clear"></div>
+					<?php echo form_submit('submit','Login','class="bt_login"')."\n";?>
+					<a class="lost-pwd" href="#">Lost your password?</a>
+				<?php echo form_close()."\n";?>
+				<!--
 				<form class="clearfix" action="#" method="post">
 					<h1>Login</h1>
 					<label class="grey" for="log">Username:</label>
@@ -25,6 +37,7 @@
 					<input type="submit" name="submit" value="Login" class="bt_login" />
 					<a class="lost-pwd" href="#">Lost your password?</a>
 				</form>
+				-->
 			</div>
 			
 		</div>
