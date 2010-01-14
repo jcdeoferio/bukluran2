@@ -1,11 +1,14 @@
 <?php
-class Main extends Controller {
+class Login extends Controller {
 
-	function Main()
+	function Login()
 	{
 		parent::Controller();
+		$this->load->helper('html');
+		$this->load->helper('url');
+		$this->load->helper('form');
 	}
-
+	
 	function index()
 	{
 		$this->load->view('htmlhead');
