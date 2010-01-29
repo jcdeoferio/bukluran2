@@ -1,7 +1,11 @@
-#header{background:#8e0000 url('../images/header-bg.png') repeat-x 50% 100%;height:89px;}
-#footer{background:#8e0000 url('../images/footer-bg.png') repeat-x 50% 0px;min-height:36px;}
-.header-footer-text{color:white; font:12px sans-serif;vertical-align:middle;}
-#content{background:#e2e2e2 url('../images/content.png') repeat-y 50% 100%;min-height:500px;}
-body{background:#8e0000;}
+body{background:url('../images/background.png');}
+#headerWrapper{background:#8e0000 url('../images/header-bg.png') repeat-x 50% 100%;height:71px;}
+#topnavWrapper{background:#000000 url('../images/topnav-bg.png');line-height:25px;text-align:right;color:white;font:arial;vertical-align:middle;}
+#topnav a{color: #15ADFF; font-size:12px;font-weight:bold;}
+#topnav a:hover{color: white;}
+#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%;min-height:500px;}
+#content{padding-top:5px;}
+#footerWrapper{background:url('../images/footer.png') no-repeat 50% 0%; min-height:75px;}
+#footer{color:white; font:14px sans-serif;vertical-align:middle; padding-top:40px;}
 /*Maroon:#8e0000*/
 /*Green:#208700*/

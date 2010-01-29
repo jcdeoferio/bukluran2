@@ -50,7 +50,7 @@
 			<div class="left">
 				<h3>For Students:</h3>
 				<p class="grey">use your UP Webmail account for logging in</p>
-				<h3>For Organizations:</h3
+				<h3>For Organizations:</h3>
 				<p class="grey">use the account details provided by OSA</p>
 			</div>
 			<div class="left right">

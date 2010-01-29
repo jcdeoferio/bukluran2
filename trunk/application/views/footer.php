@@ -1,13 +1,12 @@
-<div id="footer">
+<div id="footerWrapper">
 <div class="container">
 <div class="span-24 last">
-<?php echo img('layout/images/footer.png');?>
 </div>
-<!--
-<div class="span-24 last header-footer-text">
+
+<div class="span-24 last" id="footer">
 <center>2009 &copy; UP Programming Guild</center>
 </div>
--->
+
 </div>
 </div>
 
