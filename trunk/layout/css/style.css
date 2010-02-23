@@ -1,11 +1,14 @@
 body{background:url('../images/background.png');}
-#headerWrapper{background:#8e0000 url('../images/header-bg.png') repeat-x 50% 100%;height:71px;}
-#topnavWrapper{background:#000000 url('../images/topnav-bg.png');line-height:25px;text-align:right;color:white;font:arial;vertical-align:middle;}
+#headerWrapper{background:#8e0000 url('../images/header-bg.png') repeat-x 50% 100%; height:71px;}
+#topnavWrapper{background:url('../images/topnav-bg.png') repeat-x; height:35px; line-height:23px; text-align:right; color:white; font:arial;}
 #topnav a{color: #15ADFF; font-size:12px;font-weight:bold;}
 #topnav a:hover{color: white;}
-#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%;min-height:500px;}
-#content{padding-top:5px;}
-#footerWrapper{background:url('../images/footer.png') no-repeat 50% 0%; min-height:75px;}
-#footer{color:white; font:14px sans-serif;vertical-align:middle; padding-top:40px;}
+
+#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%; min-height:400px;}
+#content{padding:5px;}
+#contentFooter{background:url('../images/footer.png') no-repeat 50% 0%; height:50px;}
+#contentHeader{background:url('../images/content-header.png') no-repeat 50% 0%; height:30px;}
+
+#footer{color:white; font:14px sans-serif;vertical-align:middle; min-height: 50px;}
 /*Maroon:#8e0000*/
 /*Green:#208700*/
