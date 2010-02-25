@@ -10,5 +10,14 @@ body{background:url('../images/background.png');}
 #contentHeader{background:url('../images/content-header.png') no-repeat 50% 0%; height:30px;}
 
 #footer{color:white; font:14px sans-serif;vertical-align:middle; min-height: 50px;}
+
+.announcementTitle{
+font-weight: bold;
+text-shadow: 0px 2px 5px #999;
+}
+
+
+
+
 /*Maroon:#8e0000*/
 /*Green:#208700*/
