@@ -28,12 +28,17 @@ class Main extends Controller {
 
 	function index()
 	{
+		//$this->load->view('ie6');
+	
 		$this->load->view('htmlhead');
 		$this->load->view('header');
 		$this->load->view('content-header');
 		$this->load->view('content');
 		$this->load->view('content-footer');
 		$this->load->view('footer');
+	
 	}
 }
-?>
+
+/* End of file main.php */
+/* Location: ./application/controllers/main.php */

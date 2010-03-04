@@ -1,4 +1,23 @@
 <body>
+<!-- jReject Script http://jreject.turnwheel.com/ -->
+<script src="<?php echo base_url().'layout/js/jReject/jquery.reject.js';?>"></script>
+<script>
+window.onload=function(){$.reject({
+/*
+reject: {
+	safari: true, // Apple Safari
+	chrome: true, // Google Chrome
+	firefox: true, // Mozilla Firefox
+	msie: true, // Microsoft Internet Explorer
+	opera: true, // Opera
+	konqueror: true, // Konqueror (Linux)
+	unknown: true // Everything else
+},
+*/
+imagePath: '<?php echo base_url().'layout/images/browsers/';?>'
+});return false;}
+</script>
+<!-- /jReject Script -->
 <!-- Panel -->
 <div id="toppanel">
 	<div id="panel">
