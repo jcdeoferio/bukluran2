@@ -17,4 +17,6 @@ class Login extends Controller {
 		$this->load->view('footer');
 	}
 }
-?>
+
+/* End of file login.php */
+/* Location: ./application/controllers/login.php */
