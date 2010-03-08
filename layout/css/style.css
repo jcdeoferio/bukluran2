@@ -4,20 +4,18 @@ body{background:url('../images/background.png');}
 #topnav a{color: #15ADFF; font-size:12px;font-weight:bold;}
 #topnav a:hover{color: white;}
 
-#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%; min-height:400px;}
+#footer{color:white; font:14px sans-serif;vertical-align:middle; min-height: 50px;}
+
 #content{padding:5px;}
+#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%; min-height:400px;}
 #contentFooter{background:url('../images/footer.png') no-repeat 50% 0%; height:50px;}
 #contentHeader{background:url('../images/content-header.png') no-repeat 50% 0%; height:30px;}
 
-#footer{color:white; font:14px sans-serif;vertical-align:middle; min-height: 50px;}
-
-.announcementTitle{
-font-weight: bold;
-text-shadow: 0px 2px 5px #999;
+.contentHeader_text{
+	font-size:30px;
+	font-weight: bold;
+	text-shadow: 0px 2px 5px #999;
+	margin-bottom:10px;
 }
-
-
-
-
 /*Maroon:#8e0000*/
 /*Green:#208700*/

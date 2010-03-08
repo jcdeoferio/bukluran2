@@ -7,9 +7,9 @@
 <head>
 	<title>Bukluran 2.0</title>
 	<link  href="images/favicon.png" rel="shortcut icon" type="image/ico" />
-	<?php echo link_tag('layout/css/blueprint/screen.css');?>
-	<?php echo link_tag('layout/css/blueprint/print.css');?>
-	<?php echo link_tag('layout/css/style.css');?>
+	<?= link_tag('layout/css/blueprint/screen.css');?>
+	<?= link_tag('layout/css/blueprint/print.css');?>
+	<?= link_tag('layout/css/style.css');?>
 <!--
 	<link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
 	<link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
@@ -20,8 +20,8 @@
 
 <!--sliding login panel-->
 	<!-- stylesheets -->
-	<?php echo link_tag('layout/css/loginpanel/style.css');?>
-	<?php echo link_tag('layout/css/loginpanel/slide.css');?>
+	<?= link_tag('layout/css/loginpanel/style.css');?>
+	<?= link_tag('layout/css/loginpanel/slide.css');?>
 <!--	
   	<link rel="stylesheet" href="css/loginpanel/style.css" type="text/css" media="screen" />
   	<link rel="stylesheet" href="css/loginpanel/slide.css" type="text/css" media="screen" />
@@ -33,9 +33,9 @@
 	<![endif]-->
 	 
     <!-- jQuery - the core -->
-	<script src="<?php echo base_url().'layout/js/loginpanel/jquery-1.3.2.min.js';?>" type="text/javascript"></script>
+	<script src="<?= base_url().'layout/js/loginpanel/jquery-1.3.2.min.js';?>" type="text/javascript"></script>
 	<!-- Sliding effect -->
-	<script src="<?php echo base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
+	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!--sliding login panel-->
 </head>
 <body>
@@ -91,7 +91,7 @@
 <div id="header">
 <div class="container">
 <div class="span-24 last">
-<?php echo img('layout/images/header.png');?>
+<?= img('layout/images/header.png');?>
 </div>
 <!--
 <div class="clear prepend-14 span-12 last header-footer-text">
@@ -113,7 +113,7 @@ online registration system for student organizations of UP Diliman
 <div id="footer">
 <div class="container">
 <div class="span-24 last">
-<?php echo img('layout/images/footer.png');?>
+<?= img('layout/images/footer.png');?>
 </div>
 <!--
 <div class="span-24 last header-footer-text">

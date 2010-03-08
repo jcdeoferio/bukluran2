@@ -6,25 +6,33 @@
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=8" /> <!--meta data to force IE8 to render in IE8 Mode. Otherwise it will render in IE6 mode-->
-	<title>Bukluran 2.0</title>
-	<?php echo link_tag(array('href'=>'layout/images/favicon.png','rel'=>'shortcut icon','type'=>'image/ico'))."\n";?>
-	<?php echo link_tag(array('href'=>'layout/css/blueprint/screen.css','rel'=>'stylesheet','type'=>'text/css','media'=>'screen, projection'))."\n";?>
-	<?php echo link_tag(array('href'=>'layout/css/blueprint/print.css','rel'=>'stylesheet','type'=>'text/css','media'=>'print'))."\n";?>
-	<?php echo link_tag(array('href'=>'layout/css/style.css','rel'=>'stylesheet','type'=>'text/css','media'=>'screen, projection'))."\n";?>
-	<!--[if lt IE 8]><?php echo link_tag(array('rel'=>'stylesheet','href'=>'layout/css/blueprint/ie.css','type'=>'text/css','media'=>'screen, projection'));?><![endif]-->
+	<title><?php if(isset($title)) echo $title.' - '; ?>Bukluran 2.0</title>
+	<?php //href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates. ?>
+	<?= link_tag('layout/images/favicon.png','shortcut icon','image/ico')."\n";?>
+	<?= link_tag('layout/css/blueprint/screen.css','stylesheet','text/css','','screen, projection')."\n";?>
+	<?= link_tag('layout/css/blueprint/print.css','stylesheet','text/css','','print')."\n";?>
+	<?= link_tag('layout/css/style.css','stylesheet','text/css','','screen, projection')."\n";?>
+	<!--[if lt IE 8]><?= link_tag('layout/css/blueprint/ie.css','stylesheet','text/css','','screen, projection');?><![endif]-->
+<!--page specific stylesheets-->
+	<?php if(isset($stylesheets)):?>
+		<?php foreach ($stylesheets as $stylesheet):?>
+			<?= link_tag('layout/css/'.$stylesheet,'stylesheet','text/css','','screen, projection')."\n";?>
+		<?php endforeach;?>
+	<?php endif;?>
+<!--/page specific stylesheets-->		
 <!-- sliding login panel http://web-kreation.com/demos/Sliding_login_panel_jquery/ -->
 	<!-- stylesheets -->
-	<?php echo link_tag(array('rel'=>'stylesheet','href'=>'layout/css/loginpanel/style.css','type'=>'text/css','media'=>'screen'))."\n";?>
-	<?php echo link_tag(array('rel'=>'stylesheet','href'=>'layout/css/loginpanel/slide.css','type'=>'text/css','media'=>'screen'))."\n";?>
+	<?= link_tag('layout/css/loginpanel/style.css','stylesheet','text/css','','screen')."\n";?>
+	<?= link_tag('layout/css/loginpanel/slide.css','stylesheet','text/css','','screen')."\n";?>
 
   	<!-- PNG FIX for IE6 http://24ways.org/2007/supersleight-transparent-png-in-ie6 -->
 	<!--[if lte IE 6]>
-		<script src="<?php echo base_url().'layout/js/loginpanel/pngfix/supersleight-min.js';?>" type="text/javascript"></script>
+		<script src="<?= base_url().'layout/js/loginpanel/pngfix/supersleight-min.js';?>" type="text/javascript"></script>
 	<![endif]-->
 	 
     <!-- jQuery - the core -->
-	<script src="<?php echo base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
+	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
 	<!-- Sliding effect -->
-	<script src="<?php echo base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
+	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!-- /sliding login panel -->
 </head>
