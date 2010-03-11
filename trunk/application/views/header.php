@@ -38,9 +38,9 @@ imagePath: '<?= base_url().'layout/images/browsers/';?>'
 				<?= form_open('login/',array('class'=>'clearfix'))."\n";?>
 					<h1>Login</h1>
 					<?= form_label('Username:','username',array('class'=>'grey'))."\n"; ?>
-					<?= form_input(array('class'=>'field','type'=>'text','name'=>'username','id'=>'log','value'=>'','size'=>'23'))."\n";?>
+					<?= form_input(array('class'=>'field','type'=>'text','name'=>'username','id'=>'username','value'=>'','size'=>'23'))."\n";?>
 					<?= form_label('Password:','password',array('class'=>'grey'))."\n"; ?>
-					<?= form_input(array('class'=>'field','type'=>'password','name'=>'password','id'=>'pwd','size'=>'23'))."\n";?>
+					<?= form_input(array('class'=>'field','type'=>'password','name'=>'password','id'=>'password','size'=>'23'))."\n";?>
 					<?= form_label(form_input(array('type'=>'checkbox','name'=>'rememberme','id'=>'rememberme','checked'=>'checked','value'=>'forever')).' &nbsp;Remember me')."\n";?>
 					<div class="clear"></div>
 					<?= form_submit('submit','Login','class="bt_login"')."\n";?>
