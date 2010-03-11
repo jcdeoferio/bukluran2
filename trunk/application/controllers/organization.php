@@ -1,3 +1,4 @@
+
 <?php
 class Organization extends Controller {
 
@@ -13,9 +14,9 @@ class Organization extends Controller {
 	{
 		$this->load->view('htmlhead');
 		$this->load->view('header');
-		$this->load->view('content-header');
-		$this->load->view('content');
-		$this->load->view('content-footer');
+		$this->load->view('layout/header');
+		$this->load->view('layout/content');
+		$this->load->view('layout/footer');
 		$this->load->view('footer');
 	}
 }

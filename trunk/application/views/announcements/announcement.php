@@ -1,6 +1,4 @@
-<div id="contentWrapper">
-<div class="container">
-<div class="span-24 last" id="content">
+<div class="span-<?=isset($span)?$span:24?> last" id="content_main">
 	<div class="contentHeader_text">
 		Announcements
 	</div>
@@ -17,7 +15,5 @@
 		</div>
 	</div>
 	<?php endif; ?>
-	<?=anchor('/main/announcements/','Back to List');?>
-</div>
-</div>
+	<?=anchor($back_link,'Back to List');?>
 </div>

@@ -1,6 +1,11 @@
-<div id="contentWrapper">
-<div class="container">
-<div class="span-24 last" id="content">
+<?php
+$config['base_url'] = site_url($site_link);
+$config['total_rows'] = '200';
+$config['per_page'] = '20'; 
+
+$this->pagination->initialize($config); 
+?>
+<div class="span-<?=isset($span)?$span:24?> last" id="content">
 	<div class="contentHeader_text">
 		Organizations List
 	</div>
@@ -8,11 +13,10 @@
 	<ul>
 		<?php for($i=0;$i<count($orgs_id);$i++): ?>
 		<li class="organizationList_name">
-			<?= anchor('main/organizations/0/'.$orgs_id[$i],$orgs_name[$i])?>
+			<?= anchor($forward_link.$orgs_id[$i],$orgs_name[$i])?>
 		</li>
 		<?php endfor;?>
 	</ul>
+	<?=$this->pagination->create_links();?>
 	<?php endif;?>
-</div>
-</div>
 </div>

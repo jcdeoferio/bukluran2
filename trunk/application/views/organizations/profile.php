@@ -1,6 +1,4 @@
-<div id="contentWrapper">
-<div class="container">
-<div class="span-24 last" id="content">
+<div class="span-<?=isset($span)?$span:24?> last" id="content">
 	<div class="contentHeader_text">
 		<?= $name ?>
 	</div>
@@ -21,6 +19,5 @@
 		<b>Description:</b> <?=$org_desc?> <br />
 		</p>
 	</div>
-</div>
-</div>
+	<?=anchor($back_link,'Back to List');?>
 </div>
