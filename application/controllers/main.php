@@ -42,28 +42,44 @@ class Main extends Controller {
 		
 		$this->load->view('htmlhead',$data);
 		$this->load->view('header');
-		$this->load->view('content-header');
+		$this->load->view('layout/content/header');
+		$this->load->view('layout/content/div_open');
 		if($announcement_id == -1){
 			$announcements_data['announcements'] = array($announcement, $announcement);
+			
+			$announcements_data['span']=24;
+			$announcements_data['site_link']='main/announcements/';
+			$announcements_data['forward_link']='main/announcements/0/';
+			
 			$this->load->view('announcements/list', $announcements_data);
 		}else{
 			$announcements_data['announcement'] = $announcement;
+			
+			$announcements_data['span']=24;
+			$announcements_data['back_link'] = 'main/announcements';
+			
 			$this->load->view('announcements/announcement', $announcements_data);
 		}
-		$this->load->view('content-footer');
+		$this->load->view('layout/content/div_close');
+		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
 	}
 	
 	function organizations($page_no = 0,$org_id = -1){
-		
 		$data['stylesheets'] = array('organizations_list.css');
 		$data['title'] = "Organizations";
 		$this->load->view('htmlhead',$data);
 		$this->load->view('header');
-		$this->load->view('content-header');
+		$this->load->view('layout/content/header');
+		$this->load->view('layout/content/div_open');
 		if($org_id == -1){
 			$orgs_list['orgs_id'] = array(1,2,3);
 			$orgs_list['orgs_name'] = array('UP Programming Guild', 'Organization Name1', 'Organization Name2');
+			
+			$orgs_list['span']=24;
+			$orgs_list['site_link']='main/organizations/';
+			$orgs_list['forward_link']='main/organizations/0/';
+			
 			$this->load->view('organizations/list', $orgs_list);
 		}else{
 			$org_data['name'] = 'UP Programming Guild';
@@ -74,9 +90,14 @@ class Main extends Controller {
 			$org_data['mailing_address'] = '130 13th Avenue, Cubao Quezon City 1109 ';
 			$org_data['org_email'] = 'upprogrammingguild@gmail.com ';
 			$org_data['org_desc'] = 'This organization aims to broaden the appreciation for various forms and approaches to problem solving, enhance analytical skills, and use collaborative programming as a means for personal affirmation and social interaction';
+			
+			$org_data['span']=24;
+			$org_data['back_link']='main/organizations/';
+			
 			$this->load->view('organizations/profile',$org_data);
 		}
-		$this->load->view('content-footer');
+		$this->load->view('layout/content/div_close');
+		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
 		
 	}
@@ -84,9 +105,9 @@ class Main extends Controller {
 	function contact(){
 		$this->load->view('htmlhead');
 		$this->load->view('header');
-		$this->load->view('content-header');
+		$this->load->view('layout/content/header');
 		$this->load->view('contact');
-		$this->load->view('content-footer');
+		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
 	}	
 
