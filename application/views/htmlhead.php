@@ -21,6 +21,12 @@
 		<?php endforeach;?>
 	<?php endif;?>
 <!--/page specific stylesheets-->		
+    <!-- jQuery - the core -->
+	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
+	<!-- jQuery UI -->
+	<script src="<?= base_url().'layout/js/jquery-ui-1.8.custom.min.js';?>" type="text/javascript"></script>
+	<!-- jQuery UI Blitzer Theme -->
+	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
 <!-- sliding login panel http://web-kreation.com/demos/Sliding_login_panel_jquery/ -->
 	<!-- stylesheets -->
 	<?= link_tag('layout/css/loginpanel/style.css','stylesheet','text/css','','screen')."\n";?>
@@ -33,12 +39,5 @@
 	<!-- Sliding effect -->
 	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!-- /sliding login panel -->
-
-    <!-- jQuery - the core -->
-	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
-	<!-- jQuery UI -->
-	<script src="<?= base_url().'layout/js/jquery-ui-1.8.custom.min.js';?>" type="text/javascript"></script>
-	<!-- jQuery UI Blitzer Theme -->
-	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
 	<?php if(isset($other)) echo $other;?>
 </head>
