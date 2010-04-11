@@ -30,10 +30,15 @@
 	<!--[if lte IE 6]>
 		<script src="<?= base_url().'layout/js/loginpanel/pngfix/supersleight-min.js';?>" type="text/javascript"></script>
 	<![endif]-->
-	 
-    <!-- jQuery - the core -->
-	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
 	<!-- Sliding effect -->
 	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!-- /sliding login panel -->
+
+    <!-- jQuery - the core -->
+	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
+	<!-- jQuery UI -->
+	<script src="<?= base_url().'layout/js/jquery-ui-1.8.custom.min.js';?>" type="text/javascript"></script>
+	<!-- jQuery UI Blitzer Theme -->
+	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
+	<?php if(isset($other)) echo $other;?>
 </head>
