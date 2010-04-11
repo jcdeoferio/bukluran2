@@ -29,17 +29,19 @@
 			$categories = array('Academic','Alliance','Cause-Oriented','Community Service','Dormitory Association','Fraternity','Regional/Provincial','Religious','Sorority','Special Interest','Sports and Recreatio');			
 		?>
 		<em><em class="required">*</em> Required Fields</em><?=br(3)?>
+		<?php if(isset($error)):?>
 		<div class="error">test</div>
+		<?php endif;?>
 		<?=form_open('organization/form1');?>
 		<?=form_fieldset('Organization Details');?>
 		<ol>
 		<li>
 		<?=form_label('Official Name<em class="required">*</em>:','org_name',array('class'=>'top'));?>
-		<?=form_input('org_name','','id="org_name" size="110"');?>
+		<?=form_input('org_name','','id="org_name" size="90"');?>
 		</li>
 		<li>
 		<?=form_label('Other Name(s)/Acronym<em class="required">*</em>:','org_other_names',array('class'=>'top'));?>
-		<?=form_input('org_other_names','','id="org_other_names" size="110"');?><br/>
+		<?=form_input('org_other_names','','id="org_other_names" size="90"');?><br/>
 		</li>
 		<li>
 		<?=form_label('Date Establised<em class="required">*</em>:','established_month',array('class'=>'top'))?>
@@ -73,7 +75,7 @@
 		<ol>
 		<li>
 		<?=form_label('Mailing Address<em class="required">*</em>:','org_mailing_address',array('class'=>'top'));?>
-		<?=form_input('org_mailing_address','','id="org_mailing_address" size="110"');?><br/>
+		<?=form_input('org_mailing_address','','id="org_mailing_address" size="90"');?><br/>
 		</li>
 		<li>
 		<?=form_label('Organization Email Address<em class="required">*</em>:','org_email',array('class'=>'top'));?>
