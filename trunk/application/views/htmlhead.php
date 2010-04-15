@@ -20,13 +20,36 @@
 			<?= link_tag('layout/css/'.$stylesheet,'stylesheet','text/css','','screen, projection')."\n";?>
 		<?php endforeach;?>
 	<?php endif;?>
-<!--/page specific stylesheets-->		
+<!--/end page specific stylesheets-->
     <!-- jQuery - the core -->
 	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
 	<!-- jQuery UI -->
 	<script src="<?= base_url().'layout/js/jquery-ui-1.8.custom.min.js';?>" type="text/javascript"></script>
 	<!-- jQuery UI Blitzer Theme -->
 	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
+	
+<!-- jReject Script http://jreject.turnwheel.com/ -->
+	<script src="<?= base_url().'layout/js/jReject/jquery.reject.js';?>"></script>
+	<script>
+	window.onload=function(){$.reject({
+	/*
+	reject: {
+		safari: true, // Apple Safari
+		chrome: true, // Google Chrome
+		firefox: true, // Mozilla Firefox
+		msie: true, // Microsoft Internet Explorer
+		opera: true, // Opera
+		konqueror: true, // Konqueror (Linux)
+		unknown: true // Everything else
+	},
+	*/
+	imagePath: '<?= base_url().'layout/images/browsers/';?>',
+	afterReject: function(){$('div#toppanel').hide();},
+	afterClose: function(){$('div#toppanel').fadeIn();},
+	});return false;}
+	</script>
+<!--/end jReject Script -->
+	
 <!-- sliding login panel http://web-kreation.com/demos/Sliding_login_panel_jquery/ -->
 	<!-- stylesheets -->
 	<?= link_tag('layout/css/loginpanel/style.css','stylesheet','text/css','','screen')."\n";?>
@@ -38,6 +61,6 @@
 	<![endif]-->
 	<!-- Sliding effect -->
 	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
-<!-- /sliding login panel -->
+<!--/end sliding login panel -->
 	<?php if(isset($other)) echo $other;?>
 </head>
