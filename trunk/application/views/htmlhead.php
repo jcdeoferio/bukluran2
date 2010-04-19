@@ -12,6 +12,7 @@
 	<?= link_tag('layout/images/favicon.png','shortcut icon','image/ico')."\n";?>
 	<?= link_tag('layout/css/blueprint/screen.css','stylesheet','text/css','','screen, projection')."\n";?>
 	<?= link_tag('layout/css/blueprint/print.css','stylesheet','text/css','','print')."\n";?>
+	<?= link_tag('layout/css/print.css','stylesheet','text/css','','print')."\n";?>
 	<!--[if lt IE 8]><?= link_tag('layout/css/blueprint/ie.css','stylesheet','text/css','','screen, projection');?><![endif]-->
 	<?= link_tag('layout/css/style.css','stylesheet','text/css','','screen, projection')."\n";?>
 <!--page specific stylesheets-->
@@ -67,6 +68,5 @@
 	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!--/end sliding login panel -->
 	<script src="<?= base_url().'layout/js/startup.js';?>" type="text/javascript"></script>
-
 	<?php if(isset($other)) echo $other;?>
 </head>
