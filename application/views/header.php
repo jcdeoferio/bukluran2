@@ -56,6 +56,10 @@
 </div>
 </div>
 
+<div class="print">
+<?= heading('Bukluran 2.0 - online registration system for organizations of UP Diliman',2);?>
+</div>
+
 <div id="topnavWrapper">
 <div class="container">
 <div class="span-24 last" id="topnav">

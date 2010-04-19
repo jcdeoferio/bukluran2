@@ -12,18 +12,18 @@ Version: 1.0
 */ 
 
 /***** clearfix *****/
-.clear {clear: both;height: 0;line-height: 0;}
-.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
-.clearfix {display: inline-block;}
+#toppanel .clear {clear: both;height: 0;line-height: 0;}
+#toppanel .clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+#toppanel .clearfix {display: inline-block;}
 /* Hides from IE-mac \*/
-* html .clearfix {height: 1%;}
-.clearfix {display: block;}
+* html #toppanel .clearfix {height: 1%;}
+#toppanel .clearfix {display: block;}
 /* End hide from IE-mac */
-.clearfix {height: 1%;}
-.clearfix {display: block;}
+#toppanel .clearfix {height: 1%;}
+#toppanel .clearfix {display: block;}
 
 /* Panel Tab/button */
-.tab {
+#toppanel .tab {
   	background: url(../../images/loginpanel/tab_b.png) repeat-x 0 0;
 	height: 42px;
 	position: relative;
@@ -31,7 +31,7 @@ Version: 1.0
     z-index: 999;
 }
 
-.tab ul.login {
+#toppanel .tab ul.login {
 	display: block;
 	position: relative;
   	float: right;
@@ -47,7 +47,7 @@ Version: 1.0
 	text-align: center;
 }
 
-.tab ul.login li.left {
+#toppanel .tab ul.login li.left {
   	background: url(../../images/loginpanel/tab_l.png) no-repeat left 0;
   	height: 42px;
 	width: 30px;
@@ -57,7 +57,7 @@ Version: 1.0
 	float: left;
 }
 
-.tab ul.login li.right {
+#toppanel .tab ul.login li.right {
   	background: url(../../images/loginpanel/tab_r.png) no-repeat left 0;
   	height: 42px;
 	width: 30px;
@@ -67,7 +67,7 @@ Version: 1.0
 	float: left;
 }
 
-.tab ul.login li {
+#toppanel .tab ul.login li {
  	text-align: left;
   	padding: 0 6px;
 	display: block;
@@ -76,17 +76,17 @@ Version: 1.0
   	background: url(../../images/loginpanel/tab_m.png) repeat-x 0 0;
 }
 
-.tab ul.login li a {
+#toppanel .tab ul.login li a {
 	color: #15ADFF;
 }
 
-.tab ul.login li a:hover {
+#toppanel .tab ul.login li a:hover {
 	color: white;
 }
 
-.tab .sep {color:#414141}
+#toppanel .tab .sep {color:#414141}
 
-.tab a.open, .tab a.close {
+#toppanel .tab a.open, #toppanel  .tab a.close {
 	height: 20px;
 	line-height: 20px !important;
 	padding-left: 30px !important;
@@ -97,10 +97,10 @@ Version: 1.0
 	top: 11px;
 }
 
-.tab a.open {background: url(../../images/loginpanel/bt_open.png) no-repeat left 0;}
-.tab a.close {background: url(../../images/loginpanel/bt_close.png) no-repeat left 0;}
-.tab a:hover.open {background: url(../../images/loginpanel/bt_open.png) no-repeat left -19px;}
-.tab a:hover.close {background: url(../../images/loginpanel/bt_close.png) no-repeat left -19px;}
+#toppanel .tab a.open {background: url(../../images/loginpanel/bt_open.png) no-repeat left 0;}
+#toppanel .tab a.close {background: url(../../images/loginpanel/bt_close.png) no-repeat left 0;}
+#toppanel .tab a:hover.open {background: url(../../images/loginpanel/bt_open.png) no-repeat left -19px;}
+#toppanel .tab a:hover.close {background: url(../../images/loginpanel/bt_close.png) no-repeat left -19px;}
 
 /* sliding panel */
 #toppanel {
@@ -114,7 +114,7 @@ Version: 1.0
     margin-right: auto;
 }
 
-#panel {
+#toppanel #panel {
 	width: 100%;
 	height: 270px;
 	color: #999999;
@@ -125,47 +125,47 @@ Version: 1.0
 	display: none;
 }
 
-#panel h1 {
+#toppanel #panel h1 {
 	font-size: 1.6em;
 	padding: 5px 0 10px;
 	margin: 0;
 	color: white;
 }
 
-#panel h2{
+#toppanel #panel h2{
 	font-size: 1.2em;
 	padding: 10px 0 5px;
 	margin: 0;
 	color: white;
 }
 
-#panel h3{
+#toppanel #panel h3{
 	font-size: 1em;
 	padding: 10px 0 5px;
 	margin: 0;
 	color: white;
 }
 
-#panel p {
+#toppanel #panel p {
 	margin: 5px 0;
 	padding: 0;
 }
 
-#panel a {
+#toppanel #panel a {
 	text-decoration: none;
 	color: #15ADFF;
 }
 
-#panel a:hover {
+#toppanel #panel a:hover {
 	color: white;
 }
 
-#panel a-lost-pwd {
+#toppanel #panel a-lost-pwd {
 	display: block;
 	float: left;
 }
 
-#panel .content {
+#toppanel #panel .content {
 	width: 960px;
 	margin: 0 auto;
 	padding-top: 15px;
@@ -173,22 +173,22 @@ Version: 1.0
 	font-size: 0.85em;
 }
 
-#panel .content .left {
+#toppanel #panel .content .left {
 	width: 280px;
 	float: left;
 	padding: 0 15px;
 	border-left: 1px solid #333;
 }
 
-#panel .content .right {
+#toppanel #panel .content .right {
 	border-right: 1px solid #333;
 }
 
-#panel .content form {
+#toppanel #panel .content form {
 	margin: 0 0 10px 0;
 }
 
-#panel .content label {
+#toppanel #panel .content label {
 	float: left;
 	padding-top: 8px;
 	clear: both;
@@ -196,7 +196,7 @@ Version: 1.0
 	display: block;
 }
 
-#panel .content input.field {
+#toppanel #panel .content input.field {
 	border: 1px #1A1A1A solid;
 	background: #414141;
 	margin-right: 5px;
@@ -206,14 +206,14 @@ Version: 1.0
 	height: 20px;
 }
 
-#panel .content input:focus.field {
+#toppanel #panel .content input:focus.field {
 	background: #545454;
 }
 
 /* BUTTONS */
 /* Login and Register buttons */
-#panel .content input.bt_login,
-#panel .content input.bt_register {
+#toppanel #panel .content input.bt_login,
+#toppanel #panel .content input.bt_register {
 	display: block;
 	float: left;
 	clear: left;
@@ -225,18 +225,18 @@ Version: 1.0
 	margin: 10px 0;
 }
 
-#panel .content input.bt_login {
+#toppanel #panel .content input.bt_login {
 	width: 74px;
 	background: transparent url(../../images/loginpanel/bt_login.png) no-repeat 0 0;
 }
 
-#panel .content input.bt_register {
+#toppanel #panel .content input.bt_register {
 	width: 94px;
 	color: white;
 	background: transparent url(../../images/loginpanel/bt_register.png) no-repeat 0 0;
 }
 
-#panel .lost-pwd {
+#toppanel #panel .lost-pwd {
 	display: block;
 	float:left;
 	clear: right;
