@@ -11,12 +11,27 @@ class Login extends Controller {
 	
 	function index()
 	{
+		if(!$this->input->post('username'))
+			redirect('login/page');
+		
 		if($this->input->post('username') == 'osa')
 			redirect('osa');
 		elseif($this->input->post('username') == 'org')
 			redirect('organization');
 		else
 			redirect('student');
+	}
+	
+	function page()
+	{
+		$this->load->view('htmlhead');
+		$this->load->view('header');
+		$this->load->view('layout/content/header');
+		$this->load->view('layout/content/div_open');
+		$this->load->view('login');
+		$this->load->view('layout/content/div_close');
+		$this->load->view('layout/content/footer');
+		$this->load->view('footer');
 	}
 }
 

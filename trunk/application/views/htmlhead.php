@@ -12,8 +12,8 @@
 	<?= link_tag('layout/images/favicon.png','shortcut icon','image/ico')."\n";?>
 	<?= link_tag('layout/css/blueprint/screen.css','stylesheet','text/css','','screen, projection')."\n";?>
 	<?= link_tag('layout/css/blueprint/print.css','stylesheet','text/css','','print')."\n";?>
-	<?= link_tag('layout/css/style.css','stylesheet','text/css','','screen, projection')."\n";?>
 	<!--[if lt IE 8]><?= link_tag('layout/css/blueprint/ie.css','stylesheet','text/css','','screen, projection');?><![endif]-->
+	<?= link_tag('layout/css/style.css','stylesheet','text/css','','screen, projection')."\n";?>
 <!--page specific stylesheets-->
 	<?php if(isset($stylesheets)):?>
 		<?php foreach ($stylesheets as $stylesheet):?>
@@ -21,6 +21,10 @@
 		<?php endforeach;?>
 	<?php endif;?>
 <!--/end page specific stylesheets-->
+	<script type="text/javascript">
+		var base_url = "<?=base_url()?>"
+		var site_url = "<?=site_url()?>"
+	</script>
     <!-- jQuery - the core -->
 	<script src="<?= base_url().'layout/js/jquery-1.4.2.min.js';?>" type="text/javascript"></script>
 	<!-- jQuery UI -->
@@ -62,5 +66,7 @@
 	<!-- Sliding effect -->
 	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!--/end sliding login panel -->
+	<script src="<?= base_url().'layout/js/startup.js';?>" type="text/javascript"></script>
+
 	<?php if(isset($other)) echo $other;?>
 </head>

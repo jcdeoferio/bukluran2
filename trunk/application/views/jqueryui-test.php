@@ -1,4 +1,4 @@
-<div class="span-24 last">
+<div class="span-24 last" id="content">
 	<h1>Welcome to jQuery UI!</h1>
 	<p style="font-size: 1.3em; line-height: 1.5; margin: 1em 0; width: 50%;">This page demonstrates the widgets you downloaded using the theme you selected in the download builder. We've included and linked to minified versions of <a href="js/jquery-1.4.2.min.js">jQuery</a>, your personalized copy of <a href="js/jquery-ui-1.8.custom.min.js">jQuery UI (js/jquery-ui-1.8.custom.min.js)</a>, and <a href="css/blitzer/jquery-ui-1.8.custom.css">css/blitzer/jquery-ui-1.8.custom.css</a> which imports the entire jQuery UI CSS Framework. You can choose to link a subset of the CSS Framework depending on your needs. </p>
 	<p style="font-size: 1.2em; line-height: 1.5; margin: 1em 0; width: 50%;">You've downloaded components and a theme that are compatible with jQuery 1.3+. Please make sure you are using jQuery 1.3+ in your production environment.</p>	
