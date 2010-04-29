@@ -5,7 +5,7 @@ $config['per_page'] = '20';
 
 $this->pagination->initialize($config); 
 ?>
-<div class="span-<?=isset($span)?$span:24?> last" id="content">
+<div class="span-<?=isset($span)?$span:24?> last" id="content_main">
 	<div class="contentHeader_text">
 		Organizations List
 	</div>

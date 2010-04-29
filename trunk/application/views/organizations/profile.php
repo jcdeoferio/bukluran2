@@ -1,4 +1,4 @@
-<div class="span-<?=isset($span)?$span:24?> last" id="content">
+<div class="span-<?=isset($span)?$span:24?> last" id="contentP_main">
 	<div class="contentHeader_text">
 		<?= $name ?>
 	</div>
