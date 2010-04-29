@@ -1,5 +1,4 @@
-<div class="span-5">&nbsp;</div>
-<div class="span-14" id="content">
+<div class="span-14 prepend-5 append-5" id="content">
 	<div class="contentHeader_text middle">
 		Login
 	</div>
@@ -35,4 +34,3 @@
 </script>
 
 </div>
-<div class="span-5 last">&nbsp;</div>

@@ -13,9 +13,17 @@
 			</div>
 			<div class="left">
 				<h3>For Students:</h3>
-				<p class="grey">use your UP Webmail account for logging in</p>
+				<p class="grey">use your UP Webmail account for logging in.</p>
+				<p class="grey">sample account:</p>
+				<p class="grey">any username and password</p>
 				<h3>For Organizations:</h3>
-				<p class="grey">use the account details provided by OSA</p>
+				<p class="grey">use the account details provided by OSA.</p>
+				<p class="grey">sample account:</p>
+				<p class="grey">username: org and any password</p>
+				<h3>For OSA:</h3>
+				<p class="grey">use the OSA account.</p>
+				<p class="grey">sample account:</p>
+				<p class="grey">username: osa and any password</p>
 				<?= br(10)."\n";?>
 			</div>
 			<div class="left right">

@@ -6,16 +6,20 @@ body{background:url('../images/background.png');}
 #topnav a{color: #15ADFF; font-size:12px; font-weight:bold;}
 #topnav a:hover{color: white;}
 
-#footer{color:white; font-size:14px; vertical-align:middle; min-height: 50px; text-shadow: 0px 0px 10px #000;}
+#footer{color:white; font-size:14px; vertical-align:middle; min-height: 50px; text-shadow: 0px 0px 5px #000;}
+#footer a{color:white;}
+#footer a:hover{color:black;}
 
 /*#content{padding:5px;}*/
 #contentWrapper{background:url('../images/content.png') repeat-y 50% 100%; min-height:200px;}
 #contentFooter{background:url('../images/footer.png') no-repeat 50% 0%; height:50px;}
 #contentHeader{background:url('../images/content-header.png') no-repeat 50% 0%; height:30px;}
 
-.middle{
-	text-align:center;
-}
+#content_sidebar{}
+#content_main{}
+#content_main p{line-height:150%;}
+
+.middle{text-align:center;}
 
 .contentHeader_text{
 	font-size:30px;
@@ -24,24 +28,13 @@ body{background:url('../images/background.png');}
 	margin-bottom:10px;
 }
 
-.middle{
-	text-align:center;
-}
-
-#content_sidebar{
-	
-}
-#content_main{
-	
-}
-
 label.top {
 display:block;
 }
 em.required{
-	font-size:20px;
-	font-style:bold;
-	color:red;
+font-size:20px;
+font-style:bold;
+color:red;
 }
 fieldset {    
 float: left;    
