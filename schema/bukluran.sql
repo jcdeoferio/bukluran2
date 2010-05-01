@@ -39,6 +39,7 @@ CREATE TABLE orgstatuses(
 
 CREATE TABLE organizations (
 	organizationid serial PRIMARY KEY,
+	loginaccountid integer REFERENCES loginaccounts,
 	orgname varchar(128) NOT NULL,
 	acronym varchar(32),
 	orgnatureid integer REFERENCES orgnatures NOT NULL,

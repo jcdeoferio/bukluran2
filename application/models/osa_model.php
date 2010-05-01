@@ -6,6 +6,18 @@ class Osa_model extends Model{
 		parent::__construct();
 	}
 	
+	function get_organizations($limit = 20, $offset = 0){
+		$this->db->from('organizations o');
+		$this->db->join('loginaccounts l', 'o.loginaccountid = l.loginaccountid', 'right');
+		$this->db->where('groupid', ORG_GROUPID);
+		$this->db->order_by('orgname');
+		$this->db->order_by('username');
+		$this->db->limit($limit, $offset);
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
 	function is_unique_orgusername($username){
 		$this->db->from('loginaccounts');
 		$this->db->where('username', $username);
@@ -24,11 +36,11 @@ class Osa_model extends Model{
 		return($password);
 	}
 	
-	function reset_organization_password($loginaccountid){
+	function reset_organization_password($username){
 		$password = $this->generate_password();
 		
-		$this->db->set('password', $md5($password));
-		$this->db->where('loginaccountid', $loginaccountid);
+		$this->db->set('password', md5($password));
+		$this->db->where('username', $username);
 		$this->db->update('loginaccounts');
 		
 		return($password);

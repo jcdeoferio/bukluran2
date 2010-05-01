@@ -1,8 +1,10 @@
 <div class="contentHeader_text">
-	Successfully added new organization
+	<?= $title ?>
 </div>
-Username: <?= $username ?><br/>
-Password: <?= $password ?><br/>
+<div class="last" id="content_main">
+	Username: <?= $username ?><br/>
+	Password: <?= $password ?><br/>
 
-<?= anchor('osa/create_organization', 'Add Another Organization') ?><br/>
-<?= anchor('osa/organizations', 'Manage Organizations') ?>
+	<?= anchor('osa/create_organization', 'Add Another Organization') ?><br/>
+	<?= anchor('osa/organizations', 'Manage Organizations') ?>
+</div>
