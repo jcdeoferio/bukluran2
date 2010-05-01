@@ -10,7 +10,6 @@
 	<title><?php if(isset($title)) echo $title.' - '; ?>Bukluran 2.0</title>
 	<?php //href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates. ?>
 	<?= link_tag('layout/images/favicon.png','shortcut icon','image/ico')."\n";?>
-	<?= link_tag('layout/css/bluesorter/style.css','stylesheet','text/css','','print')."\n";?>
 	<?= link_tag('layout/css/blueprint/screen.css','stylesheet','text/css','','screen, projection')."\n";?>
 	<?= link_tag('layout/css/blueprint/print.css','stylesheet','text/css','','print')."\n";?>
 	<?= link_tag('layout/css/print.css','stylesheet','text/css','','print')."\n";?>
@@ -33,6 +32,7 @@
 	<script src="<?= base_url().'layout/js/jquery-ui-1.8.custom.min.js' ?>" type="text/javascript"></script>
 	<!-- jQuery Tablesorter 2.0 Plug-in -->
 	<script src="<?= base_url().'layout/js/jquery.tablesorter.min.js' ?>" type="text/javascript"></script>
+	<?= link_tag('layout/css/bluesorter/style.css','stylesheet','text/css','','screen')."\n";?>
 	<!-- jQuery UI Blitzer Theme -->
 	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
 	
@@ -70,6 +70,7 @@
 	<!-- Sliding effect -->
 	<script src="<?= base_url().'layout/js/loginpanel/slide.js';?>" type="text/javascript"></script>
 <!--/end sliding login panel -->
+
 	<script src="<?= base_url().'layout/js/startup.js';?>" type="text/javascript"></script>
 	<?php if(isset($other)) echo $other;?>
 </head>
