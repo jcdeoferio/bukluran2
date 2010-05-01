@@ -1,6 +1,6 @@
 <?php
 $config['base_url'] = site_url($site_link);
-$config['total_rows'] = '200';
+$config['total_rows'] = count($orgs);
 $config['per_page'] = '20'; 
 
 $this->pagination->initialize($config); 
@@ -10,23 +10,26 @@ $this->pagination->initialize($config);
 		Manage Organizations
 	</div>
 	<?= anchor('osa/create_organization', 'Add New Organization'); ?>
-	<?php if(isset($orgs_id, $orgs_name)):?>
+	<?php if(isset($orgs) && count($orgs) > 0):?>
 	<table class="tablesorter">
 	<thead>
 		<tr>
 			<th>Organization</th>
+			<th>Username</th>
 			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php for($i=0;$i<count($orgs_id);$i++): ?>
+		<?php foreach($orgs as $org): ?>
 		<tr>
-		<td><?= $orgs_name[$i] ?></td>
+		<td><?= $org['orgname'] ?></td>
+		<td><?= $org['username'] ?></td>
 		<td>
-			<?= anchor($forward_link.$orgs_id[$i], 'View Profile') ?>
+			<? if($org['organizationid']): ?><?= anchor($forward_link.$org['organizationid'], 'View Profile') ?><br/><? endif; ?>
+			<?= anchor("osa/reset_org_password/{$org['username']}", 'Reset Password') ?>
 		</td>
 		</tr>
-		<?php endfor;?>
+		<?php endforeach;?>
 	</tbody>
 	</table>
 	<?=$this->pagination->create_links();?>
