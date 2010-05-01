@@ -1,26 +1,27 @@
 CREATE TABLE groups(
 	groupid serial PRIMARY KEY,
-	groupname varchar(8));
+	groupname varchar(16));
 	
-CREATE TABLE useraccounts(
-	useraccountid serial PRIMARY KEY,
+CREATE TABLE linkaccounts(
+	linkaccountid serial PRIMARY KEY,
 	groupid integer REFERENCES groups,
 	hashcode char(128) UNIQUE NOT NULL);
 
-CREATE TABLE oshaccounts(
-	oshaccountid serial PRIMARY KEY,
-	login varchar(32) UNIQUE NOT NULL,
+CREATE TABLE loginaccounts(
+	loginaccountid serial PRIMARY KEY,
+	groupid integer REFERENCES groups,
+	username varchar(32) UNIQUE NOT NULL,
 	password char(32));
 
 CREATE TABLE students(
 	studentid serial PRIMARY KEY,
-	useraccountid integer REFERENCES accounts,
+	useraccountid integer REFERENCES linkaccounts,
 	webmail varchar(128),
 	email varchar(128));
 
 CREATE TABLE faculty(
 	facultyid serial PRIMARY KEY,
-	useraccountid integer REFERENCES accounts,
+	useraccountid integer REFERENCES linkaccounts,
 	webmail varchar(128),
 	email varchar(128));
 
@@ -50,7 +51,7 @@ CREATE TABLE organizations (
 	secincorporated boolean NOT NULL DEFAULT FALSE,
 	incorporationdate date,
 	interviewed boolean NOT NULL DEFAULT FALSE,
-	approvedby integer REFERENCES accounts(accountid),
+	approvedby integer REFERENCES linkaccounts(linkaccountid),
 	approveddate timestamp);
 
 CREATE TABLE orgmemberships(
@@ -83,6 +84,10 @@ CREATE TABLE eventreports(
 	eventname varchar(128));
 
 COPY groups (groupname) FROM stdin;
-students
+student
 faculty
+organization
+osa
 \.
+
+INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'osa'), 'osa', md5('password'));

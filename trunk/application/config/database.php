@@ -34,7 +34,7 @@
 | the active record class
 */
 
-$active_group = "default";
+$active_group = "jc";
 $active_record = TRUE;
 
 $db['default']['hostname'] = "localhost";
@@ -50,6 +50,18 @@ $db['default']['cachedir'] = "";
 $db['default']['char_set'] = "utf8";
 $db['default']['dbcollat'] = "utf8_general_ci";
 
+$db['jc']['hostname'] = "localhost";
+$db['jc']['username'] = "postgres";
+$db['jc']['password'] = "password";
+$db['jc']['database'] = "bukluran2";
+$db['jc']['dbdriver'] = "postgre";
+$db['jc']['dbprefix'] = "";
+$db['jc']['pconnect'] = TRUE;
+$db['jc']['db_debug'] = TRUE;
+$db['jc']['cache_on'] = FALSE;
+$db['jc']['cachedir'] = "";
+$db['jc']['char_set'] = "utf8";
+$db['jc']['dbcollat'] = "utf8_general_ci";
 
 /* End of file database.php */
 /* Location: ./system/application/config/database.php */

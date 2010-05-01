@@ -27,13 +27,13 @@
 				<?= br(10)."\n";?>
 			</div>
 			<div class="left right">
-				<?= form_open('login/',array('class'=>'clearfix'))."\n";?>
+				<?= form_open('login/', array('class'=>'clearfix'))."\n";?>
 					<h1>Login</h1>
 					<?= form_label('Username:','username',array('class'=>'grey'))."\n"; ?>
 					<?= form_input(array('class'=>'field','type'=>'text','name'=>'username','id'=>'username','value'=>'','size'=>'23'))."\n";?>
 					<?= form_label('Password:','password',array('class'=>'grey'))."\n"; ?>
 					<?= form_input(array('class'=>'field','type'=>'password','name'=>'password','id'=>'password','size'=>'23'))."\n";?>
-					<?= form_label(form_input(array('type'=>'checkbox','name'=>'rememberme','id'=>'rememberme','checked'=>'checked','value'=>'forever')).' &nbsp;Remember me')."\n";?>
+					<?= form_label(form_input(array('type'=>'checkbox','name'=>'rememberme','id'=>'rememberme','value'=>'forever')).' &nbsp;Remember me')."\n";?>
 					<div class="clear"></div>
 					<?= form_submit('submit','Login','class="bt_login"')."\n";?>
 					<a class="lost-pwd" href="#">Lost your password?</a>
@@ -44,12 +44,18 @@
 	<div class="tab">
 		<ul class="login">
 	    	<li class="left">&nbsp;</li>
-	        <li>Hello Guest!</li> <!--should change to "Hello username! | Logout"  when the user is logged in-->
+	        <li>Hello <?= $this->session->username() ?>!</li>
 			<li class="sep">|</li>
+			<? if(!$this->session->logged_in()): ?>
 			<li id="toggle">
 				<?= anchor('login','Log In','id="open" class="open"')?>
 				<a id="close" style="display: none;" class="close" href="#">Close Panel</a>			
 			</li>
+			<? else: ?>
+			<li>
+				<?= anchor('login/logout','Log Out')?>
+			</li>
+			<? endif; ?>
 	    	<li class="right">&nbsp;</li>
 		</ul> 
 	</div>
