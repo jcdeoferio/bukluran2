@@ -11,8 +11,15 @@ class Login extends Controller {
 	
 	function index()
 	{
-		if(!$this->input->post('username'))
-			redirect('login/page');
+		$this->form_validation->set_rules('username', 'Username', 'required');
+		$this->form_validation->set_rules('password', 'Password', 'required|callback__authenticate_login');
+		
+		$this->form_validation->set_message('_authenticate_login', 'Invalid username/password combination.');
+		
+		if(!$this->form_validation->run()){
+			$this->page();
+			return;
+		}
 		
 		if($this->input->post('username') == 'osa')
 			redirect('osa');
@@ -32,6 +39,27 @@ class Login extends Controller {
 		$this->load->view('layout/content/div_close');
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
+	}
+	
+	function logout(){
+		$this->session->unset_userdata(USER);
+		redirect();
+	}
+	
+	function _authenticate_login(){
+		$this->load->model('Login_model');
+		
+		$user = $this->Login_model->authenticate_login($this->input->post('username'), $this->input->post('password'));
+		
+		if($user){
+			unset($user['password']);
+			$this->session->set_userdata(USER, $user);
+			return(true);
+		}
+		else{
+			$this->session->unset_userdata(USER);
+			return(false);
+		}
 	}
 }
 
