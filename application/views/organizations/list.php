@@ -10,13 +10,22 @@ $this->pagination->initialize($config);
 		Organizations List
 	</div>
 	<?php if(isset($orgs_id, $orgs_name)):?>
-	<ul>
+	<table class="tablesorter">
+	<thead>
+		<tr>
+			<th>Organization</th>
+			<th>Action</th>
+		</tr>
+	</thead>
+	<tbody>
 		<?php for($i=0;$i<count($orgs_id);$i++): ?>
-		<li class="organizationList_name">
-			<?= anchor($forward_link.$orgs_id[$i],$orgs_name[$i])?>
-		</li>
+		<tr>
+		<td><?= $orgs_name[$i] ?></td>
+		<td><?= anchor($forward_link.$orgs_id[$i], 'View Profile') ?></td>
+		</tr>
 		<?php endfor;?>
-	</ul>
+	</tbody>
+	</table>
 	<?=$this->pagination->create_links();?>
 	<?php endif;?>
 </div>

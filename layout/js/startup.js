@@ -9,4 +9,6 @@ $(document).ready(function(){
 		if($('#open:visible').length==1)
 			load('');
 	});
+
+	$('.tablesorter').tablesorter();
 });
