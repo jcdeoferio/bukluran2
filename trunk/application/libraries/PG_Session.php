@@ -18,4 +18,14 @@ class PG_Session extends CI_Session{
 		else
 			return('guest');
 	}
+	
+	function validation_errors(){
+		if($this->userdata(VALERR)){
+			$validation_errors = $this->userdata(VALERR);
+			$this->unset_userdata(VALERR);
+			return($validation_errors);
+		}
+		else
+			return(validation_errors());
+	}
 }
