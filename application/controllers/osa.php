@@ -1,24 +1,26 @@
 <?php
 class Osa extends Controller {
+	
+	private $sidebar_data;
 
-	function Osa()
-	{
-		parent::Controller();
+	function __construct(){
+		parent::__construct();
+		
+		$this->sidebar_data = array();
+		$this->sidebar_data['hrefs'] = array('osa/announcements','osa/organizations','osa/create_announcement');
+		$this->sidebar_data['anchors'] = array('Announcements', 'Manage Organizations','Create Announcement');
+		
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
 	}
 	
-	function index()
-	{
+	function index(){
 		redirect('osa/announcements');
 	}
 	
-	function create_announcement()
-	{
+	function create_announcement(){
 		$data['title'] = "Create Announcement - OSA";	
-		$sidebar_data['hrefs'] = array('osa/announcements','osa/organizations','osa/create_organization','osa/create_announcement');
-		$sidebar_data['anchors'] = array('Announcements', 'Organizations List','Create Organization','Create Announcement');
 		
 		$fckeditorConfig = array(
 			'instanceName' => 'content',
@@ -36,7 +38,7 @@ class Osa extends Controller {
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('osa/create_announcement');
 		
@@ -48,22 +50,57 @@ class Osa extends Controller {
 	function create_organization()
 	{
 		//$data['stylesheets'] = array('announcement.css');
-		$data['title'] = "Create Organization - OSA";	
-		$sidebar_data['hrefs'] = array('osa/announcements','osa/organizations','osa/create_organization','osa/create_announcement');
-		$sidebar_data['anchors'] = array('Announcements', 'Organizations List','Create Organization','Create Announcement');
+		$data['title'] = "Add New Organization - OSA";	
+		$content_data['submit_url'] = 'osa/create_organization_submit';
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
-		$this->load->view('osa/create_organization');
+		$this->load->view('osa/create_organization', $content_data);
 		
 		$this->load->view('layout/content/div_close');
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
+	}
+	
+	function create_organization_submit(){
+		$this->form_validation->set_rules('username', 'Username', 'required|callback__orgusername_check');
+		
+		$this->form_validation->set_message('_orgusername_check', 'Username already exists, please use another.');
+		
+		if(!$this->form_validation->run()){
+			$this->session->set_userdata(VALERR, validation_errors());
+			redirect('osa/create_organization');
+		}
+		
+		$this->load->model('Osa_model');
+		
+		$username = $this->input->post('username');
+		$password = $this->Osa_model->create_organization_account($username);
+		
+		$data['title'] = "Successfully Added New Organization";
+		
+		$this->load->view('htmlhead', $data);
+		$this->load->view('header');
+		$this->load->view('layout/content/header');
+		
+		$this->load->view('layout/content/div_open');
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
+		
+		$this->load->view('osa/create_organization_success', compact('username', 'password'));
+		
+		$this->load->view('layout/content/div_close');
+		$this->load->view('layout/content/footer');
+		$this->load->view('footer');
+	}
+	
+	function _orgusername_check($username){
+		$this->load->model('Osa_model');
+		return($this->Osa_model->is_unique_orgusername($username));
 	}
 		
 	function edit_announcement($announcement_id)
@@ -78,8 +115,6 @@ class Osa extends Controller {
 	{
 		$data['stylesheets'] = array('announcement.css');
 		$data['title'] = "Announcements - OSA";
-		$sidebar_data['hrefs'] = array('osa/announcements','osa/organizations','osa/create_organization','osa/create_announcement');
-		$sidebar_data['anchors'] = array('Announcements', 'Organizations List','Create Organization','Create Announcement');
 		
 		$announcement['title'] = 'Sample Announcement Title';
 		$announcement['id'] = 10;
@@ -98,7 +133,7 @@ class Osa extends Controller {
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		if($announcement_id == -1){
 			$announcements_data['announcements'] = array($announcement, $announcement);
@@ -127,15 +162,13 @@ class Osa extends Controller {
 	{
 		$data['stylesheets'] = array('organizations_list.css');
 		$data['title'] = "Organizations - OSA";
-		$sidebar_data['hrefs'] = array('osa/announcements','osa/organizations','osa/create_organization','osa/create_announcement');
-		$sidebar_data['anchors'] = array('Announcements', 'Organizations List','Create Organization','Create Announcement');
 		
 		$this->load->view('htmlhead',$data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		if($org_id == -1){
 			$orgs_list['orgs_id'] = array(1,2,3);
@@ -145,7 +178,7 @@ class Osa extends Controller {
 			$orgs_list['site_link']='osa/organizations/';
 			$orgs_list['forward_link']='osa/organizations/0/';
 			
-			$this->load->view('organizations/list', $orgs_list);
+			$this->load->view('organizations/manage', $orgs_list);
 		}else{
 			$org_data['name'] = 'UP Programming Guild';
 			$org_data['acronym'] = 'UPPG';
