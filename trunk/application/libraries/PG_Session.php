@@ -10,6 +10,14 @@ class PG_Session extends CI_Session{
 		return($this->userdata(USER) !== FALSE);
 	}
 	
+	function user_group_is($groupid){
+		if(!$this->logged_in())
+			return(FALSE);
+		
+		$user = $this->userdata(USER);
+		return($user['groupid'] == $groupid);
+	}
+	
 	function username(){
 		if($this->userdata(USER)){
 			$user = $this->userdata(USER);

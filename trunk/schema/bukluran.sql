@@ -41,19 +41,24 @@ CREATE TABLE organizations (
 	organizationid serial PRIMARY KEY,
 	loginaccountid integer REFERENCES loginaccounts,
 	orgname varchar(128) NOT NULL,
+	orgnatureid integer REFERENCES orgnatures,
+	orgstatusid integer REFERENCES orgstatuses);
+	
+CREATE TABLE orgprofiles (
+	organizationid integer REFERENCES organizations,
+	aysem smallint,
 	acronym varchar(32),
-	orgnatureid integer REFERENCES orgnatures NOT NULL,
-	orgcategoryid integer REFERENCES orgcategories NOT NULL,
-	orgstatusid integer REFERENCES orgstatuses NOT NULL,
+	orgcategoryid integer REFERENCES orgcategories,
 	mailaddr varchar(512),
 	orgemail varchar(128),
 	heademail varchar(128),
-	establisheddate date NOT NULL,
+	establisheddate date,
 	secincorporated boolean NOT NULL DEFAULT FALSE,
 	incorporationdate date,
 	interviewed boolean NOT NULL DEFAULT FALSE,
 	approvedby integer REFERENCES linkaccounts(linkaccountid),
-	approveddate timestamp);
+	approveddate timestamp,
+	CONSTRAINT orgprofiles_pk PRIMARY KEY (organizationid, aysem));
 
 CREATE TABLE orgmemberships(
 	organizationid integer REFERENCES organizations,

@@ -4,9 +4,11 @@
 	</div>
 <?= $this->session->validation_errors() ?>
 <?php $this->load->helper('form');?>
-<?=form_open($submit_url);?>
-<?=form_label('Username:','username');?>
-<?=form_input('username', set_value('username'));?>
-<?=form_submit('submit','Submit');?>
-<?=form_close();?>
+<?= form_open($submit_url); ?>
+<?= form_label('Organization Name:', 'orgname'); ?>
+<?= form_input('orgname', set_value('orgname')); ?>
+<?= form_label('Username:','username'); ?>
+<?= form_input('username', set_value('username')); ?>
+<?= form_submit('submit','Submit'); ?>
+<?= form_close(); ?>
 </div>

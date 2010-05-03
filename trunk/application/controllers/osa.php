@@ -6,12 +6,14 @@ class Osa extends Controller {
 	function __construct(){
 		parent::__construct();
 		
+		if(!$this->session->user_group_is(OSA_GROUPID))
+			redirect('login');
+			
 		$this->sidebar_data = array();
 		$this->sidebar_data['hrefs'] = array('osa/announcements','osa/organizations','osa/create_announcement');
 		$this->sidebar_data['anchors'] = array('Announcements', 'Manage Organizations','Create Announcement');
 		
 		$this->load->helper('html');
-		$this->load->helper('url');
 		$this->load->helper('form');
 		
 		$this->load->model('Osa_model');
@@ -79,8 +81,9 @@ class Osa extends Controller {
 			redirect('osa/create_organization');
 		}
 		
+		$orgname = $this->input->post('orgname');
 		$username = $this->input->post('username');
-		$password = $this->Osa_model->create_organization_account($username);
+		$password = $this->Osa_model->create_organization($orgname, $username);
 		
 		$this->_new_password("Successfully Added New Organization", $username, $password);
 	}
