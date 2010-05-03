@@ -25,13 +25,29 @@ class Osa_model extends Model{
 		return($this->db->count_all_results() == 0);
 	}
 	
-	function create_organization_account($username){
+	function create_organization($orgname, $username){
+		$this->db->trans_start();
+		
 		$password = $this->generate_password();
 		
 		$this->db->set('groupid', ORG_GROUPID);
 		$this->db->set('username', $username);
 		$this->db->set('password', md5($password));
 		$this->db->insert('loginaccounts');
+		
+		$this->db->select('loginaccountid');
+		$this->db->from('loginaccounts');
+		$this->db->where('username', $username);
+		$query = $this->db->get();
+		$result = $query->row_array();
+		
+		$loginaccountid = $result['loginaccountid'];
+		
+		$this->db->set('loginaccountid', $loginaccountid);
+		$this->db->set('orgname', $orgname);
+		$this->db->insert('organizations');
+		
+		$this->db->trans_complete();
 		
 		return($password);
 	}

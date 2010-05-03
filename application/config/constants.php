@@ -46,6 +46,7 @@ define('USER', 'user');
 define('VALERR', 'valerr');
 
 define('ORG_GROUPID', 3);
+define('OSA_GROUPID', 4);
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */
