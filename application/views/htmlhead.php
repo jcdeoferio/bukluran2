@@ -6,7 +6,7 @@
 ?>
 <html>
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=7" /> <!--meta data to force IE8 to render in IE8 Mode. Otherwise it will render in IE6 mode-->
+	<meta http-equiv="X-UA-Compatible" content="IE=7"> <!--meta data to force IE8 to render in IE8 Mode. Otherwise it will render in IE6 mode-->
 	<title><?php if(isset($title)) echo $title.' - '; ?>Bukluran 2.0</title>
 	<?php //href, with optional rel, type, title, media and index_page. index_page is a TRUE/FALSE value that specifics if the href should have the page specified by $config['index_page'] added to the address it creates. ?>
 	<?= link_tag('layout/images/favicon.png','shortcut icon','image/ico')."\n";?>
@@ -37,8 +37,8 @@
 	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
 	
 <!-- jReject Script http://jreject.turnwheel.com/ -->
-	<script src="<?= base_url().'layout/js/jReject/jquery.reject.js';?>"></script>
-	<script>
+	<script src="<?= base_url().'layout/js/jReject/jquery.reject.js';?>" type="text/javascript"></script>
+	<script type="text/javascript">
 	window.onload=function(){$.reject({
 	/*
 	reject: {

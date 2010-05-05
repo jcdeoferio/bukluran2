@@ -16,27 +16,29 @@ class Login extends Controller {
 		$this->form_validation->set_rules('password', 'Password', 'required|callback__authenticate_login');
 		
 		$this->form_validation->set_message('_authenticate_login', 'Invalid username/password combination.');
-		
 		if(!$this->form_validation->run()){
 			$this->page();
 			return;
 		}
-		
+		redirect('main');
+		/*
 		if($this->input->post('username') == 'osa')
 			redirect('osa');
 		elseif($this->input->post('username') == 'org')
 			redirect('organization');
 		else
 			redirect('student');
+		*/
 	}
 	
 	function page()
 	{
-		$this->load->view('htmlhead');
+		$data['stylesheets'] = array('login.css');
+		$this->load->view('htmlhead',$data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		$this->load->view('layout/content/div_open');
-		$this->load->view('login');
+		$this->load->view('login/user_pass');
 		$this->load->view('layout/content/div_close');
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
@@ -61,6 +63,47 @@ class Login extends Controller {
 			$this->session->unset_userdata(USER);
 			return(false);
 		}
+	}
+	
+	function link(){
+		$data['stylesheets'] = array('login.css');
+		$this->load->view('htmlhead',$data);
+		$this->load->view('header');
+		$this->load->view('layout/content/header');
+		$this->load->view('layout/content/div_open');
+		$this->load->view('login/link');
+		$this->load->view('layout/content/div_close');
+		$this->load->view('layout/content/footer');
+		$this->load->view('footer');
+	}
+	
+	function link_submit(){
+		$this->form_validation->set_rules('link', 'Link', 'required|callback__authenticate_link');
+		
+		$this->form_validation->set_message('_authenticate_link', 'Invalid code.');
+		if(!$this->form_validation->run()){
+			$this->link();
+			return;
+		}
+		redirect('main');
+	}
+	
+	function _authenticate_link(){
+		$this->load->model('Login_model');
+		$user = $this->Login_model->authenticate_link($this->input->post('link'));
+		if($user){
+			unset($user['hashcode']);
+			$this->session->set_userdata(USER, $user);
+			return(true);
+		}
+		else{
+			$this->session->unset_userdata(USER);
+			return(false);
+		}
+	}
+	
+	function lost_pass(){
+		
 	}
 }
 

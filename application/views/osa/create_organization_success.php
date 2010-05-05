@@ -1,3 +1,4 @@
+<div class="span-19 last" id="content_main">
 <div class="contentHeader_text">
 	<?= $title ?>
 </div>
@@ -7,4 +8,5 @@
 
 	<?= anchor('osa/create_organization', 'Add Another Organization') ?><br/>
 	<?= anchor('osa/organizations', 'Manage Organizations') ?>
+</div>
 </div>

@@ -9,6 +9,11 @@ class Organization extends Controller {
 		$this->load->helper('form');
 	}
 	
+	function index()
+	{
+		redirect('organization/announcements');
+	}
+	
 	function forms()
 	{
 		$data['title'] = "Application Forms - Organization";
@@ -198,8 +203,7 @@ class Organization extends Controller {
 		$this->load->view('footer');
 	}
 	
-	
-	function index($page_no = 0,$announcement_id = -1)
+	function announcements($page_no = 0,$announcement_id = -1)
 	{
 		$data['stylesheets'] = array('announcement.css');
 		$data['title'] = "Announcements - Organization";

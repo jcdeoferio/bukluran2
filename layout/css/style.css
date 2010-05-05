@@ -19,7 +19,7 @@ body{background:url('../images/background.png');}
 #content_main{}
 #content_main p{line-height:150%;}
 
-.middle{text-align:center;}
+.middle{text-align:center; vertical-align:middle;}
 
 .contentHeader_text{
 	font-size:30px;
@@ -63,63 +63,6 @@ float: none;
 width: auto;    
 border: 0 none #FFF;
 }
-
-
-.loginpage_form .text_input input, .loginpage_form textarea {
-	padding: 9px;
-	border: solid 1px #E5E5E5;
-	outline: 0;
-	font: normal 13px/100% Verdana, Tahoma, sans-serif;
-	width: 200px;
-	background: #FFFFFF;
-	
-	box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-	-moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-	-webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-	
-	background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
-	background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
-}
-
-.loginpage_form .lost_password{
-	float:right;
-}
-
-.loginpage_form textarea {
-	width: 400px;
-	max-width: 400px;
-	height: 150px;
-	line-height: 150%;
-}
-
-.loginpage_form .text_input input,.loginpage_form textarea{
-	width: 100%;
-}
-
-.loginpage_form input:hover, .loginpage_form textarea:hover,
-.loginpage_form input:focus, .loginpage_form textarea:focus {
-	border-color: #C9C9C9;
-	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
-}
-
-
-.loginpage_form .text_input label {
-	margin-left: 0px;
-	color: #999999;
-	font-style:normal;
-}
-/*
-.loginpage_form .submit input {
-	width: auto;
-	padding: 9px 15px;
-	background: #8e0000;
-	border: 0;
-	font-size: 14px;
-	color: #FFFFFF;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-}
-*/
 
 /*Maroon:#8e0000*/
 /*Green:#208700*/

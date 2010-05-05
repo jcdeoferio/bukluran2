@@ -11,4 +11,14 @@ $(document).ready(function(){
 	});
 
 	$('.tablesorter').tablesorter();
+	
+	$('.error').hide().dialog({
+		resizable:false,
+		modal:true,
+		buttons: {
+			Ok: function() {
+				$(this).dialog('close');
+			}
+		}	
+	});
 });
