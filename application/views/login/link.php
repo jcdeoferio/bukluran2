@@ -7,7 +7,7 @@
 		<?= validation_errors(); ?>
 		</div>
 		<?endif?>
-		<?= form_open('login/link_submit',array('class'=>'loginpage_form'))."\n";?>
+		<?= form_open('login/link_submit',array('class'=>'loginpage_form','method'=>'post'))."\n";?>
 			<?= form_label('Code','loginpage_form_link',array('class'=>'label')).br(1)."\n"; ?>
 			<?= form_input(array('type'=>'text','name'=>'link','id'=>'link','value'=>'','size'=>'23','class'=>'text_input')).br(1)."\n";?>
 			<?= form_submit('submit','Confirm','class="submit_default" id="submit"')."\n";?>

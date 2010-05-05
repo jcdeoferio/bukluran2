@@ -90,7 +90,7 @@ class Login extends Controller {
 	
 	function _authenticate_link(){
 		$this->load->model('Login_model');
-		$user = $this->Login_model->authenticate_link($this->input->post('link'));
+		$user = $this->Login_model->authenticate_link($this->input->get_post('link'));
 		if($user){
 			unset($user['hashcode']);
 			$this->session->set_userdata(USER, $user);
