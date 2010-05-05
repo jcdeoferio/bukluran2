@@ -31,7 +31,7 @@ class Osa extends Controller {
 			'BasePath' => base_url().'system/plugins/fckeditor/',
 			'ToolbarSet' => 'Basic',
 			'Width' => '100%',
-			'Height' => '200',
+			'Height' => '400',
 			'Value' => ''
 			);
 		

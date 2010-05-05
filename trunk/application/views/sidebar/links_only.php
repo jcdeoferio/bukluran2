@@ -1,4 +1,4 @@
-<div class="span-5 last" id="content_sidebar">
+<div class="span-5" id="content_sidebar">
 	<?php if(isset($hrefs)):?>
 	<ul id="sidebar_links">
 		<?php for($i=0;$i<count($hrefs);$i++): ?>

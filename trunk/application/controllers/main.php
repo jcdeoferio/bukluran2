@@ -8,6 +8,10 @@ class Main extends Controller {
 	
 	function index()
 	{	
+		if($this->session->userdata(USER)){
+			$userdata = $this->session->userdata(USER);
+			redirect($userdata['groupname']);
+		}
 		redirect('main/announcements');
 	}
 	
@@ -33,7 +37,12 @@ class Main extends Controller {
         
 	} 
 	function announcements($page_no = 0,$announcement_id = -1)
-	{
+	{	
+		if($this->session->userdata(USER)){
+			$userdata = $this->session->userdata(USER);
+			redirect($userdata['groupname'].'/announcements');
+		}
+		
 		$data['stylesheets'] = array('announcement.css');
 		$data['title'] = "Announcements";
 		
@@ -75,6 +84,12 @@ class Main extends Controller {
 	
 	function organizations($page_no = 0,$org_id = -1)
 	{
+		if($this->session->userdata(USER)){
+			$userdata = $this->session->userdata(USER);
+			if($userdata['groupname'] == 'osa')
+				redirect($userdata['groupname'].'/organizations');
+		}
+	
 		$data['stylesheets'] = array('organizations_list.css');
 		$data['title'] = "Organizations";
 		$this->load->view('htmlhead',$data);
