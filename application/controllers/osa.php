@@ -23,8 +23,8 @@ class Osa extends Controller {
 		
 		$params['span'] = 19;
 		$params['site_link'] = 'osa/announcements/';
-		$params['forward_link'] = 'osa/announcements/0/';
-		$params['back_link'] = 'osa/announcements/0/';
+		$params['forward_link'] = 'osa/announcements/';
+		$params['back_link'] = 'osa/announcements/';
 		
 		$this->load->library('announcement',$params);
 	}

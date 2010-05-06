@@ -15,5 +15,5 @@
 		</div>
 	</div>
 	<?php endif; ?>
-	<?=anchor($back_link,'Back to List');?>
+	<?=anchor($back_link.$page_no,'Back to List');?>
 </div>

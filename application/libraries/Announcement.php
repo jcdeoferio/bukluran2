@@ -37,6 +37,8 @@ class Announcement {
 		if(isset($this->sidebar_data)){
 			$this->CI->load->view('sidebar/links_only',$this->sidebar_data);
 		}
+		
+		$this->announcements_data['page_no'] = $page_no;
 		if($announcement_id == -1){
 			$this->announcements_data['announcements'] = array($announcement, $announcement);
 			$this->CI->load->view('announcements/list', $this->announcements_data);
