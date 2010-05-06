@@ -17,8 +17,8 @@ class Organization extends Controller {
 		
 		$params['span'] = 19;
 		$params['site_link'] = 'organization/announcements/';
-		$params['forward_link'] = 'organization/announcements/0/';
-		$params['back_link'] = 'organization/announcements/0/';
+		$params['forward_link'] = 'organization/announcements/';
+		$params['back_link'] = 'organization/announcements/';
 		
 		$this->load->library('announcement',$params);
 	}

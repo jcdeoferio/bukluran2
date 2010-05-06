@@ -14,7 +14,7 @@ $this->pagination->initialize($config);
 		<?php foreach($announcements as $announcement):?>
 	<div class="announcement">
 		<div class="announcementDetails_title">
-			<?=anchor($forward_link.$announcement['id'],$announcement['title'])?>
+			<?=anchor($forward_link.$page_no.'/'.$announcement['id'],$announcement['title'])?>
 		</div>
 		<div class="announcementDetails_postInfo">
 			posted by <span class="announcementDetails_username"><?=$announcement['username']?></span> at <span class="announcementDetails_date"><?=$announcement['date']?></span>

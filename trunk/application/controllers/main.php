@@ -10,8 +10,8 @@ class Main extends Controller {
 		
 		$params['span'] = 24;
 		$params['site_link'] = 'main/announcements/';
-		$params['forward_link'] = 'main/announcements/0/';
-		$params['back_link'] = 'main/announcements/0/';
+		$params['forward_link'] = 'main/announcements/';
+		$params['back_link'] = 'main/announcements/';
 		
 		$this->load->library('announcement',$params);
 	}
