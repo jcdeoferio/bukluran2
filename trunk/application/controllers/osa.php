@@ -17,6 +17,16 @@ class Osa extends Controller {
 		$this->load->helper('form');
 		
 		$this->load->model('Osa_model');
+		
+		$params['title'] = "Announcements - OSA";
+		$params['sidebar'] = $this->sidebar_data;
+		
+		$params['span'] = 19;
+		$params['site_link'] = 'osa/announcements/';
+		$params['forward_link'] = 'osa/announcements/0/';
+		$params['back_link'] = 'osa/announcements/0/';
+		
+		$this->load->library('announcement',$params);
 	}
 	
 	function index(){
@@ -128,6 +138,11 @@ class Osa extends Controller {
 	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
+		$this->announcement->load_announcements($page_no,$announcement_id);
+	}
+/*	
+	function announcements($page_no = 0,$announcement_id = -1)
+	{
 		$data['stylesheets'] = array('announcement.css');
 		$data['title'] = "Announcements - OSA";
 		
@@ -172,7 +187,7 @@ class Osa extends Controller {
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
 	}
-	
+*/	
 /*
 	if($org_id == -1){
 		$orgs_list['orgs_id'] = array(1,2,3);

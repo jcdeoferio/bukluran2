@@ -4,6 +4,16 @@ class Main extends Controller {
 	{
 		parent::Controller();
 		$this->load->helper('url');
+		
+		$params['title'] = "Announcements - Organization";
+		//$params['sidebar'] = $this->sidebar_data;
+		
+		$params['span'] = 24;
+		$params['site_link'] = 'main/announcements/';
+		$params['forward_link'] = 'main/announcements/0/';
+		$params['back_link'] = 'main/announcements/0/';
+		
+		$this->load->library('announcement',$params);
 	}
 	
 	function index()
@@ -36,12 +46,20 @@ class Main extends Controller {
         echo $this->input->post('content');
         
 	} 
+	
+	function announcements($page_no = 0,$announcement_id = -1)
+	{
+		$this->announcement->load_announcements($page_no,$announcement_id);
+	}
+/*	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{	
 		if($this->session->userdata(USER)){
 			$userdata = $this->session->userdata(USER);
 			redirect($userdata['groupname'].'/announcements');
 		}
+		
+		$params['title'] = "Announcements";
 		
 		$data['stylesheets'] = array('announcement.css');
 		$data['title'] = "Announcements";
@@ -81,7 +99,7 @@ class Main extends Controller {
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
 	}
-	
+*/	
 	function organizations($page_no = 0,$org_id = -1)
 	{
 		if($this->session->userdata(USER)){

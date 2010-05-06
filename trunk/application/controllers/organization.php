@@ -7,6 +7,20 @@ class Organization extends Controller {
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
+		
+		$this->sidebar_data = array();
+		$this->sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
+		$this->sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
+		
+		$params['title'] = "Announcements - Organization";
+		$params['sidebar'] = $this->sidebar_data;
+		
+		$params['span'] = 19;
+		$params['site_link'] = 'organization/announcements/';
+		$params['forward_link'] = 'organization/announcements/0/';
+		$params['back_link'] = 'organization/announcements/0/';
+		
+		$this->load->library('announcement',$params);
 	}
 	
 	function index()
@@ -17,15 +31,13 @@ class Organization extends Controller {
 	function forms()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/index');
 		
@@ -37,8 +49,6 @@ class Organization extends Controller {
 	function form1()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$fckeditorConfig = array(
 			'instanceName' => 'org_description',
@@ -56,7 +66,7 @@ class Organization extends Controller {
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form1');
 		
@@ -68,15 +78,13 @@ class Organization extends Controller {
 	function form2()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form2');
 		
@@ -88,15 +96,13 @@ class Organization extends Controller {
 	function form3()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form3');
 		
@@ -108,15 +114,13 @@ class Organization extends Controller {
 	function form4()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form4');
 		
@@ -128,15 +132,13 @@ class Organization extends Controller {
 	function form5()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form5');
 		
@@ -148,15 +150,13 @@ class Organization extends Controller {
 	function form6()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form6');
 		
@@ -168,15 +168,13 @@ class Organization extends Controller {
 	function form7()
 	{
 		$data['title'] = "Application Forms - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('organization/forms/form7');
 		
@@ -188,15 +186,13 @@ class Organization extends Controller {
 	function change_password()
 	{
 		$data['title'] = "Change Password - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		$this->load->view('layout/content/div_close');
 		$this->load->view('layout/content/footer');
@@ -205,10 +201,13 @@ class Organization extends Controller {
 	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
+		$this->announcement->load_announcements($page_no,$announcement_id);
+	}
+/*	
+	function announcements($page_no = 0,$announcement_id = -1)
+	{
 		$data['stylesheets'] = array('announcement.css');
 		$data['title'] = "Announcements - Organization";
-		$sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
 		$announcement['title'] = 'Sample Announcement Title';
 		$announcement['id'] = 10;
@@ -227,7 +226,7 @@ class Organization extends Controller {
 		$this->load->view('layout/content/header');
 		
 		$this->load->view('layout/content/div_open');
-		$this->load->view('sidebar/links_only',$sidebar_data);
+		$this->load->view('sidebar/links_only',$this->sidebar_data);
 		
 		if($announcement_id == -1){
 			$announcements_data['announcements'] = array($announcement, $announcement);
@@ -251,6 +250,7 @@ class Organization extends Controller {
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
 	}
+*/
 }
 
 /* End of file organization.php */
