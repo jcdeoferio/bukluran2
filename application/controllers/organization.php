@@ -12,15 +12,15 @@ class Organization extends Controller {
 		$this->sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
 		$this->sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
 		
-		$params['title'] = "Announcements - Organization";
 		$params['sidebar'] = $this->sidebar_data;
 		
-		$params['span'] = 19;
-		$params['site_link'] = 'organization/announcements/';
-		$params['forward_link'] = 'organization/announcements/';
-		$params['back_link'] = 'organization/announcements/';
+		$params['announcement']['title'] = "Announcements - Organization";
+		$params['announcement']['span'] = 19;
+		$params['announcement']['site_link'] = 'organization/announcements/';
+		$params['announcement']['forward_link'] = 'organization/announcements/';
+		$params['announcement']['back_link'] = 'organization/announcements/';
 		
-		$this->load->library('announcement',$params);
+		$this->load->library('views',$params);
 	}
 	
 	function index()
@@ -201,7 +201,7 @@ class Organization extends Controller {
 	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
-		$this->announcement->load_announcements($page_no,$announcement_id);
+		$this->views->load_announcements($page_no,$announcement_id);
 	}
 /*	
 	function announcements($page_no = 0,$announcement_id = -1)
