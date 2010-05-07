@@ -1,6 +1,6 @@
 <div class="span-14 prepend-5 append-5" id="content">
 	<div class="contentHeader_text middle">
-		Login
+		Login for Organizations and OSA
 	</div>
 		<? if(validation_errors()):?>
 		<div class="error" title="Login Error">
@@ -18,8 +18,10 @@
 			<?= form_label('Remember me','rememberme',array('class'=>'label'))."\n"; ?>
 			
 			<?= form_submit('submit','Log in','class="submit_default" id="submit"')."\n";?>
-			<?=anchor('login/lost_pass','Lost your password?');?>
+			
 		<?= form_close()."\n";?>
+		<?=anchor('login/lost_pass','Lost your password?').br(2)."\n";?>
+		For Students and Faculty, click <?=anchor('login/link','here')?>.
 
 <script type="text/javascript">
 	$('.loginpage_form #submit').removeClass('submit_default').button();

@@ -20,13 +20,13 @@ class Faculty_model extends Model{
 	function confirm($facultyid, $orgid){
 		$this->db->where('facultyid',$facultyid);
 		$this->db->where('organizationid',$orgid);
-		$this->db->update('orgadvisers',array('confirmed'=>true));
+		$this->db->update('orgadvisers',array('confirmed'=>'true'));
 	}
 	
 	function unconfirm($facultyid, $orgid){
 		$this->db->where('facultyid',$facultyid);
 		$this->db->where('organizationid',$orgid);
-		$this->db->update('orgadvisers',array('confirmed'=>false));
+		$this->db->update('orgadvisers',array('confirmed'=>'false'));
 	}
 }
 

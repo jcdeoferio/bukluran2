@@ -4,6 +4,10 @@ class Student extends Controller {
 	function Student()
 	{
 		parent::Controller();
+		
+		if(!$this->session->user_group_is(STUDENT_GROUPID))
+			redirect('login');
+		
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');

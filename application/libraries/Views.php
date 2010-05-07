@@ -22,10 +22,10 @@ class Views {
 		$this->data['title'] = $this->data['organization']['title'];
 		
 		$limit = 20;
-		$user = $this->CI->session->userdata('user');
-		if($user['groupid']==STUDENT_GROUPID){
+		$user = $this->CI->session->userdata(USER);
+		if($this->CI->session->user_group_is(STUDENT_GROUPID)){
 			$orgs = $this->CI->Student_model->get_organizations($user['studentid'] ,$limit, ($page_no - 1) * $limit);
-		}else if($user['groupid']==FACULTY_GROUPID){
+		}else if($this->CI->session->user_group_is(FACULTY_GROUPID)){
 			$orgs = $this->CI->Faculty_model->get_organizations($user['facultyid'] ,$limit, ($page_no - 1) * $limit);
 		}
 		
