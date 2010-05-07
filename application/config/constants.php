@@ -45,8 +45,11 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('USER', 'user');
 define('VALERR', 'valerr');
 
+define('STUDENT_GROUPID', 1);
+define('FACULTY_GROUPID', 2);
 define('ORG_GROUPID', 3);
 define('OSA_GROUPID', 4);
+
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

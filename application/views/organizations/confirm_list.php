@@ -14,6 +14,7 @@ $this->pagination->initialize($config);
 	<thead>
 		<tr>
 			<th>Organization</th>
+			<th>Status</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -21,8 +22,17 @@ $this->pagination->initialize($config);
 		<?php foreach($orgs as $org): ?>
 		<tr>
 		<td><?= $org['orgname'] ?></td>
+		<td><?if($org['confirmed']=='t'):?>
+				Confirmed
+			<?else:?>
+				Unconfirmed
+			<?endif;?></td>
 		<td>
-			<?= anchor($confirm_link.$org['organizationid'],'Confirm') ?>
+			<?if($org['confirmed']=='t'):?>
+				<?= anchor($unconfirm_link.$org['organizationid'],'Unconfirm') ?>
+			<?else:?>
+				<?= anchor($confirm_link.$org['organizationid'],'Confirm') ?>
+			<?endif;?>
 		</td>
 		</tr>
 		<?php endforeach;?>

@@ -58,7 +58,7 @@
 	<div class="tab">
 		<ul class="login">
 	    	<li class="left">&nbsp;</li>
-	        <li>Hello <?= $this->session->username() ?>!</li>
+	        <li>Hello <?= $this->session->username()?>!</li>
 			<li class="sep">|</li>
 			<? if(!$this->session->logged_in()): ?>
 			<li id="toggle">

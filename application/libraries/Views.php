@@ -11,6 +11,9 @@ class Views {
 				$this->data[$key] = $params[$key];
 			}
 		}
+		
+		$this->CI->load->model('Student_model');
+		$this->CI->load->model('Faculty_model');
 	}
 	
 	function load_organizations($page_no = 0)
@@ -19,8 +22,12 @@ class Views {
 		$this->data['title'] = $this->data['organization']['title'];
 		
 		$limit = 20;
-		
-		$orgs = $this->CI->Osa_model->get_organizations($limit, ($page_no - 1) * $limit);
+		$user = $this->CI->session->userdata('user');
+		if($user['groupid']==STUDENT_GROUPID){
+			$orgs = $this->CI->Student_model->get_organizations($user['studentid'] ,$limit, ($page_no - 1) * $limit);
+		}else if($user['groupid']==FACULTY_GROUPID){
+			$orgs = $this->CI->Faculty_model->get_organizations($user['facultyid'] ,$limit, ($page_no - 1) * $limit);
+		}
 		
 		$this->data['organization']['orgs'] = $orgs;
 		
