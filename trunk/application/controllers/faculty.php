@@ -26,8 +26,10 @@ class Faculty extends Controller {
 		$params['organization']['span'] = 19;
 		$params['organization']['site_link'] = 'faculty/organizations/';
 		$params['organization']['confirm_link'] = 'faculty/confirm/';
+		$params['organization']['unconfirm_link'] = 'faculty/unconfirm/';
 		
 		$this->load->library('views',$params);
+		$this->load->model('Faculty_model');
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -50,9 +52,18 @@ class Faculty extends Controller {
 		
 	}
 	
-	function confirm()
+	function confirm($orgid)
 	{
-		
+		$user = $this->session->userdata('user');
+		$this->Faculty_model->confirm($user['facultyid'],$orgid);
+		$this->organizations();
+	}
+	
+	function unconfirm($orgid)
+	{
+		$user = $this->session->userdata('user');
+		$this->Faculty_model->unconfirm($user['facultyid'],$orgid);
+		$this->organizations();
 	}
 	
 	function index()

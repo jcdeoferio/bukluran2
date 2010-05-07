@@ -11,8 +11,8 @@ class Student extends Controller {
 		
 		
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('student/announcements','student/organizations','student/view_profile','student/edit_profile');
-		$this->sidebar_data['anchors'] = array('Announcements','Manage Organizations','View Profile','Edit Profile');
+		$this->sidebar_data['hrefs'] = array('student/announcements','student/organizations');
+		$this->sidebar_data['anchors'] = array('Announcements','Manage Organizations');
 		
 		$params['sidebar'] = $this->sidebar_data;
 		
@@ -26,8 +26,10 @@ class Student extends Controller {
 		$params['organization']['span'] = 19;
 		$params['organization']['site_link'] = 'student/organizations/';
 		$params['organization']['confirm_link'] = 'student/confirm/';
+		$params['organization']['unconfirm_link'] = 'student/unconfirm/';
 		
 		$this->load->library('views',$params);
+		$this->load->model('Student_model');
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -40,19 +42,18 @@ class Student extends Controller {
 		$this->views->load_organizations($page_no);
 	}
 	
-	function view_profile()
+	function confirm($orgid)
 	{
-		
+		$user = $this->session->userdata('user');
+		$this->Student_model->confirm($user['studentid'],$orgid);
+		$this->organizations();
 	}
 	
-	function edit_profile()
+	function unconfirm($orgid)
 	{
-		
-	}
-	
-	function confirm()
-	{
-		
+		$user = $this->session->userdata('user');
+		$this->Student_model->unconfirm($user['studentid'],$orgid);
+		$this->organizations();
 	}
 	
 	function index()
