@@ -18,19 +18,19 @@ class Osa extends Controller {
 		
 		$this->load->model('Osa_model');
 		
-		$params['title'] = "Announcements - OSA";
 		$params['sidebar'] = $this->sidebar_data;
 		
-		$params['span'] = 19;
-		$params['site_link'] = 'osa/announcements/';
-		$params['forward_link'] = 'osa/announcements/';
-		$params['back_link'] = 'osa/announcements/';
+		$params['announcement']['title'] = "Announcements - OSA";
+		$params['announcement']['span'] = 19;
+		$params['announcement']['site_link'] = 'osa/announcements/';
+		$params['announcement']['forward_link'] = 'osa/announcements/';
+		$params['announcement']['back_link'] = 'osa/announcements/';
 		
-		$this->load->library('announcement',$params);
+		$this->load->library('views',$params);
 	}
 	
 	function index(){
-		redirect('osa/announcements');
+		$this->announcements();
 	}
 	
 	function create_announcement(){
@@ -138,7 +138,7 @@ class Osa extends Controller {
 	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
-		$this->announcement->load_announcements($page_no,$announcement_id);
+		$this->views->load_announcements($page_no,$announcement_id);
 	}
 /*	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -222,9 +222,9 @@ class Osa extends Controller {
 		$orgs = $this->Osa_model->get_organizations($limit, ($page_no - 1) * $limit);
 		
 		$content_data['orgs'] = $orgs;
-		$content_data['span']=19;
-		$content_data['site_link']='osa/organizations/';
-		$content_data['forward_link']='osa/organizations/0/';
+		$content_data['span'] = 19;
+		$content_data['site_link'] = 'osa/organizations/';
+		$content_data['forward_link'] = 'osa/organizations/0/';
 		
 		$this->load->view('htmlhead',$data);
 		$this->load->view('header');

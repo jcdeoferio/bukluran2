@@ -9,13 +9,11 @@ $this->pagination->initialize($config);
 	<div class="contentHeader_text">
 		Manage Organizations
 	</div>
-	<?= anchor('osa/create_organization', 'Add New Organization'); ?>
 	<?php if(isset($orgs) && count($orgs) > 0):?>
 	<table class="tablesorter">
 	<thead>
 		<tr>
 			<th>Organization</th>
-			<th>Username</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -23,10 +21,8 @@ $this->pagination->initialize($config);
 		<?php foreach($orgs as $org): ?>
 		<tr>
 		<td><?= $org['orgname'] ?></td>
-		<td><?= $org['username'] ?></td>
 		<td>
-			<? if($org['organizationid']): ?><?= anchor($forward_link.$org['organizationid'], 'View Profile') ?><br/><? endif; ?>
-			<?= anchor("osa/reset_org_password/{$org['username']}", 'Reset Password') ?>
+			<?= anchor($confirm_link.$org['organizationid'],'Confirm') ?>
 		</td>
 		</tr>
 		<?php endforeach;?>
@@ -34,6 +30,5 @@ $this->pagination->initialize($config);
 	</table>
 	<?=$this->pagination->create_links();?>
 	<br/>
-	<?= anchor('osa/create_organization', 'Add New Organization'); ?>
 	<?php endif;?>
 </div>

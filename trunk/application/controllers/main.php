@@ -5,15 +5,13 @@ class Main extends Controller {
 		parent::Controller();
 		$this->load->helper('url');
 		
-		$params['title'] = "Announcements - Organization";
-		//$params['sidebar'] = $this->sidebar_data;
+		$params['announcement']['title'] = "Announcements - Organization";
+		$params['announcement']['span'] = 24;
+		$params['announcement']['site_link'] = 'main/announcements/';
+		$params['announcement']['forward_link'] = 'main/announcements/';
+		$params['announcement']['back_link'] = 'main/announcements/';
 		
-		$params['span'] = 24;
-		$params['site_link'] = 'main/announcements/';
-		$params['forward_link'] = 'main/announcements/';
-		$params['back_link'] = 'main/announcements/';
-		
-		$this->load->library('announcement',$params);
+		$this->load->library('views',$params);
 	}
 	
 	function index()
@@ -49,7 +47,7 @@ class Main extends Controller {
 	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
-		$this->announcement->load_announcements($page_no,$announcement_id);
+		$this->views->load_announcements($page_no,$announcement_id);
 	}
 /*	
 	function announcements($page_no = 0,$announcement_id = -1)
