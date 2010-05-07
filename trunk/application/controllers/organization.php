@@ -4,6 +4,10 @@ class Organization extends Controller {
 	function Organization()
 	{
 		parent::Controller();
+		
+		if(!$this->session->user_group_is(ORGANIZATION_GROUPID))
+			redirect('login');
+		
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');

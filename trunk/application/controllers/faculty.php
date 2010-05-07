@@ -4,6 +4,10 @@ class Faculty extends Controller {
 	function Faculty()
 	{
 		parent::Controller();
+		
+		if(!$this->session->user_group_is(FACULTY_GROUPID))
+			redirect('login');
+			
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
