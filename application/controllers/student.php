@@ -34,6 +34,7 @@ class Student extends Controller {
 		
 		$this->load->library('views',$params);
 		$this->load->model('Student_model');
+		$this->load->model('Organization_model');
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -41,23 +42,25 @@ class Student extends Controller {
 		$this->views->load_announcements($page_no,$announcement_id);
 	}
 	
-	function organizations($page_no = 0)
+	function organizations($page_no = 0, $message = FALSE)
 	{
-		$this->views->load_organizations($page_no);
+		$this->views->load_organizations($page_no, $message);
 	}
 	
 	function confirm($orgid)
 	{
 		$user = $this->session->userdata('user');
 		$this->Student_model->confirm($user['studentid'],$orgid);
-		$this->organizations();
+		$org = $this->Organization_model->get_organization($orgid);
+		$this->organizations(0,'You have successfully confirmed your membership to '.$org['orgname'].'!');
 	}
 	
 	function unconfirm($orgid)
 	{
 		$user = $this->session->userdata('user');
 		$this->Student_model->unconfirm($user['studentid'],$orgid);
-		$this->organizations();
+		$org = $this->Organization_model->get_organization($orgid);
+		$this->organizations(0,'You have successfully removed your membership from '.$org['orgname'].'!');
 	}
 	
 	function index()
