@@ -9,6 +9,12 @@ $this->pagination->initialize($config);
 	<div class="contentHeader_text">
 		Manage Organizations
 	</div>
+	<?if($message):?>
+	<div class="ui-state-highlight ui-corner-all notification">
+		<span class="ui-icon ui-icon-info notification-icon"></span> 
+		<?=$message?>
+	</div>
+	<?endif;?>
 	<?php if(isset($orgs) && count($orgs) > 0):?>
 	<table class="tablesorter">
 	<thead>

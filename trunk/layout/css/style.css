@@ -1,3 +1,6 @@
+.notification{margin-top: 20px; padding: 0.7em;}
+.notification-icon{float: left; margin-right: .3em;}
+
 .print{display:none;}
 
 body{background:url('../images/background.png');}
@@ -11,7 +14,7 @@ body{background:url('../images/background.png');}
 #footer a:hover{color:black;}
 
 /*#content{padding:5px;}*/
-#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%; min-height:200px;}
+#contentWrapper{background:url('../images/content.png') repeat-y 50% 100%; min-height:450px;}
 #contentFooter{background:url('../images/footer.png') no-repeat 50% 0%; height:50px;}
 #contentHeader{background:url('../images/content-header.png') no-repeat 50% 0%; height:30px;}
 

@@ -88,6 +88,21 @@ CREATE TABLE eventreports(
 	eventreportid serial PRIMARY KEY,
 	organizationid integer REFERENCES organizations,
 	eventname varchar(128));
+	
+CREATE TABLE announcements(
+	announcementid serial PRIMARY KEY,
+	title text,
+	loginaccountid integer REFERENCES loginaccounts,
+	date_created timestamp with time zone,
+	date_modified timestamp with time zone,
+	content text);
+	
+CREATE TABLE studentpictures(
+	studentpictureid serial PRIMARY KEY,
+	studentid integer REFERENCES students,
+	aysem smallint,
+	filepath text,
+	UNIQUE(studentid,aysem));
 
 COPY groups (groupname) FROM stdin;
 student

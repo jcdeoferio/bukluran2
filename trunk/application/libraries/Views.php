@@ -16,7 +16,7 @@ class Views {
 		$this->CI->load->model('Faculty_model');
 	}
 	
-	function load_organizations($page_no = 0)
+	function load_organizations($page_no = 0, $message = FALSE)
 	{
 		$this->data['stylesheets'] = array('organizations_list.css');
 		$this->data['title'] = $this->data['organization']['title'];
@@ -30,6 +30,7 @@ class Views {
 		}
 		
 		$this->data['organization']['orgs'] = $orgs;
+		$this->data['organization']['message'] = $message;
 		
 		$this->CI->load->view('htmlhead',$this->data);
 		$this->CI->load->view('header');
@@ -44,6 +45,8 @@ class Views {
 		
 		$this->CI->load->view('layout/content/footer');
 		$this->CI->load->view('footer');
+		
+		$this->data['organization']['message'] = FALSE;
 	}
 
     function load_announcements($page_no = 0, $announcement_id = -1)
