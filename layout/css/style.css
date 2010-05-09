@@ -1,5 +1,6 @@
-.notification{margin-top: 20px; padding: 0.7em;}
-.notification-icon{float: left; margin-right: .3em;}
+.notification{padding: 0.7em;}
+.notification-icon{float:left;margin-right: .3em;}
+.notification p{margin: 5px;}
 
 .print{display:none;}
 

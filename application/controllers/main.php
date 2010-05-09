@@ -12,41 +12,24 @@ class Main extends Controller {
 		$params['announcement']['back_link'] = 'main/announcements/';
 		
 		$this->load->library('views',$params);
+		$this->load->model('Organization_model');
 	}
 	
 	function index()
 	{	
-		if($this->session->userdata(USER)){
+		if($this->session->logged_in()){
 			$userdata = $this->session->userdata(USER);
 			redirect($userdata['groupname']);
 		}
 		redirect('main/announcements');
-	}
-	
-	function fckeditorform()
-	{
-		$fckeditorConfig = array(
-			'instanceName' => 'content',
-			'BasePath' => base_url().'system/plugins/fckeditor/',
-			'ToolbarSet' => 'Basic',
-			'Width' => '100%',
-			'Height' => '200',
-			'Value' => ''
-			);
-		
-		$this->load->library('fckeditor', $fckeditorConfig);
-		$this->load->view('fckeditorView');
-        
-	}
-	function fckeditorshowpost()
-	{
-    
-        echo $this->input->post('content');
-        
 	} 
 	
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
+		if($this->session->logged_in()){
+			$userdata = $this->session->userdata(USER);
+			redirect($userdata['groupname'].'/announcements');
+		}
 		$this->views->load_announcements($page_no,$announcement_id);
 	}
 /*	
@@ -100,11 +83,13 @@ class Main extends Controller {
 */	
 	function organizations($page_no = 0,$org_id = -1)
 	{
-		if($this->session->userdata(USER)){
+		if($this->session->logged_in()){
 			$userdata = $this->session->userdata(USER);
-			if($userdata['groupname'] == 'osa')
+			if(!$this->session->user_group_is(ORG_GROUPID))
 				redirect($userdata['groupname'].'/organizations');
 		}
+		
+		$limit=20;
 	
 		$data['stylesheets'] = array('organizations_list.css');
 		$data['title'] = "Organizations";
@@ -113,28 +98,18 @@ class Main extends Controller {
 		$this->load->view('layout/content/header');
 		$this->load->view('layout/content/div_open');
 		if($org_id == -1){
-			$orgs_list['orgs_id'] = array(1,2,3);
-			$orgs_list['orgs_name'] = array('UP Programming Guild', 'Organization Name1', 'Organization Name2');
+			$data['orgs']=$this->Organization_model->get_organizations($limit, ($page_no - 1) * $limit);
+			$data['span']=24;
+			$data['site_link']='main/organizations/';
+			$data['forward_link']='main/organizations/0/';
 			
-			$orgs_list['span']=24;
-			$orgs_list['site_link']='main/organizations/';
-			$orgs_list['forward_link']='main/organizations/0/';
+			$this->load->view('organizations/list', $data);
+		}else{			
+			$data['org']=$this->Organization_model->get_organization($org_id);
+			$data['span']=24;
+			$data['back_link']='main/organizations/';
 			
-			$this->load->view('organizations/list', $orgs_list);
-		}else{
-			$org_data['name'] = 'UP Programming Guild';
-			$org_data['acronym'] = 'UPPG';
-			$org_data['established'] = '2009-07-24 ';
-			$org_data['nature'] = '';
-			$org_data['category'] = 'Special Interest';
-			$org_data['mailing_address'] = '130 13th Avenue, Cubao Quezon City 1109 ';
-			$org_data['org_email'] = 'upprogrammingguild@gmail.com ';
-			$org_data['org_desc'] = 'This organization aims to broaden the appreciation for various forms and approaches to problem solving, enhance analytical skills, and use collaborative programming as a means for personal affirmation and social interaction';
-			
-			$org_data['span']=24;
-			$org_data['back_link']='main/organizations/';
-			
-			$this->load->view('organizations/profile',$org_data);
+			$this->load->view('organizations/profile',$data);
 		}
 		$this->load->view('layout/content/div_close');
 		$this->load->view('layout/content/footer');
@@ -152,6 +127,26 @@ class Main extends Controller {
 		$this->load->view('layout/content/div_close');
 		$this->load->view('layout/content/footer');
 		$this->load->view('footer');
+	}
+//MISC
+	function fckeditorform()
+	{
+		$fckeditorConfig = array(
+			'instanceName' => 'content',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '200',
+			'Value' => ''
+			);
+		
+		$this->load->library('fckeditor', $fckeditorConfig);
+		$this->load->view('fckeditorView');
+        
+	}
+	function fckeditorshowpost()
+	{
+        echo $this->input->post('content');
 	}	
 	
 	function jquery()
