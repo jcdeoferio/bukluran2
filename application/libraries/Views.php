@@ -49,6 +49,22 @@ class Views {
 		
 		$this->data['organization']['message'] = FALSE;
 	}
+	
+	function header($data=FALSE,$sidebar=FALSE)
+	{
+		$this->CI->load->view('htmlhead',$data);
+		$this->CI->load->view('header');
+		$this->CI->load->view('layout/content/header');
+		$this->CI->load->view('layout/content/div_open');
+		if($sidebar)$this->CI->load->view('sidebar/links_only',$sidebar);
+	}
+	
+	function footer()
+	{
+		$this->CI->load->view('layout/content/div_close');
+		$this->CI->load->view('layout/content/footer');
+		$this->CI->load->view('footer');
+	}
 
     function load_announcements($page_no = 0, $announcement_id = -1)
     {	
