@@ -8,6 +8,7 @@ class Login extends Controller {
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
+		$this->load->library('views');
 	}
 	
 	function index()
@@ -34,14 +35,10 @@ class Login extends Controller {
 	function page()
 	{
 		$data['stylesheets'] = array('login.css');
-		$this->load->view('htmlhead',$data);
-		$this->load->view('header');
-		$this->load->view('layout/content/header');
-		$this->load->view('layout/content/div_open');
+		$data['title'] = 'Login';
+		$this->views->header($data);
 		$this->load->view('login/user_pass');
-		$this->load->view('layout/content/div_close');
-		$this->load->view('layout/content/footer');
-		$this->load->view('footer');
+		$this->views->footer();
 	}
 	
 	function logout(){
@@ -67,14 +64,10 @@ class Login extends Controller {
 	
 	function link(){
 		$data['stylesheets'] = array('login.css');
-		$this->load->view('htmlhead',$data);
-		$this->load->view('header');
-		$this->load->view('layout/content/header');
-		$this->load->view('layout/content/div_open');
+		$data['title'] = 'Login';
+		$this->views->header($data);
 		$this->load->view('login/link');
-		$this->load->view('layout/content/div_close');
-		$this->load->view('layout/content/footer');
-		$this->load->view('footer');
+		$this->views->footer();
 	}
 	
 	function link_submit(){

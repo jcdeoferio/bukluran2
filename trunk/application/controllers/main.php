@@ -32,55 +32,7 @@ class Main extends Controller {
 		}
 		$this->views->load_announcements($page_no,$announcement_id);
 	}
-/*	
-	function announcements($page_no = 0,$announcement_id = -1)
-	{	
-		if($this->session->userdata(USER)){
-			$userdata = $this->session->userdata(USER);
-			redirect($userdata['groupname'].'/announcements');
-		}
-		
-		$params['title'] = "Announcements";
-		
-		$data['stylesheets'] = array('announcement.css');
-		$data['title'] = "Announcements";
-		
-		$announcement['title'] = 'Sample Announcement Title';
-		$announcement['id'] = 10;
-		$announcement['username'] = 'osa';
-		$announcement['date'] = '11:30am, January 13, 2010';
-		$announcement['content'] = '<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus dapibus fermentum. Pellentesque diam purus, sodales nec tincidunt at, porta nec neque. Pellentesque volutpat, leo commodo molestie feugiat, turpis neque malesuada lorem, ac rhoncus orci justo ac sapien. Mauris at ornare orci.
-			</p>
-			<p>
-				Fusce sem lorem, posuere iaculis eleifend nec, molestie sed massa. Quisque semper turpis a nunc fermentum sagittis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In consequat orci ac velit malesuada non aliquet lectus tristique. Vestibulum hendrerit fringilla ullamcorper.
-			</p>';
-		
-		$this->load->view('htmlhead',$data);
-		$this->load->view('header');
-		$this->load->view('layout/content/header');
-		$this->load->view('layout/content/div_open');
-		if($announcement_id == -1){
-			$announcements_data['announcements'] = array($announcement, $announcement);
-			
-			$announcements_data['span']=24;
-			$announcements_data['site_link']='main/announcements/';
-			$announcements_data['forward_link']='main/announcements/0/';
-			
-			$this->load->view('announcements/list', $announcements_data);
-		}else{
-			$announcements_data['announcement'] = $announcement;
-			
-			$announcements_data['span']=24;
-			$announcements_data['back_link'] = 'main/announcements';
-			
-			$this->load->view('announcements/announcement', $announcements_data);
-		}
-		$this->load->view('layout/content/div_close');
-		$this->load->view('layout/content/footer');
-		$this->load->view('footer');
-	}
-*/	
+	
 	function organizations($page_no = 0,$org_id = -1)
 	{
 		if($this->session->logged_in()){
@@ -93,10 +45,8 @@ class Main extends Controller {
 	
 		$data['stylesheets'] = array('organizations_list.css');
 		$data['title'] = "Organizations";
-		$this->load->view('htmlhead',$data);
-		$this->load->view('header');
-		$this->load->view('layout/content/header');
-		$this->load->view('layout/content/div_open');
+		
+		$this->views->header($data);
 		if($org_id == -1){
 			$data['orgs']=$this->Organization_model->get_organizations($limit, ($page_no - 1) * $limit);
 			$data['span']=24;
@@ -111,22 +61,15 @@ class Main extends Controller {
 			
 			$this->load->view('organizations/profile',$data);
 		}
-		$this->load->view('layout/content/div_close');
-		$this->load->view('layout/content/footer');
-		$this->load->view('footer');
-		
+		$this->views->footer();		
 	}
 	
 	function contact()
 	{
-		$this->load->view('htmlhead');
-		$this->load->view('header');
-		$this->load->view('layout/content/header');
-		$this->load->view('layout/content/div_open');
+		$data['title'] = 'Contact Us';
+		$this->views->header($data);
 		$this->load->view('contact');
-		$this->load->view('layout/content/div_close');
-		$this->load->view('layout/content/footer');
-		$this->load->view('footer');
+		$this->views->footer();
 	}
 //MISC
 	function fckeditorform()
@@ -219,15 +162,10 @@ class Main extends Controller {
 	</style>
 
 TEXT;
-		
-		$this->load->view('htmlhead', $header_data);
-		$this->load->view('header');
-		$this->load->view('layout/content/header');
-		$this->load->view('layout/content/div_open');
+
+		$this->views->header($header_data);
 		$this->load->view('jqueryui-test');
-		$this->load->view('layout/content/div_close');
-		$this->load->view('layout/content/footer');
-		$this->load->view('footer');
+		$this->views->footer();
 	}
 	
 }
