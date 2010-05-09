@@ -10,9 +10,11 @@ $this->pagination->initialize($config);
 		Manage Organizations
 	</div>
 	<?if($message):?>
+	<div class="ui-widget">
 	<div class="ui-state-highlight ui-corner-all notification">
 		<span class="ui-icon ui-icon-info notification-icon"></span> 
 		<?=$message?>
+	</div>
 	</div>
 	<?endif;?>
 	<?php if(isset($orgs) && count($orgs) > 0):?>

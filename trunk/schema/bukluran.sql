@@ -93,8 +93,8 @@ CREATE TABLE announcements(
 	announcementid serial PRIMARY KEY,
 	title text,
 	loginaccountid integer REFERENCES loginaccounts,
-	date_created timestamp with time zone,
-	date_modified timestamp with time zone,
+	date_created timestamp without time zone,
+	date_modified timestamp without time zone,
 	content text);
 	
 CREATE TABLE studentpictures(

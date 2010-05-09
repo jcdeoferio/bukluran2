@@ -91,7 +91,7 @@
 <div id="topnavWrapper">
 <div class="container">
 <div class="span-24 last" id="topnav">
-<?= anchor('main','home');?> | <?= anchor('main/announcements','announcements');?> | <?= anchor('main/organizations','organizations list');?> | <?= anchor('main/contact','contact us');?>
+<?= anchor('main','announcements');?> | <?= anchor('main/organizations','organizations list');?> | <?= anchor('main/contact','contact us');?>
 </div>
 </div>
 </div>

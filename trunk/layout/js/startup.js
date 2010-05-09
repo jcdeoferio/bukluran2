@@ -12,13 +12,20 @@ $(document).ready(function(){
 
 	$('.tablesorter').tablesorter();
 	
-	$('.error').hide().dialog({
+	var notification = $('.notification');
+	var parent = $('.notification').parent();
+	$('.notification').dialog({
 		resizable:false,
 		modal:true,
 		buttons: {
 			Ok: function() {
 				$(this).dialog('close');
 			}
-		}	
+		},
+		close:function(){
+			notification.css('min-height','0px');
+			parent.append(notification).show('slide',500);
+			//notification.appendTo(parent).show('slide',500);
+		}
 	});
 });

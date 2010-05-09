@@ -1,6 +1,6 @@
 <?php
 $config['base_url'] = site_url($site_link);
-$config['total_rows'] = '200';
+$config['total_rows'] = count($announcements); //TODO: GET FROM MODEL
 $config['per_page'] = '20'; 
 
 $this->pagination->initialize($config); 
@@ -14,10 +14,10 @@ $this->pagination->initialize($config);
 		<?php foreach($announcements as $announcement):?>
 	<div class="announcement">
 		<div class="announcementDetails_title">
-			<?=anchor($forward_link.$page_no.'/'.$announcement['id'],$announcement['title'])?>
+			<?=anchor($forward_link.$page_no.'/'.$announcement['announcementid'],$announcement['title'])?>
 		</div>
 		<div class="announcementDetails_postInfo">
-			posted by <span class="announcementDetails_username"><?=$announcement['username']?></span> at <span class="announcementDetails_date"><?=$announcement['date']?></span>
+			posted by <span class="announcementDetails_username"><?=$announcement['username']?></span> at <span class="announcementDetails_date"><?=$announcement['date_created']?></span>. last modified at <span class="announcementDetails_date"><?=$announcement['date_modified']?></span>.
 		</div>
 		<div class="announcementDetails_content">
 			<?=$announcement['content']?>

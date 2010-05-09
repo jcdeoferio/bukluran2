@@ -8,10 +8,21 @@ class Organization_model extends Model{
 	
 	function get_organization($organizationid){
 		$this->db->from('organizations o');
-		$this->db->where('organizationid', $organizationid);
+		$this->db->join('orgprofiles p','o.organizationid = p.organizationid');
+		$this->db->join('(SELECT orgcategoryid, description AS categorydesc FROM orgcategories) cat','cat.orgcategoryid = p.orgcategoryid');
+		$this->db->join('(SELECT orgnatureid, description AS naturedesc FROM orgnatures) nat','nat.orgnatureid = o.orgnatureid');
+		$this->db->where('o.organizationid', $organizationid);
 		
 		$query = $this->db->get();
 		return($query->row_array());
 	}
+	
+	function get_organizations($limit = 20, $offset = 0){
+		$this->db->from('organizations o');
+		$this->db->order_by('orgname');
+		$this->db->limit($limit, $offset);
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
 }
-
