@@ -2,16 +2,17 @@
 
 class Views {
 
-	function Views($params)
+	function Views($params=FALSE)
 	{	
-		$this->CI =& get_instance();		
-		$keys = array('sidebar','announcement','organization');
-		foreach($keys as $key){
-			if(array_key_exists($key,$params)){
-				$this->data[$key] = $params[$key];
+		$this->CI =& get_instance();
+		if($params){
+			$keys = array('sidebar','announcement','organization');
+			foreach($keys as $key){
+				if(array_key_exists($key,$params)){
+					$this->data[$key] = $params[$key];
+				}
 			}
 		}
-		
 		$this->CI->load->model('Student_model');
 		$this->CI->load->model('Faculty_model');
 		$this->CI->load->model('Announcement_model');
