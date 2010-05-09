@@ -18,7 +18,7 @@ class Organization extends Controller {
 		
 		$params['sidebar'] = $this->sidebar_data;
 		
-		$params['announcement']['title'] = "Announcements - Organization";
+		$params['announcement']['title'] = "Announcements - ".$this->session->username();
 		$params['announcement']['span'] = 19;
 		$params['announcement']['site_link'] = 'organization/announcements/';
 		$params['announcement']['forward_link'] = 'organization/announcements/';
@@ -34,7 +34,7 @@ class Organization extends Controller {
 	
 	function forms()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -52,7 +52,7 @@ class Organization extends Controller {
 	
 	function form1()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms - ".$this->session->username();
 		
 		$fckeditorConfig = array(
 			'instanceName' => 'org_description',
@@ -81,7 +81,7 @@ class Organization extends Controller {
 	
 	function form2()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -99,7 +99,7 @@ class Organization extends Controller {
 	
 	function form3()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -117,7 +117,7 @@ class Organization extends Controller {
 	
 	function form4()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms  - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -135,7 +135,7 @@ class Organization extends Controller {
 	
 	function form5()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms  - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -153,7 +153,7 @@ class Organization extends Controller {
 	
 	function form6()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms  - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -171,7 +171,7 @@ class Organization extends Controller {
 	
 	function form7()
 	{
-		$data['title'] = "Application Forms - Organization";
+		$data['title'] = "Application Forms  - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -189,7 +189,7 @@ class Organization extends Controller {
 	
 	function change_password()
 	{
-		$data['title'] = "Change Password - Organization";
+		$data['title'] = "Change Password  - ".$this->session->username();
 		
 		$this->load->view('htmlhead', $data);
 		$this->load->view('header');
@@ -211,7 +211,7 @@ class Organization extends Controller {
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
 		$data['stylesheets'] = array('announcement.css');
-		$data['title'] = "Announcements - Organization";
+		$data['title'] = "Announcements  - ".$this->session->username();
 		
 		$announcement['title'] = 'Sample Announcement Title';
 		$announcement['id'] = 10;

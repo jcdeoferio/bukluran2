@@ -5,7 +5,7 @@ class Main extends Controller {
 		parent::Controller();
 		$this->load->helper('url');
 		
-		$params['announcement']['title'] = "Announcements - Organization";
+		$params['announcement']['title'] = "Announcements";
 		$params['announcement']['span'] = 24;
 		$params['announcement']['site_link'] = 'main/announcements/';
 		$params['announcement']['forward_link'] = 'main/announcements/';
