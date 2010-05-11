@@ -16,7 +16,7 @@
 	<?=img(array('src'=>'./uploads/'.$image['filepath'],'width'=>'100%'))?>
 	<?endif;?>
 	
-	<?=form_open_multipart('student/do_upload');?>
+	<?=form_open_multipart('student/do_upload',array('class'=>"form_large"));?>
 	<?=form_upload('userfile','','class="text_input"');?>
 	<?=form_submit('upload','Upload','class="submit_default" id="submit"');?>
 	<?=form_close();?>
@@ -24,5 +24,5 @@
 </div>
 
 <script type="text/javascript">
-	$('#submit').removeClass('submit_default').button();
+	$('.form_large #submit').removeClass('submit_default').button();
 </script>

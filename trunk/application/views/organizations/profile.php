@@ -8,7 +8,7 @@
 		</p><p>
 		<b>Date Established:</b> <?=$org['establisheddate']?> <br />
 		</p><p>
-		<b>Nature of the Organization:</b> <?=$org['naturedesc']?> <br />
+		<b>Status:</b> <?=$org['statusdesc']?> <br />
 		</p><p>
 		<b>Category:</b> <?=$org['categorydesc']?> <br />
 		</p><p>

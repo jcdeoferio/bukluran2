@@ -130,4 +130,15 @@ Rejected
 Renewed
 \.
 
+INSERT INTO variables (varname,value) VALUES ('current_aysem','20093');
 INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'osa'), 'osa', md5('password'));
+INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'organization'), 'org1', md5('password'));
+INSERT INTO linkaccounts (groupid, hashcode) VALUES ((SELECT groupid FROM groups WHERE groupname = 'student'), 'student');
+INSERT INTO linkaccounts (groupid, hashcode) VALUES ((SELECT groupid FROM groups WHERE groupname = 'faculty'), 'faculty');
+INSERT INTO faculty (useraccountid, webmail, email) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'faculty'), 'faculty@up.edu.ph','faculty@up.edu.ph');
+INSERT INTO students (useraccountid, webmail, email) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'student'), 'student@up.edu.ph','student@up.edu.ph');
+INSERT INTO organizations (loginaccountid, orgname) VALUES ((SELECT loginaccountid FROM loginaccounts WHERE username = 'org1'),'organization 1');
+INSERT INTO orgadvisers (organizationid, facultyid, aysem) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT facultyid FROM faculty WHERE email = 'faculty@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'));
+INSERT INTO orgmemberships (organizationid, studentid, aysem) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT studentid FROM students WHERE email = 'student@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'));
+INSERT INTO orgprofiles (organizationid, aysem, orgcategoryid, orgstatusid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'),(SELECT orgcategoryid FROM orgcategories WHERE description='Fraternity'),(SELECT orgstatusid FROM orgstatuses WHERE description = 'Renewed'));
+INSERT INTO announcements (title,loginaccountid,date_created,date_modified,content) VALUES ('Sample announcement1',(SELECT loginaccountid FROM loginaccounts WHERE username = 'osa'),now(),now(),'Sample announcement content1');
