@@ -3,8 +3,7 @@ class Login extends Controller {
 
 	function Login()
 	{
-		parent::Controller();
-		
+		parent::Controller();		
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
@@ -13,6 +12,11 @@ class Login extends Controller {
 	
 	function index()
 	{
+		if($this->session->logged_in()){
+			$userdata = $this->session->userdata(USER);
+			redirect($userdata['groupname']);
+		}
+		
 		$this->form_validation->set_rules('username', 'Username', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required|callback__authenticate_login');
 		

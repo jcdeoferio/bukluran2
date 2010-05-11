@@ -1,6 +1,8 @@
-.notification{padding: 0.7em;}
-.notification-icon{float:left;margin-right: .3em;}
-.notification p{margin:0px;}
+.notification{padding: 0.7em;margin-left:auto;margin-right:auto;}
+.notification-icon{float:left;margin-right: 0.3em;}
+.notification-close{float:right;margin-left: 0.3em;}
+.notification-close:hover{cursor:pointer;cursor:hand;}
+.notification p{margin:0px;width:500px;display:inline;}
 
 .print{display:none;}
 

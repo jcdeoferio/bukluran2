@@ -11,7 +11,7 @@ $(document).ready(function(){
 	});
 
 	$('.tablesorter').tablesorter();
-	
+/*
 	var notification = $('.notification');
 	var parent = $('.notification').parent();
 	$('.notification').dialog({
@@ -24,8 +24,15 @@ $(document).ready(function(){
 		},
 		close:function(){
 			notification.css('min-height','0px');
-			parent.append(notification).show('slide',500);
+			parent.append(notification).show('blind',500);
 			//notification.appendTo(parent).show('slide',500);
+			$('.notification-close').show().click(function(){
+				notification.hide('blind',500);
+			});
 		}
+	});
+*/
+	$('.notification-close').show().click(function(){
+		$('.notification').hide('blind',500);
 	});
 });
