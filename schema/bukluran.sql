@@ -25,10 +25,6 @@ CREATE TABLE faculty(
 	webmail varchar(128),
 	email varchar(128));
 
-CREATE TABLE orgnatures(
-	orgnatureid serial PRIMARY KEY,
-	description text);
-
 CREATE TABLE orgcategories(
 	orgcategoryid serial PRIMARY KEY,
 	description text);
@@ -40,13 +36,12 @@ CREATE TABLE orgstatuses(
 CREATE TABLE organizations (
 	organizationid serial PRIMARY KEY,
 	loginaccountid integer REFERENCES loginaccounts,
-	orgname varchar(128) NOT NULL,
-	orgnatureid integer REFERENCES orgnatures,
-	orgstatusid integer REFERENCES orgstatuses);
+	orgname varchar(128) NOT NULL);
 	
 CREATE TABLE orgprofiles (
 	organizationid integer REFERENCES organizations,
 	aysem smallint,
+	orgstatusid integer REFERENCES orgstatuses,
 	acronym varchar(32),
 	orgcategoryid integer REFERENCES orgcategories,
 	mailaddr varchar(512),
@@ -89,6 +84,10 @@ CREATE TABLE eventreports(
 	organizationid integer REFERENCES organizations,
 	eventname varchar(128));
 	
+CREATE TABLE variables(
+	varname varchar(32),
+	value text);
+	
 CREATE TABLE announcements(
 	announcementid serial PRIMARY KEY,
 	title text,
@@ -109,6 +108,26 @@ student
 faculty
 organization
 osa
+\.
+
+COPY orgcategories (description) FROM stdin;
+Academic
+Alliance
+Cause-Oriented
+Community Service
+Fraternity
+Regional/Provincial
+Religious
+Sorority
+Special Interest
+Sports and Recreation
+\.
+
+COPY orgstatuses (description) FROM stdin;
+Application Not Yet Submitted
+Application Pending
+Rejected
+Renewed
 \.
 
 INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'osa'), 'osa', md5('password'));
