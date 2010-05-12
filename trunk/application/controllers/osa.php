@@ -131,6 +131,54 @@ class Osa extends Controller {
 		$this->load->view('organizations/manage', $content_data);
 		$this->views->footer();
 	}
+	
+	function manage_app_period(){
+		$this->load->model('Variable');
+		$this->load->helper('date');
+		
+		$data['title'] = "Manage Application Period - OSA";
+		
+		$content_data['submit_url'] = 'osa/manage_app_period_submit';
+		$content_data['app_is_open'] = $this->Variable->app_is_open();
+		$content_data['current_application_aysem'] = $this->Variable->current_application_aysem();
+		$content_data['pretty_current_application_aysem'] = $this->Variable->pretty_current_application_aysem();
+		$content_data['current_acadyear'] = $this->Variable->current_acadyear()?:mdate('%Y');
+		$content_data['current_sem'] = $this->Variable->current_sem();
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/manage_app_period', $content_data);
+		$this->views->footer();
+	}
+	
+	function manage_app_period_submit(){
+		if($this->input->post('submit') == 'Submit'){
+			$this->form_validation->set_rules('acadyear', 'Academic Year', 'required|callback__acadyear_check');
+			$this->form_validation->set_rules('sem', 'Semester', 'required|callback__sem_check');
+			
+			$this->form_validation->set_message('_aysem_check', "Illegal aysem format: '{$this->input->post('aysem')}'");
+			
+			if($this->form_validation->run()){
+				$aysem = $this->input->post('acadyear').$this->input->post('sem');
+				$this->Variable->set_current_aysem($aysem);
+			}
+		}
+		else{
+			$matches = array();
+			preg_match('/^(Open|Close) Application$/', $this->input->post('submit'), $matches);
+			
+			$this->Variable->set_app_open_state($matches[1] === 'Open');
+		}
+		
+		redirect('osa/manage_app_period');
+	}
+	
+	function _acadyear_check($acadyear){
+		return(preg_match('/^\d+$/', $acadyear) != 0);
+	}
+	
+	function _sem_check($sem){
+		return(in_array($sem, array(1, 2 ,3)));
+	}
 }
 
 /* End of file osa.php */
