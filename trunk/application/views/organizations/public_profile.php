@@ -1,4 +1,5 @@
 <div class="span-<?=isset($span)?$span:24?> last" id="contentP_main">
+<? if(array_key_exists('orgname',$org)):?>
 	<div class="contentHeader_text">
 		<?= $org['orgname'] ?>
 	</div>
@@ -16,8 +17,13 @@
 		</p><p>
 		<b>Organization E-Mail Address:</b> <?=$org['orgemail']?> <br />
 		</p><p>
-		<b>Description:</b> <?=$org_desc?> <br />
+		<b>Description:</b> <?=$org['orgdescription']?> <br />
 		</p>
 	</div>
+<? else:?>
+	<div class="contentHeader_text">
+		The organization's profile is not yet complete
+	</div>
+<? endif;?>
 	<?=anchor($back_link,'Back to List');?>
 </div>

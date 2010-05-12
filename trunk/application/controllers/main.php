@@ -54,12 +54,12 @@ class Main extends Controller {
 			$data['forward_link']='main/organizations/0/';
 			
 			$this->load->view('organizations/list', $data);
-		}else{			
+		}else{
 			$data['org']=$this->Organization_model->get_organization($org_id);
 			$data['span']=24;
 			$data['back_link']='main/organizations/';
 			
-			$this->load->view('organizations/profile',$data);
+			$this->load->view('organizations/public_profile',$data);
 		}
 		$this->views->footer();		
 	}
@@ -72,6 +72,14 @@ class Main extends Controller {
 		$this->views->footer();
 	}
 //MISC
+
+	function pdf()
+	{
+		$this->load->plugin('dompdf');
+		$html = $this->load->view('contact', null, true);
+		pdf_create($html, 'filename');
+	}
+
 	function fckeditorform()
 	{
 		$fckeditorConfig = array(
