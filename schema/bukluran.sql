@@ -43,6 +43,7 @@ CREATE TABLE orgprofiles (
 	aysem smallint,
 	orgstatusid integer REFERENCES orgstatuses,
 	acronym varchar(32),
+	orgdescription text,
 	orgcategoryid integer REFERENCES orgcategories,
 	mailaddr varchar(512),
 	orgemail varchar(128),
@@ -102,6 +103,18 @@ CREATE TABLE studentpictures(
 	aysem smallint,
 	filepath text,
 	UNIQUE(studentid,aysem));
+	
+CREATE TABLE facultyprofile(
+	facultyid integer REFERENCES faculty,
+	firstname varchar(32),
+	lastname varchar(32),
+	department varchar(32),
+	college varchar(32),
+	faculty_position_and_rank varchar(64),
+	mobile_number varchar(16),
+	home_number varchar(16),
+	office_number varchar(16),	
+);
 
 COPY groups (groupname) FROM stdin;
 student
