@@ -140,7 +140,8 @@ CREATE TABLE studentpictures(
 	UNIQUE(studentid, appsemid));
 	
 CREATE TABLE facultyprofile(
-	facultyid integer REFERENCES faculty,
+	facultyprofileid serial PRIMARY KEY,
+	facultyid integer REFERENCES faculty UNIQUE NOT NULL,
 	firstname varchar(32),
 	lastname varchar(32),
 	department varchar(32),

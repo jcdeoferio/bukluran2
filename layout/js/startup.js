@@ -33,6 +33,6 @@ $(document).ready(function(){
 	});
 */
 	$('.notification-close').show().click(function(){
-		$('.notification').hide('blind',500);
+		$(this).parent().hide('blind',500);
 	});
 });

@@ -16,9 +16,10 @@ class Views {
 		$this->CI->load->model('Student_model');
 		$this->CI->load->model('Faculty_model');
 		$this->CI->load->model('Announcement_model');
+		$this->aysem = $this->CI->Variable->current_application_aysem();
 	}
 	
-	function load_organizations($page_no = 0, $message = FALSE)
+	function load_organizations($page_no = 0, $messages = FALSE)
 	{
 		$this->data['stylesheets'] = array('organizations_list.css');
 		$this->data['title'] = $this->data['organization']['title'];
@@ -26,13 +27,21 @@ class Views {
 		$limit = 20;
 		$user = $this->CI->session->userdata(USER);
 		if($this->CI->session->user_group_is(STUDENT_GROUPID)){
-			$orgs = $this->CI->Student_model->get_organizations($user['studentid'] ,$limit, ($page_no - 1) * $limit);
+			$orgs = $this->CI->Student_model->get_organizations($user['studentid'], $this->aysem, $limit, ($page_no - 1) * $limit);
+			if(!$this->CI->Student_model->has_studentpicture($user['studentid'], $this->aysem)){
+				if(!$messages)$messages = array();
+				$messages[] = "You haven't uploaded an image of your School ID yet. ".anchor('student/upload','Click here')." to upload."; 
+			}
 		}else if($this->CI->session->user_group_is(FACULTY_GROUPID)){
-			$orgs = $this->CI->Faculty_model->get_organizations($user['facultyid'] ,$limit, ($page_no - 1) * $limit);
+			$orgs = $this->CI->Faculty_model->get_organizations($user['facultyid'], $this->aysem, $limit, ($page_no - 1) * $limit);
+			if(!$this->CI->Faculty_model->has_profile($user['facultyid'])){
+				if(!$messages)$messages = array();
+				$messages[] = "Your profile is not yet set. ".anchor('faculty/edit_profile','Click here')." to create your profile."; 
+			}
 		}
 		
 		$this->data['organization']['orgs'] = $orgs;
-		$this->data['organization']['message'] = $message;
+		$this->data['organization']['messages'] = $messages;
 		
 		$this->CI->load->view('htmlhead',$this->data);
 		$this->CI->load->view('header');

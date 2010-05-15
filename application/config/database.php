@@ -63,5 +63,18 @@ $db['jc']['cachedir'] = "";
 $db['jc']['char_set'] = "utf8";
 $db['jc']['dbcollat'] = "utf8_general_ci";
 
+$db['mysql']['hostname'] = "localhost";
+$db['mysql']['username'] = "root";
+$db['mysql']['password'] = "password";
+$db['mysql']['database'] = "bukluran2";
+$db['mysql']['dbdriver'] = "mysql";
+$db['mysql']['dbprefix'] = "";
+$db['mysql']['pconnect'] = TRUE;
+$db['mysql']['db_debug'] = TRUE;
+$db['mysql']['cache_on'] = FALSE;
+$db['mysql']['cachedir'] = "";
+$db['mysql']['char_set'] = "utf8";
+$db['mysql']['dbcollat'] = "utf8_general_ci";
+
 /* End of file database.php */
 /* Location: ./system/application/config/database.php */

@@ -13,8 +13,8 @@ class Organization extends Controller {
 		$this->load->helper('form');
 		
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('organization','organization/forms','organization/change_password');
-		$this->sidebar_data['anchors'] = array('Announcements', 'Application Forms','Change Password');
+		$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
+		$this->sidebar_data['anchors'] = array('Application Forms','Change Password');
 		
 		$params['sidebar'] = $this->sidebar_data;
 		
@@ -29,7 +29,7 @@ class Organization extends Controller {
 	
 	function index()
 	{
-		redirect('organization/announcements');
+		$this->forms();
 	}
 	
 	function forms()

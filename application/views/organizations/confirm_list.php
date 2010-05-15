@@ -9,7 +9,8 @@ $this->pagination->initialize($config);
 	<div class="contentHeader_text">
 		Manage Organizations
 	</div>
-	<?if($message):?>
+	<?if($messages):?>
+	<?foreach($messages as $message):?>
 	<div class="ui-widget">
 	<div class="ui-state-highlight ui-corner-all notification">
 		<span class="ui-icon ui-icon-info notification-icon"></span> 
@@ -17,6 +18,7 @@ $this->pagination->initialize($config);
 		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span> 
 	</div>
 	</div>
+	<?endforeach;?>
 	<?endif;?>
 	<?php if(isset($orgs) && count($orgs) > 0):?>
 	<table class="tablesorter">
