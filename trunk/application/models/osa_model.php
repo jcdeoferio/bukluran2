@@ -12,7 +12,7 @@ class Osa_model extends Model{
 		$this->db->where('groupid', ORG_GROUPID);
 		$this->db->order_by('orgname');
 		$this->db->order_by('username');
-		$this->db->limit($limit, $offset);
+		//$this->db->limit($limit, $offset);
 		
 		$query = $this->db->get();
 		return($query->result_array());

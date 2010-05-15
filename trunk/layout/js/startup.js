@@ -10,7 +10,7 @@ $(document).ready(function(){
 			load('');
 	});
 
-	$('.tablesorter').tablesorter();
+	$('.tablesorter').tablesorter({widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pagination")});
 /*
 	var notification = $('.notification');
 	var parent = $('.notification').parent();
