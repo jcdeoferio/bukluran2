@@ -1,8 +1,9 @@
 <?php
 
 define('VARTAB', 'variables');
+define('APPSEMTAB', 'appsems');
 define('APP_IS_OPEN', 'appisopen');
-define('CURRENT_APP_AYSEM', 'curappaysem');
+define('CURRENT_APP_AYSEM', 'current_aysem');
 
 class Variable extends Model{
 
@@ -67,24 +68,38 @@ class Variable extends Model{
 		return($current_app_aysem);
 	}
 	
-	function pretty_current_application_aysem(){
-		$pretty_sem = $this->pretty_current_sem();
-		$pretty_acadyear = $this->pretty_current_acadyear();
+	function pretty_application_aysem($aysem){
+		$sem = $this->sem_from_aysem($aysem);
+		$acadyear = $this->acadyear_from_aysem($aysem);
+		
+		$pretty_sem = $this->pretty_sem($sem);
+		$pretty_acadyear = $this->pretty_acadyear($acadyear);
 		
 		$pretty_app_aysem = "{$pretty_sem} {$pretty_acadyear}";
 		return($pretty_app_aysem);
 	}
 	
+	function pretty_current_application_aysem(){
+		return($this->pretty_application_aysem($this->current_application_aysem()));
+	}
+	
+	private function sem_from_aysem($aysem){
+		return(substr($aysem, 4, 1));
+	}
+	
+	private function acadyear_from_aysem($aysem){
+		return(substr($aysem, 0, 4));
+	}
+	
 	function current_sem(){
 		$current_app_aysem = $this->current_application_aysem();
 		
-		$sem = substr($current_app_aysem, 4, 1);
+		$sem = $this->sem_from_aysem($current_app_aysem);
 		
 		return($sem);
 	}
 	
-	function pretty_current_sem(){
-		$sem = $this->current_sem();
+	private function pretty_sem($sem){
 		$pretty_sem = NULL;
 		switch($sem){
 			case 1:
@@ -97,36 +112,72 @@ class Variable extends Model{
 				$pretty_sem = 'Summer';
 				break;
 			default:
-				log_message('error', 'Illegal value for sem in CURRENT_APP_AYSEM');
+				log_message('error', 'Illegal value for sem passed');
 		}
 		
 		return($pretty_sem);
 	}
 	
+	function pretty_current_sem(){
+		return($this->pretty_sem($this->current_sem()));
+	}
+	
 	function current_acadyear(){
 		$current_app_aysem = $this->current_application_aysem();
 		
-		$acadyear = substr($current_app_aysem, 0, 4);
+		$acadyear = $this->acadyear_from_aysem($current_app_aysem);
 		
 		return($acadyear);
 	}
 	
+	private function pretty_acadyear($acadyear){
+		return("academic year {$acadyear}");
+	}
+	
 	function pretty_current_acadyear(){		
-		$acadyear = $this->current_acadyear();
-		$pretty_acadyear = "academic year {$acadyear}";
-		
-		return($pretty_acadyear);
+		return($this->pretty_acadyear($this->current_acadyear()));
 	}
 	
 	function set_current_aysem($aysem){
-		if(!$this->is_legal_aysem($aysem))
-			throw new UnexpectedValueException("Illegal aysem format: '{$aysem}'"); //Change to better exception
+		if(!$this->is_legal_aysem_format($aysem))
+			throw new UnexpectedValueException("Illegal aysem format: '{$aysem}'");
+		
+		if(!$this->is_legal_aysem_value($aysem))
+			throw new UnexpectedValueException("Illegal aysem value: '{$aysem}' No such aysem in appsems table");
 		
 		$this->set(CURRENT_APP_AYSEM, $aysem);
 	}
 	
-	private function is_legal_aysem($aysem){
+	function get_valid_appsems(){
+		$this->db->select('appsemid');
+		$this->db->from(APPSEMTAB);
+		$this->db->order_by('appsemid');
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
+	function get_valid_appsems_pretty(){
+		$valid_appsems = $this->get_valid_appsems();
+		
+		for($i = 0; $i < count($valid_appsems); $i++){
+			$appsemid = $valid_appsems[$i]['appsemid'];
+			
+			$valid_appsems[$i]['pretty'] = $this->pretty_application_aysem($appsemid);
+		}
+		
+		return($valid_appsems);
+	}
+	
+	private function is_legal_aysem_format($aysem){
 		return(preg_match('/^\d+[123]$/', $aysem));
+	}
+	
+	private function is_legal_aysem_value($aysem){
+		$this->db->from(APPSEMTAB);
+		$this->db->where('appsemid', $aysem);
+		
+		return($this->db->count_all_results() > 0);
 	}
 
 }
