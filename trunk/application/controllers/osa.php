@@ -14,8 +14,8 @@ class Osa extends Controller {
 			redirect('login');
 			
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('osa/announcements', 'osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
-		$this->sidebar_data['anchors'] = array('Announcements', 'Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
+		$this->sidebar_data['hrefs'] = array('osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
+		$this->sidebar_data['anchors'] = array('Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
 		
 		$this->load->helper('html');
 		$this->load->helper('form');
@@ -37,7 +37,7 @@ class Osa extends Controller {
 	}
 	
 	function index(){
-		$this->announcements();
+		$this->organizations();
 	}
 	
 	function create_announcement(){

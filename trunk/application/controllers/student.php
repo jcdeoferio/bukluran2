@@ -16,8 +16,8 @@ class Student extends Controller {
 		$this->load->model('Organization_model');
 		
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('student/announcements','student/organizations','student/upload');
-		$this->sidebar_data['anchors'] = array('Announcements','Manage Organizations','Upload UP ID');		
+		$this->sidebar_data['hrefs'] = array('student/organizations','student/upload');
+		$this->sidebar_data['anchors'] = array('Manage Organizations','Upload UP ID');		
 		$params['sidebar'] = $this->sidebar_data;
 		$params['announcement']['title'] = "Announcements - ".$this->session->username();
 		$params['announcement']['span'] = 19;
@@ -31,8 +31,10 @@ class Student extends Controller {
 		$params['organization']['unconfirm_link'] = 'student/unconfirm/';
 		$this->load->library('views',$params);
 		
+		$this->aysem = $this->Variable->current_application_aysem();
+		
 		$config['upload_path'] = './uploads/';
-		$config['file_name'] = $this->session->username().'-currentAYSEM'; //TODO current aysem
+		$config['file_name'] = $this->session->username().'-'.$this->aysem;
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['overwrite'] = TRUE;
 		$config['max_size']	= '250';
@@ -44,25 +46,25 @@ class Student extends Controller {
 		$this->views->load_announcements($page_no,$announcement_id);
 	}
 	
-	function organizations($page_no = 0, $message = FALSE)
+	function organizations($page_no = 0, $messages = FALSE)
 	{
-		$this->views->load_organizations($page_no, $message);
+		$this->views->load_organizations($page_no, $messages);
 	}
 	
 	function confirm($orgid)
 	{
 		$user = $this->session->userdata('user');
-		$this->Student_model->confirm($user['studentid'],$orgid);
+		$this->Student_model->confirm($user['studentid'], $orgid, $this->aysem);
 		$org = $this->Organization_model->get_organization($orgid);
-		$this->organizations(0,'You have successfully confirmed your membership to '.$org['orgname'].'!');
+		$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
 	}
 	
 	function unconfirm($orgid)
 	{
 		$user = $this->session->userdata('user');
-		$this->Student_model->unconfirm($user['studentid'],$orgid);
+		$this->Student_model->unconfirm($user['studentid'], $orgid, $this->aysem);
 		$org = $this->Organization_model->get_organization($orgid);
-		$this->organizations(0,'You have successfully removed your membership from '.$org['orgname'].'!');
+		$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
 	}
 	
 	function upload()
@@ -73,7 +75,7 @@ class Student extends Controller {
 		$data['span'] = 19;
 		$data['message'] = FALSE;
 		$data['stylesheets'] = array('login.css');
-		$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'],20093); //TODO Current AYSEM
+		$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'], $this->aysem);
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('student/upload',$data);
@@ -93,16 +95,16 @@ class Student extends Controller {
 		if (!$this->upload->do_upload())
 		{
 			$data['message'] = $this->upload->display_errors();	
-			$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'],20093); //TODO Current AYSEM
+			$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'], $this->aysem);
 			$this->load->view('student/upload', $data);
 		}	
 		else
 		{	
 			$img_data = $this->upload->data();
-			$this->Student_model->set_studentpicture($user_data['studentid'],$img_data['file_name']);
+			$this->Student_model->set_studentpicture($user_data['studentid'], $this->aysem, $img_data['file_name']);
 			
 			$data['message'] = "Upload Successful!";			
-			$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'],20093); //TODO Current AYSEM
+			$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'],$this->aysem);
 			
 			$this->load->view('student/upload', $data);
 		}
@@ -111,7 +113,7 @@ class Student extends Controller {
 	
 	function index()
 	{
-		$this->announcements();
+		$this->organizations();
 	}
 }
 

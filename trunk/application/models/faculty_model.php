@@ -6,26 +6,35 @@ class Faculty_model extends Model{
 		parent::__construct();
 	}
 	
-	function get_organizations($facultyid, $limit = 20, $offset = 0){
+	function get_organizations($facultyid, $aysem, $limit = 20, $offset = 0){
 		$this->db->from('organizations o');
 		$this->db->join('orgadvisers oa', 'oa.organizationid = o.organizationid');
 		$this->db->where('facultyid', $facultyid);
+		$this->db->where('aysem',$aysem);
 		$this->db->order_by('orgname');
-		$this->db->limit($limit, $offset);
+		//$this->db->limit($limit, $offset);
 		
 		$query = $this->db->get();
 		return($query->result_array());
 	}
 	
-	function confirm($facultyid, $orgid){
+	function has_profile($facultyid){
+		$this->db->from('facultyprofile');
+		$this->db->where('facultyid',$facultyid);
+		return $this->db->count_all_results() == 1;
+	}
+	
+	function confirm($facultyid, $aysem, $orgid){
 		$this->db->where('facultyid',$facultyid);
 		$this->db->where('organizationid',$orgid);
+		$this->db->where('aysem',$aysem);
 		$this->db->update('orgadvisers',array('confirmed'=>'true'));
 	}
 	
-	function unconfirm($facultyid, $orgid){
+	function unconfirm($facultyid, $aysem, $orgid){
 		$this->db->where('facultyid',$facultyid);
 		$this->db->where('organizationid',$orgid);
+		$this->db->where('aysem',$aysem);
 		$this->db->update('orgadvisers',array('confirmed'=>'false'));
 	}
 }

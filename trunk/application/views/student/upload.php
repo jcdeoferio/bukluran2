@@ -11,7 +11,7 @@
 	</div>
 	<?endif;?>
 	
-	<?if(isset($image)):?>
+	<?if(array_key_exists('filepath',$image)):?>
 	Current Picture:<?=br(2)?>
 	<?=img(array('src'=>'./uploads/'.$image['filepath'],'width'=>'100%'))?>
 	<?endif;?>
