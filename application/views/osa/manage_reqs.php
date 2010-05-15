@@ -16,7 +16,7 @@
 	<? endif; ?>
 	
 	<? if(count($reqs) > 0): ?>
-	
+	<a href="<?= site_url("osa/add_req/{$appsemid}") ?>">Add a Requirement</a>
 	<table class="tablesorter">
 		<thead>
 		<tr>
@@ -28,7 +28,7 @@
 		<? foreach($reqs as $req): ?>
 		<tr>
 			<td><?= $req['name'] ?></td>
-			<td><a href="#">Edit</a></td>
+			<td><a href="<?= site_url("osa/edit_req/{$req['requirementid']}") ?>">Edit</a></td>
 		</tr>
 		<? endforeach; ?>
 		</tbody>

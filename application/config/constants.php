@@ -44,11 +44,15 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('USER', 'user');
 define('VALERR', 'valerr');
+define('POSTBACKVAR', 'postbackvar');
 
 define('STUDENT_GROUPID', 1);
 define('FACULTY_GROUPID', 2);
 define('ORG_GROUPID', 3);
 define('OSA_GROUPID', 4);
+
+define('REQ_NAME_MAXLENGTH', 128);
+define('REQ_DESC_MAXLENGTH', 1024);
 
 
 /* End of file constants.php */

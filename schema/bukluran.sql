@@ -109,6 +109,10 @@ CREATE TABLE requirements(
 	appsemid smallint NOT NULL REFERENCES appsems,
 	name varchar(128) NOT NULL,
 	description varchar(1024),
+	insertedon timestamp DEFAULT now(),
+	insertedby integer REFERENCES loginaccounts(loginaccountid),
+	updatedon timestamp DEFAULT now(),
+	updatedby integer REFERENCES loginaccounts(loginaccountid),
 	CONSTRAINT requirements_unique UNIQUE (appsemid, name));
 	
 CREATE TABLE orgsubmittedrequirements(

@@ -2,16 +2,19 @@
 	<div class="contentHeader_text">
 		<? if($action === ACTION_ADD_REQ): ?>
 			Add
-		<? elseif($action === ACTION_ADD_REQ): ?>
+		<? elseif($action === ACTION_EDIT_REQ): ?>
 			Edit
 		<? endif; ?>
 		a Requirement
 	</div>
-	<p><?= $this->session->validation_errors() ?></p>
+	
+	<a href="<?= site_url("osa/manage_reqs/{$appsemid}") ?>">Back to Manage Requirements</a>
+	
+	<p></p><?= $this->session->validation_errors() ?></p>
 	
 	<? if($action === ACTION_ADD_REQ): ?>
 		Adding
-	<? elseif($action === ACTION_ADD_REQ): ?>
+	<? elseif($action === ACTION_EDIT_REQ): ?>
 		Editing
 	<? endif; ?>
 	a requirement for application period: <strong><?= $pretty_application_aysem ?></strong>
@@ -19,11 +22,11 @@
 	<table>
 		<tr>
 			<td><?= form_label('Name:', 'name') ?></td>
-			<td><?= form_input('name', set_value('name')?:$name) ?></td>
+			<td><?= form_input('name', $postback['name']?:$name, 'maxlength="'.REQ_NAME_MAXLENGTH.'" size="46"') ?></td>
 		</tr>
 		<tr>
 			<td><?= form_label('Description:', 'description') ?></td>
-			<td><?= form_textarea('description', set_value('description')?:$description) ?></td>
+			<td><?= form_textarea('description', $postback['description']?:$description) ?></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -32,7 +35,7 @@
 					$submittext = NULL;
 					if($action === ACTION_ADD_REQ)
 						$submittext = 'Add Requirement';
-					else
+					else if($action === ACTION_EDIT_REQ)
 						$submittext = 'Edit Requirement';
 				?>
 				
