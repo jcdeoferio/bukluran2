@@ -32,7 +32,24 @@ $this->pagination->initialize($config);
 		<?php endforeach;?>
 	</tbody>
 	</table>
+	<div id="pagination">
+		<?=form_open()?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/first.png",'class'=>"first"))?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/prev.png",'class'=>"prev"))?>
+			<?=form_input(array('class'=>'pagedisplay'))?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/next.png",'class'=>"next"))?> 
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/last.png",'class'=>"last"))?> 
+			<?=form_dropdown('pagesize',array(
+				10=>10,
+				20=>20,
+				30=>30,
+				40=>40
+			),'10','class="pagesize"')?>
+		<?=form_close()?>
+	</div>
+	<!--
 	<?=$this->pagination->create_links();?>
+	-->
 	<br/>
 	<?= anchor('osa/create_organization', 'Add New Organization'); ?>
 	<?php endif;?>

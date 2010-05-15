@@ -20,7 +20,7 @@ class Organization_model extends Model{
 	function get_organizations($limit = 20, $offset = 0){
 		$this->db->from('organizations o');
 		$this->db->order_by('orgname');
-		$this->db->limit($limit, $offset);
+		//$this->db->limit($limit, $offset);
 		
 		$query = $this->db->get();
 		return($query->result_array());

@@ -32,7 +32,9 @@
 	<script src="<?= base_url().'layout/js/jquery-ui-1.8.custom.min.js' ?>" type="text/javascript"></script>
 	<!-- jQuery Tablesorter 2.0 Plug-in -->
 	<script src="<?= base_url().'layout/js/jquery.tablesorter.min.js' ?>" type="text/javascript"></script>
+	<script src="<?= base_url().'layout/js/jquery.tablesorter.pager.js' ?>" type="text/javascript"></script>
 	<?= link_tag('layout/css/bluesorter/style.css','stylesheet','text/css','','screen')."\n";?>
+	<?= link_tag('layout/css/jquery.tablesorter.pager.css','stylesheet','text/css','','screen')."\n";?>
 	<!-- jQuery UI Blitzer Theme -->
 	<?= link_tag('layout/css/blitzer/jquery-ui-1.8.custom.css','stylesheet','text/css','','screen')."\n";?>
 	
