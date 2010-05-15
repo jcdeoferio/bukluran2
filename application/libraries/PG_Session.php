@@ -27,10 +27,15 @@ class PG_Session extends CI_Session{
 			return('guest');
 	}
 	
+	function save_validation_errors(){
+		$this->set_userdata(VALERR, validation_errors());
+	}
+	
 	function validation_errors(){
 		if($this->userdata(VALERR)){
 			$validation_errors = $this->userdata(VALERR);
 			$this->unset_userdata(VALERR);
+			
 			return($validation_errors);
 		}
 		else

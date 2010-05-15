@@ -82,5 +82,29 @@ class Osa_model extends Model{
 		return $password;
 	}
 	
+	function requirements_appsem($appsemid){
+		$this->db->select('requirementid, name, description');
+		$this->db->from('requirements');
+		$this->db->where('appsemid', $appsemid);
+		$this->db->order_by('name');
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
+	function add_req($appsemid, $name, $description){
+		$this->db->set('appsemid', $appsemid);
+		$this->db->set('name', $name);
+		$this->db->set('description', $description);
+		$this->db->insert('requirements');
+	}
+	
+	function is_unique_req_name($name){
+		$this->db->from('requirements');
+		$this->db->where('name', $name);
+		
+		return($this->db->count_all_results() == 0);
+	}
+	
 }
 

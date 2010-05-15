@@ -1,4 +1,8 @@
 <?php
+
+define('ACTION_ADD_REQ', 'addreq');
+define('ACTION_EDIT_REQ', 'editreq');
+
 class Osa extends Controller {
 	
 	private $sidebar_data;
@@ -10,13 +14,16 @@ class Osa extends Controller {
 			redirect('login');
 			
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('osa/announcements', 'osa/create_announcement', 'osa/organizations', 'osa/manage_app_period');
-		$this->sidebar_data['anchors'] = array('Announcements', 'Create Announcement', 'Manage Organizations', 'Manage Application Period');
+		$this->sidebar_data['hrefs'] = array('osa/announcements', 'osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
+		$this->sidebar_data['anchors'] = array('Announcements', 'Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
 		
 		$this->load->helper('html');
 		$this->load->helper('form');
 		
 		$this->load->model('Osa_model');
+		$this->load->model('Variable');
+		
+		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 		
 		$params['sidebar'] = $this->sidebar_data;
 		
@@ -132,8 +139,73 @@ class Osa extends Controller {
 		$this->views->footer();
 	}
 	
+	function manage_reqs($appsemid = CURRENT_APPSEM){
+		$data['title'] = "Manage Requirements - OSA";
+		
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['reqs'] = $this->Osa_model->requirements_appsem($appsemid);
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/manage_reqs', $content_data);
+		$this->views->footer();
+	}
+	
+	function add_req($appsemid = NULL){
+		if(is_null($appsemid))
+			redirect('osa/manage_reqs');
+		
+		$data['title'] = "Add a Requirement - OSA";
+		
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['action'] = ACTION_ADD_REQ;
+		$content_data['submit_url'] = "osa/add_req_submit/{$appsemid}";
+		$content_data['name'] = '';
+		$content_data['description'] = '';
+		
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/req_form', $content_data);
+		$this->views->footer();
+	}
+	
+	function add_req_submit($appsemid = NULL){
+		if(is_null($appsemid))
+			redirect('osa/manage_reqs');
+			
+		$this->form_validation->set_rules('name', 'Name', 'required|callback__req_name_check');
+		
+		if($this->form_validation->run()){
+			$name = $this->input->post('name');
+			$description = $this->input->post('description');
+			
+			$this->Osa_model->add_req($appsemid, $name, $description);
+			
+			redirect("osa/manage_reqs/{$appsemid}");
+		}
+		else{
+			$this->session->save_validation_errors();
+			redirect("osa/add_req/{$appsemid}");
+		}
+	}
+	
+	function _req_name_check($name){
+		if(strlen($name) > 128){
+			$this->form_validation->set_message('_req_name_check', '%s is too long');
+			return(FALSE);
+		}
+		
+		if(!$this->Osa_model->is_unique_req_name($name)){
+			$this->form_validation->set_message('_req_name_check', "Requirement '{$name}' already exists");
+			return(FALSE);
+		}
+		
+		return(TRUE);
+	}
+	
 	function manage_app_period(){
-		$this->load->model('Variable');
 		$this->load->helper('date');
 		
 		$data['title'] = "Manage Application Period - OSA";
