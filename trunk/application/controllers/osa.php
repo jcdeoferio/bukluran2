@@ -76,7 +76,7 @@ class Osa extends Controller {
 		$this->form_validation->set_message('_orgusername_check', 'Username already exists, please use another.');
 		
 		if(!$this->form_validation->run()){
-			$this->session->set_userdata(VALERR, validation_errors());
+			$this->session->save_validation_errors();
 			redirect('osa/create_organization');
 		}
 		
@@ -162,6 +162,7 @@ class Osa extends Controller {
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['action'] = ACTION_ADD_REQ;
 		$content_data['submit_url'] = "osa/add_req_submit/{$appsemid}";
+		$content_data['postback'] = $this->session->postback_variable();
 		$content_data['name'] = '';
 		$content_data['description'] = '';
 		
@@ -175,30 +176,108 @@ class Osa extends Controller {
 		if(is_null($appsemid))
 			redirect('osa/manage_reqs');
 			
-		$this->form_validation->set_rules('name', 'Name', 'required|callback__req_name_check');
-		
-		if($this->form_validation->run()){
-			$name = $this->input->post('name');
-			$description = $this->input->post('description');
+		$postback['name'] = $this->input->post('name');
+		$postback['description'] = $this->input->post('description');
 			
-			$this->Osa_model->add_req($appsemid, $name, $description);
+		if($this->_validate_req_form(ACTION_ADD_REQ)){
+			$this->Osa_model->add_req($appsemid, $postback['name'], $postback['description']);
 			
 			redirect("osa/manage_reqs/{$appsemid}");
 		}
 		else{
 			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
 			redirect("osa/add_req/{$appsemid}");
 		}
 	}
 	
-	function _req_name_check($name){
-		if(strlen($name) > 128){
-			$this->form_validation->set_message('_req_name_check', '%s is too long');
+	function edit_req($requirementid = NULL){
+		if(is_null($requirementid))
+			redirect('osa/manage_reqs');
+			
+		$data['title'] = "Edit a Requirement - OSA";
+		
+		$requirement = $this->Osa_model->get_requirement($requirementid);
+
+		$content_data['appsemid'] = $requirement['appsemid'];
+		$content_data['name'] = $requirement['name'];
+		$content_data['description'] = $requirement['description'];
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($requirement['appsemid']);
+		$content_data['action'] = ACTION_EDIT_REQ;
+		$content_data['submit_url'] = "osa/edit_req_submit/{$requirement['requirementid']}";
+		$content_data['postback'] = $this->session->postback_variable();
+		
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/req_form', $content_data);
+		$this->views->footer();
+	}
+	
+	function edit_req_submit($requirementid = NULL){
+		if(is_null($requirementid))
+			redirect('osa/manage_reqs');
+			
+		$validated = $this->_validate_req_form(ACTION_EDIT_REQ);
+		
+		$requirement = $this->Osa_model->get_requirement($requirementid);
+		$name = $this->input->post('name');
+		
+		$name_changed = $requirement['name'] !== $name;
+		
+		if($name_changed && !$this->_req_name_unique_check($name)){
+			$this->session->add_validation_error("Requirement '{$name}' already exists");
+			$validated = FALSE;
+		}
+			
+		if($validated){
+			$description = $this->input->post('description');
+			
+			$this->Osa_model->edit_req($requirementid, $name_changed?$name:NULL, $description);
+			
+			redirect("osa/manage_reqs/{$requirement['appsemid']}");
+		}
+		else{
+			$postback['name'] = $this->input->post('name');
+			$postback['description'] = $this->input->post('description');
+			
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+			redirect("osa/edit_req/{$requirementid}");
+		}
+	}
+	
+	function _validate_req_form($action){
+		if($action === ACTION_ADD_REQ)
+			$this->form_validation->set_rules('name', 'Name', 'required|callback__req_name_length_check|callback__req_name_unique_check');
+		else if($action === ACTION_EDIT_REQ)
+			$this->form_validation->set_rules('name', 'Name', 'required|callback__req_name_length_check');
+			
+		$this->form_validation->set_rules('description', 'Description', 'required|callback__req_description_check');
+		
+		return($this->form_validation->run());
+	}
+	
+	function _req_name_length_check($name){
+		if(strlen($name) > REQ_NAME_MAXLENGTH){
+			$this->form_validation->set_message('_req_name_length_check', '%s is too long');
 			return(FALSE);
 		}
 		
+		return(TRUE);
+	}
+	
+	function _req_name_unique_check($name){
 		if(!$this->Osa_model->is_unique_req_name($name)){
-			$this->form_validation->set_message('_req_name_check', "Requirement '{$name}' already exists");
+			$this->form_validation->set_message('_req_name_unique_check', "Requirement '{$name}' already exists");
+			return(FALSE);
+		}
+		
+		return(TRUE);
+	}
+	
+	function _req_description_check($description){
+		if(strlen($description) > REQ_DESC_MAXLENGTH){
+			$this->form_validation->set_message('_req_description_check', '%s is too long');
 			return(FALSE);
 		}
 		

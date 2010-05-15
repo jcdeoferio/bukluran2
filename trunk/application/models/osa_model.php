@@ -92,11 +92,31 @@ class Osa_model extends Model{
 		return($query->result_array());
 	}
 	
+	function get_requirement($requirementid){
+		$this->db->select('requirementid, appsemid, name, description');
+		$this->db->from('requirements');
+		$this->db->where('requirementid', $requirementid);
+		
+		$query = $this->db->get();
+		return($query->row_array());
+	}
+	
 	function add_req($appsemid, $name, $description){
 		$this->db->set('appsemid', $appsemid);
 		$this->db->set('name', $name);
 		$this->db->set('description', $description);
+		$this->db->set('insertedby', $this->session->loginaccountid());
 		$this->db->insert('requirements');
+	}
+	
+	function edit_req($requirementid, $name, $description){
+		if(!is_null($name))
+			$this->db->set('name', $name);
+			
+		$this->db->set('description', $description);
+		$this->db->set('updatedon', 'now()', FALSE);
+		$this->db->set('updatedby', $this->session->loginaccountid());
+		$this->db->update('requirements');
 	}
 	
 	function is_unique_req_name($name){
