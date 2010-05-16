@@ -22,6 +22,9 @@ class Osa extends Controller {
 		
 		$this->load->model('Osa_model');
 		$this->load->model('Variable');
+		$this->load->model('Organization_model');
+		
+		$this->load->library('Emailer');
 		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 		
@@ -441,6 +444,21 @@ class Osa extends Controller {
 	function _sem_check($sem){
 		return(in_array($sem, array(1, 2 ,3)));
 	}
+	
+	function send_to_all_orgs($subject, $message){
+		$query = $this->Organization_model->get_organization_profiles();
+		foreach ($query->result_array() as $row)
+		{
+			$this->Emailer->send_email($row['heademail'],$subject,$message);
+		}
+	}
+	
+	function send_to_org($orgid, $subject, $message){
+		$query = $this->Organization_model->get_organization_profile($orgid);
+		$row = $query->row_array();
+		$this->Emailer->send_email($row['heademail'],$subject,$message);
+	}
+	
 }
 
 /* End of file osa.php */

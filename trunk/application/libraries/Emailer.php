@@ -1,0 +1,1 @@
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');class Emailer extends Email{    function send_email($email, $subject, $message)    {			$this->from('up.bukluran@gmail.com', 'Bukluran');		$this->to($email);		$this->subject($subject);				$this->message($message);		$this->send();		echo $this->email->print_debugger();    }}?>
