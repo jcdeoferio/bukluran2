@@ -66,5 +66,4 @@ class Organization_model extends Model{
 		$query = $this->db->get();
 		return($query->result_array());
 	}
-	}
 }
