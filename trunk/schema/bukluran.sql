@@ -118,6 +118,12 @@ CREATE TABLE requirements(
 CREATE TABLE orgsubmittedrequirements(
 	organizationid integer REFERENCES organizations,
 	requirementid integer REFERENCES requirements,
+	submittedon date NOT NULL DEFAULT now(),
+	comments varchar(1024),
+	insertedon timestamp DEFAULT now(),
+	insertedby integer REFERENCES loginaccounts(loginaccountid),
+	updatedon timestamp DEFAULT now(),
+	updatedby integer REFERENCES loginaccounts(loginaccountid),
 	CONSTRAINT orgsumittedrequirements_pk PRIMARY KEY (organizationid, requirementid));
 	
 CREATE TABLE variables(

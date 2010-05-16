@@ -3,9 +3,11 @@
 		Manage Requirements
 	</div>
 	
+	<p>
 	Currently managing requirements for application period <strong><?= $pretty_application_aysem ?></strong>
+	</p>
 	
-	<? if(count($appsems) > 0): ?>
+	<? if(count($appsems) > 1): ?>
 	
 	<?= form_open('osa/manage_reqs_change_appsem') ?>
 	Manage requirements for different application period:
@@ -16,7 +18,7 @@
 	<? endif; ?>
 	
 	<? if(count($reqs) > 0): ?>
-	<a href="<?= site_url("osa/add_req/{$appsemid}") ?>">Add a Requirement</a>
+	<?= anchor("osa/add_req/{$appsemid}", 'Add a Requirement') ?>
 	<table class="tablesorter">
 		<thead>
 		<tr>

@@ -7,10 +7,10 @@
 		<? endif; ?>
 		a Requirement
 	</div>
+
+	<?= anchor("osa/manage_reqs/{$appsemid}", 'Back to Manage Requirements') ?>
 	
-	<a href="<?= site_url("osa/manage_reqs/{$appsemid}") ?>">Back to Manage Requirements</a>
-	
-	<p></p><?= $this->session->validation_errors() ?></p>
+	<p><?= $this->session->validation_errors() ?></p>
 	
 	<? if($action === ACTION_ADD_REQ): ?>
 		Adding

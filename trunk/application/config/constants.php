@@ -51,9 +51,12 @@ define('FACULTY_GROUPID', 2);
 define('ORG_GROUPID', 3);
 define('OSA_GROUPID', 4);
 
+//===OSA Manage Requirements Module===
 define('REQ_NAME_MAXLENGTH', 128);
 define('REQ_DESC_MAXLENGTH', 1024);
 
+//===OSA Manage Organization Requirements Module===
+define('ORG_REQ_COMMENT_MAXLENGTH', 1024);
 
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

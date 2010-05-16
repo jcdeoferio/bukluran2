@@ -41,7 +41,11 @@ class PG_Session extends CI_Session{
 	}
 	
 	function postback_variable(){
-		return($this->userdata(POSTBACKVAR));
+		$postback = $this->userdata(POSTBACKVAR);
+		
+		$this->unset_userdata(POSTBACKVAR);
+		
+		return($postback);
 	}
 	
 	function save_validation_errors(){
