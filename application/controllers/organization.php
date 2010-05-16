@@ -5,7 +5,7 @@ class Organization extends Controller {
 	{
 		parent::Controller();
 		
-		if(!$this->session->user_group_is(ORG_GROUPID))
+		if(!$this->session->user_group_is(ORG_GROUPID) || !$this->session->user_group_is(OSA_GROUPID))
 			redirect('login');
 		
 		$this->load->helper('html');

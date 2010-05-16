@@ -139,6 +139,8 @@ class Osa extends Controller {
 		$this->views->footer();
 	}
 	
+	//=============MANAGE REQUIREMENTS MODULE=============
+	
 	function manage_reqs($appsemid = CURRENT_APPSEM){
 		$data['title'] = "Manage Requirements - OSA";
 		
@@ -150,6 +152,10 @@ class Osa extends Controller {
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/manage_reqs', $content_data);
 		$this->views->footer();
+	}
+	
+	function manage_reqs_change_appsem(){
+		redirect("osa/manage_reqs/{$this->input->post('appsem')}");
 	}
 	
 	function add_req($appsemid = NULL){
@@ -252,7 +258,7 @@ class Osa extends Controller {
 		else if($action === ACTION_EDIT_REQ)
 			$this->form_validation->set_rules('name', 'Name', 'required|callback__req_name_length_check');
 			
-		$this->form_validation->set_rules('description', 'Description', 'required|callback__req_description_check');
+		$this->form_validation->set_rules('description', 'Description', 'callback__req_description_check');
 		
 		return($this->form_validation->run());
 	}
@@ -283,6 +289,111 @@ class Osa extends Controller {
 		
 		return(TRUE);
 	}
+	
+	//=============MANAGE ORGANIZATION REQUIREMENTS MODULE=============
+	
+	function org_reqs($organizationid = NULL, $appsemid = CURRENT_APPSEM){
+		if(is_null($organizationid))
+			redirect('osa/organizations');
+		
+		$data['title'] = "Requirements - OSA";
+		
+		$this->load->model('Orgrequirement_model');
+		$this->load->model('Organization_model');
+		
+		$content_data['org_reqs'] = $this->Orgrequirement_model->get_requirements_appsem($organizationid, $appsemid);
+		$content_data['org'] = $this->Organization_model->get_organization($organizationid);
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/requirements', $content_data);
+		$this->views->footer();
+	}
+	
+	function org_reqs_change_appsem($organizationid){
+		redirect("osa/org_reqs/{$organizationid}/{$this->input->post('appsem')}");
+	}
+	
+	function manage_org_req($organizationid = NULL, $requirementid = NULL){
+		if(is_null($organizationid) || is_null($requirementid))
+			redirect('osa/organizations');
+		
+		$data['title'] = "View/Edit Organization Requirement Details - OSA";
+		
+		$this->load->model('Orgrequirement_model');
+		$this->load->model('Organization_model');
+		
+		$org_req = $this->Orgrequirement_model->get_requirement($organizationid, $requirementid);
+		
+		$content_data['org_req'] = $org_req;
+		$content_data['org'] = $this->Organization_model->get_organization($organizationid);
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($org_req['appsemid']);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['submit_url'] = "osa/manage_org_req_submit/{$organizationid}/{$requirementid}";
+		$content_data['editable'] = TRUE;
+		$content_data['postback'] = $this->session->postback_variable();
+		
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/req_details', $content_data);
+		$this->views->footer();
+	}
+	
+	function manage_org_req_submit($organizationid = NULL, $requirementid = NULL){
+		if(is_null($organizationid) || is_null($requirementid))
+			redirect('osa/organizations');
+		
+		$postback['submitted'] = $this->input->post('submitted');
+		$postback['submittedon'] = $this->input->post('submittedon');
+		$postback['comments'] = $this->input->post('comments');
+		
+		if($this->_validate_org_req_form()){
+			$this->load->model('Orgrequirement_model');
+			
+			$this->Orgrequirement_model->update_requirement($organizationid, $requirementid, $postback['submitted'], $postback['submittedon'], $postback['comments']);
+			
+			$requirement = $this->Osa_model->get_requirement($requirementid);
+			
+			redirect("osa/org_reqs/{$organizationid}/{$requirement['appsemid']}");
+		}
+		else{
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+			redirect("osa/manage_org_req/{$organizationid}/{$requirementid}");
+		}
+	}
+	
+	function _validate_org_req_form(){
+		if($this->input->post('submitted')){
+			$this->form_validation->set_rules('submittedon', 'Date Submitted', 'required|callback__valid_date_check');
+			$this->form_validation->set_rules('comments', 'Comments', 'callback__org_req_comment_check');
+			
+			return($this->form_validation->run());
+		}
+		else{
+			return(TRUE);
+		}
+	}
+	
+	function _valid_date_check($date){
+		$this->load->helper('date');
+		
+		$this->form_validation->set_message('_valid_date_check', 'Invalid date for %s');
+		
+		return(is_valid_date_format($date));
+	}
+	
+	function _org_req_comment_check($comments){
+		if(strlen($comments) > ORG_REQ_COMMENT_MAXLENGTH){
+			$this->form_validation->set_message('_org_req_comment_check', '%s are too long');
+			return(FALSE);
+		}
+		
+		return(TRUE);
+	}
+	
+	//=============MANAGE APPLICATION PERIOD MODULE=============
 	
 	function manage_app_period(){
 		$this->load->helper('date');

@@ -9,8 +9,8 @@ class Organization_model extends Model{
 	function get_organization($organizationid){
 		$this->db->from('organizations o');
 		$this->db->join('orgprofiles p','o.organizationid = p.organizationid');
-		$this->db->join('(SELECT orgcategoryid, description AS categorydesc FROM orgcategories) cat','cat.orgcategoryid = p.orgcategoryid');
-		$this->db->join('(SELECT orgstatusid, description AS statusdesc FROM orgstatuses) stat','stat.orgstatusid = p.orgstatusid');
+		$this->db->join('orgcategories cat','cat.orgcategoryid = p.orgcategoryid');
+		$this->db->join('orgstatuses stat','stat.orgstatusid = p.orgstatusid');
 		$this->db->where('o.organizationid', $organizationid);
 		
 		$query = $this->db->get();
