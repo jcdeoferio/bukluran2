@@ -149,6 +149,7 @@ CREATE TABLE facultyprofile(
 	facultyprofileid serial PRIMARY KEY,
 	facultyid integer REFERENCES faculty UNIQUE NOT NULL,
 	firstname varchar(32),
+	middlename varchar(32),
 	lastname varchar(32),
 	department varchar(32),
 	college varchar(32),

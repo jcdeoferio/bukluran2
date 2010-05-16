@@ -15,8 +15,8 @@ class Faculty extends Controller {
 		
 		
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('faculty/organizations','faculty/view_profile');
-		$this->sidebar_data['anchors'] = array('Manage Organizations','View Profile');
+		$this->sidebar_data['hrefs'] = array('faculty/organizations','faculty/view_profile','faculty/edit_profile');
+		$this->sidebar_data['anchors'] = array('Manage Organizations','View Profile','Edit Profile');
 		
 		$params['sidebar'] = $this->sidebar_data;
 		
@@ -48,18 +48,38 @@ class Faculty extends Controller {
 		$this->views->load_organizations($page_no, $messages);
 	}
 	
-	function view_profile()
+	function view_profile($messages = FALSE)
 	{
+		$user = $this->session->userdata(USER);
+		if(!$this->Faculty_model->has_profile($user['facultyid'])){
+			if(!$messages)$messages = array();
+			$messages[] = "Your profile is not yet set. ".anchor('faculty/edit_profile','Click here')." to create your profile."; 
+		}
+		
 		$data['title'] = 'Profile - '.$this->session->username();
+		$data['span'] = 19;
+		$data['messages'] = $messages;
+		$data['faculty'] = $this->Faculty_model->get_profile($user['facultyid']);
+		
 		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('faculty/view_profile',$data);
 		$this->views->footer();
 	}
 	
-	function edit_profile()
+	function edit_profile($messages = FALSE)
 	{
 		$data['title'] = 'Profile - '.$this->session->username();
+		$data['span'] = 19;
+		$data['messages'] = $messages;
+		
 		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('faculty/edit_profile',$data);
 		$this->views->footer();
+	}
+	
+	function edit_profile_submit()
+	{
+		$this->edit_profile();
 	}
 	
 	function confirm($orgid)

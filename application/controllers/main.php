@@ -19,7 +19,7 @@ class Main extends Controller {
 	{	
 		if($this->session->logged_in()){
 			$userdata = $this->session->userdata(USER);
-			redirect($userdata['groupname']);
+			redirect($userdata['groupname'].'/announcements');
 		}
 		redirect('main/announcements');
 	} 
