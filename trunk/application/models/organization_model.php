@@ -44,4 +44,27 @@ class Organization_model extends Model{
 		$query = $this->db->get();
 		return($query->result_array());
 	}
+	
+	function get_members($orgid){
+		$sem = $this->Variable->current_app_aysem();
+		$this->db->from('students s');
+		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
+		$this->db->where('m.organizationid', $orgid);
+		$this->db->where('m.appsemid', $sem);
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
+	function get_advisers($orgid){
+		$sem = $this->Variable->current_app_aysem();
+		$this->db->from('faculty f');
+		$this->db->join('orgadvisers a', 'f.facultyid = a.facultyid');
+		$this->db->where('a.organizationid', $orgid);
+		$this->db->where('a.appsemid', $sem);
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	}
 }

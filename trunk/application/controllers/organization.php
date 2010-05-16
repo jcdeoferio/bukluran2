@@ -12,6 +12,9 @@ class Organization extends Controller {
 		$this->load->helper('url');
 		$this->load->helper('form');
 		
+		$this->load->model('Variable');
+		$this->load->model('Organization_model');
+		
 		$this->sidebar_data = array();
 		$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
 		$this->sidebar_data['anchors'] = array('Application Forms','Change Password');
@@ -129,6 +132,22 @@ class Organization extends Controller {
 	function announcements($page_no = 0,$announcement_id = -1)
 	{
 		$this->views->load_announcements($page_no,$announcement_id);
+	}
+	
+	function send_member_confirmation_emails($orgid){
+		$query = $this->Organization_model->get_members($orgid);
+		foreach ($query->result_array() as $row)
+		{
+			$this->Emailer->send_email($row['webmail'],$subject,$message);
+		}
+	}
+	
+	function send_adviser_confirmation_emails($orgid){
+		$query = $this->Organization_model->get_advisers($orgid);
+		foreach ($query->result_array() as $row)
+		{
+			$this->Emailer->send_email($row['webmail'],$subject,$message);
+		}
 	}
 }
 
