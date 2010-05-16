@@ -25,4 +25,23 @@ class Organization_model extends Model{
 		$query = $this->db->get();
 		return($query->result_array());
 	}
+	
+	function get_organization_profile($orgid){
+		$sem = $this->Variable->current_app_aysem();
+		$this->db->from('orgprofiles p');
+		$this->db->where('p.appsemid', $sem);
+		$this->db->where('p.organizationid', $orgid);
+		
+		$query = $this->db->get();
+		return($query->row_array());
+	}
+	
+	function get_organization_profiles($limit = 20, $offset = 0){
+		$sem = $this->Variable->current_app_aysem();
+		$this->db->from('orgprofiles p');
+		$this->db->where('p.appsemid', $sem);
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
 }
