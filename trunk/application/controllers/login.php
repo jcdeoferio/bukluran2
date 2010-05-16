@@ -99,7 +99,19 @@ class Login extends Controller {
 		}
 	}
 	
+	function lost_link(){
+		
+	}
+	
+	function lost_link_submit(){
+		
+	}
+	
 	function lost_pass(){
+		
+	}
+	
+	function lost_pass_submit(){
 		
 	}
 }

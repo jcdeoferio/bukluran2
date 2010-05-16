@@ -24,6 +24,13 @@ class Faculty_model extends Model{
 		return $this->db->count_all_results() == 1;
 	}
 	
+	function get_profile($facultyid){
+		$this->db->from('facultyprofile');
+		$this->db->where('facultyid',$facultyid);
+		$query = $this->db->get();
+		return($query->row_array());
+	}
+	
 	function confirm($facultyid, $aysem, $orgid){
 		$this->db->where('facultyid',$facultyid);
 		$this->db->where('organizationid',$orgid);
