@@ -447,7 +447,7 @@ class Osa extends Controller {
 	
 	function send_to_all_orgs($subject, $message){
 		$query = $this->Organization_model->get_organization_profiles();
-		foreach ($query->result_array() as $row)
+		foreach ($query as $row)
 		{
 			$this->Emailer->send_email($row['heademail'],$subject,$message);
 		}
@@ -455,8 +455,7 @@ class Osa extends Controller {
 	
 	function send_to_org($orgid, $subject, $message){
 		$query = $this->Organization_model->get_organization_profile($orgid);
-		$row = $query->row_array();
-		$this->Emailer->send_email($row['heademail'],$subject,$message);
+		$this->Emailer->send_email($query['heademail'],$subject,$message);
 	}
 	
 }
