@@ -26,8 +26,8 @@ class Organization_model extends Model{
 		return($query->result_array());
 	}
 	
-	function get_organization_profile($orgid){
-		$sem = $this->Variable->current_app_aysem();
+	function get_organization_profile($orgid, $sem){
+		//$sem = $this->Variable->current_app_aysem();
 		$this->db->from('orgprofiles p');
 		$this->db->where('p.appsemid', $sem);
 		$this->db->where('p.organizationid', $orgid);
@@ -36,17 +36,16 @@ class Organization_model extends Model{
 		return($query->row_array());
 	}
 	
-	function get_organization_profiles($limit = 20, $offset = 0){
-		$sem = $this->Variable->current_app_aysem();
+	function get_organization_profiles($aysem){
 		$this->db->from('orgprofiles p');
-		$this->db->where('p.appsemid', $sem);
+		$this->db->where('p.appsemid', $aysem);
 		
 		$query = $this->db->get();
 		return($query->result_array());
 	}
 	
-	function get_members($orgid){
-		$sem = $this->Variable->current_app_aysem();
+	function get_members($orgid, $sem){
+		//$sem = $this->Variable->current_app_aysem();
 		$this->db->from('students s');
 		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
 		$this->db->where('m.organizationid', $orgid);
@@ -56,8 +55,8 @@ class Organization_model extends Model{
 		return($query->result_array());
 	}
 	
-	function get_advisers($orgid){
-		$sem = $this->Variable->current_app_aysem();
+	function get_advisers($orgid, $sem){
+		//$sem = $this->Variable->current_app_aysem();
 		$this->db->from('faculty f');
 		$this->db->join('orgadvisers a', 'f.facultyid = a.facultyid');
 		$this->db->where('a.organizationid', $orgid);

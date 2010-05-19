@@ -135,7 +135,8 @@ class Organization extends Controller {
 	}
 	
 	function send_member_confirmation_emails($orgid){
-		$query = $this->Organization_model->get_members($orgid);
+		$sem = $this->Variable->current_application_aysem();
+		$query = $this->Organization_model->get_members($orgid, $sem);
 		foreach ($query->result_array() as $row)
 		{
 			$this->Emailer->send_email($row['webmail'],$subject,$message);
@@ -143,7 +144,8 @@ class Organization extends Controller {
 	}
 	
 	function send_adviser_confirmation_emails($orgid){
-		$query = $this->Organization_model->get_advisers($orgid);
+		$aysem = $this->Variable->current_application_aysem();
+		$query = $this->Organization_model->get_advisers($orgid, $aysem);
 		foreach ($query->result_array() as $row)
 		{
 			$this->Emailer->send_email($row['webmail'],$subject,$message);
