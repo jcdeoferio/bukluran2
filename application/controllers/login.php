@@ -25,7 +25,10 @@ class Login extends Controller {
 			$this->page();
 			return;
 		}
-		redirect('main');
+		
+		$userdata = $this->session->userdata(USER);
+		redirect($userdata['groupname']);
+		
 		/*
 		if($this->input->post('username') == 'osa')
 			redirect('osa');
@@ -82,7 +85,8 @@ class Login extends Controller {
 			$this->link();
 			return;
 		}
-		redirect('main');
+		$userdata = $this->session->userdata(USER);
+		redirect($userdata['groupname']);
 	}
 	
 	function _authenticate_link(){

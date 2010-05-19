@@ -11,6 +11,7 @@ $(document).ready(function(){
 	});
 
 	$('.tablesorter').tablesorter({widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pagination")});
+	$('.form_large #submit').removeClass('submit_default').button();
 /*
 	var notification = $('.notification');
 	var parent = $('.notification').parent();
