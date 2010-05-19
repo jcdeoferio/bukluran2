@@ -24,8 +24,6 @@ class Osa extends Controller {
 		$this->load->model('Variable');
 		$this->load->model('Organization_model');
 		
-		$this->load->library('Emailer');
-		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 		
 		$params['sidebar'] = $this->sidebar_data;
@@ -446,15 +444,20 @@ class Osa extends Controller {
 	}
 	
 	function send_to_all_orgs($subject, $message){
-		$query = $this->Organization_model->get_organization_profiles();
+		$this->load->library('Emailer');
+		
+		$aysem = $this->Variable->current_application_aysem();
+		$query = $this->Organization_model->get_organization_profiles($aysem);
 		foreach ($query as $row)
 		{
-			$this->Emailer->send_email($row['heademail'],$subject,$message);
+			$this->emailer->send_email($row['heademail'],$subject,$message);
 		}
+
 	}
 	
 	function send_to_org($orgid, $subject, $message){
-		$query = $this->Organization_model->get_organization_profile($orgid);
+		$aysem = $this->Variable->current_application_aysem();
+		$query = $this->Organization_model->get_organization_profile($orgid, $aysem);
 		$this->Emailer->send_email($query['heademail'],$subject,$message);
 	}
 	
