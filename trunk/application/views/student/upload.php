@@ -7,6 +7,7 @@
 	<div class="ui-state-highlight ui-corner-all notification">
 		<span class="ui-icon ui-icon-info notification-icon"></span> 
 		<?=$message?>
+		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span> 
 	</div>
 	</div>
 	<?endif;?>

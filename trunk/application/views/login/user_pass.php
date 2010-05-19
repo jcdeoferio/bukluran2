@@ -25,9 +25,4 @@
 		<?= form_close()."\n";?>
 		<?=anchor('login/lost_pass','Lost your password?').br(2)."\n";?>
 		For Students and Faculty, click <?=anchor('login/link','here')?>.
-
-<script type="text/javascript">
-	$('.form_large #submit').removeClass('submit_default').button();
-</script>
-
 </div>

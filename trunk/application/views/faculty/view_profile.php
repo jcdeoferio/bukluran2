@@ -13,13 +13,17 @@
 	</div>
 	<?endforeach;?>
 	<?endif;?>
-	<?if(count($faculty)!=0):?>
+	<?if($has_profile):?>
 		<b>Name:</b> <?=$faculty['lastname'].', '.$faculty['firstname'].' '.$faculty['middlename'].br(1)?>
 		<b>Department:</b> <?=$faculty['department'].br(1)?>
 		<b>College:</b> <?=$faculty['college'].br(1)?>
 		<b>Faculty Position and Rank:</b> <?=$faculty['faculty_position_and_rank'].br(2)?>
 		<b>Mobile Number:</b> <?=$faculty['mobile_number'].br(1)?>
 		<b>Home Number:</b> <?=$faculty['home_number'].br(1)?>
-		<b>Office Number:</b> <?=$faculty['office_number'].br(1)?>
+		<b>Office Number:</b> <?=$faculty['office_number'].br(2)?>
 	<?endif;?>
+		<b>UP Webmail:</b> <?=$faculty['webmail'].br(1)?>
+		<b>Email Address:</b> <?=$faculty['email'].br(2)?>
+		
+	<?= anchor('faculty/edit_profile','Edit Profile') ?>
 </div>

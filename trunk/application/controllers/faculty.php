@@ -11,6 +11,7 @@ class Faculty extends Controller {
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
+		//$this->load->library('form_validation');
 		$this->load->model('Osa_model');
 		
 		
@@ -51,15 +52,15 @@ class Faculty extends Controller {
 	function view_profile($messages = FALSE)
 	{
 		$user = $this->session->userdata(USER);
-		if(!$this->Faculty_model->has_profile($user['facultyid'])){
+		$data['has_profile'] = $this->Faculty_model->has_profile($user['facultyid']);
+		if(!$data['has_profile']){
 			if(!$messages)$messages = array();
 			$messages[] = "Your profile is not yet set. ".anchor('faculty/edit_profile','Click here')." to create your profile."; 
 		}
-		
 		$data['title'] = 'Profile - '.$this->session->username();
 		$data['span'] = 19;
 		$data['messages'] = $messages;
-		$data['faculty'] = $this->Faculty_model->get_profile($user['facultyid']);
+		$data['faculty'] = $this->Faculty_model->get_profile_and_details($user['facultyid']);
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('faculty/view_profile',$data);
@@ -68,9 +69,13 @@ class Faculty extends Controller {
 	
 	function edit_profile($messages = FALSE)
 	{
+		$user = $this->session->userdata(USER);
 		$data['title'] = 'Profile - '.$this->session->username();
 		$data['span'] = 19;
 		$data['messages'] = $messages;
+		$data['stylesheets'] = array('login.css');
+		$data['faculty'] = $this->Faculty_model->get_profile_and_details($user['facultyid']);
+		$data['has_profile'] = $this->Faculty_model->has_profile($user['facultyid']);
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('faculty/edit_profile',$data);
@@ -79,7 +84,31 @@ class Faculty extends Controller {
 	
 	function edit_profile_submit()
 	{
-		$this->edit_profile();
+		$this->form_validation->set_rules('firstname', 'First Name', 'required');
+		$this->form_validation->set_rules('middlename', 'Middle Name', 'required');
+		if (!$this->form_validation->run())
+		{
+			$this->edit_profile();
+		}
+		else
+		{	
+			$user = $this->session->userdata(USER);
+			$faculty_profile['firstname']=$this->input->get_post('firstname');
+			$faculty_profile['middlename']=$this->input->get_post('middlename');
+			$faculty_profile['lastname']=$this->input->get_post('lastname');
+			$faculty_profile['department']=$this->input->get_post('department');
+			$faculty_profile['college']=$this->input->get_post('college');
+			$faculty_profile['faculty_position_and_rank']=$this->input->get_post('faculty_position_and_rank');
+			$faculty_profile['mobile_number']=$this->input->get_post('mobile_number');
+			$faculty_profile['home_number']=$this->input->get_post('home_number');
+			$faculty_profile['office_number']=$this->input->get_post('office_number');
+			
+			$faculty['webmail']=$this->input->get_post('webmail');
+			$faculty['email']=$this->input->get_post('email');
+			
+			$this->Faculty_model->save($user['facultyid'],$faculty,$faculty_profile);
+			redirect('faculty/view_profile');
+		}
 	}
 	
 	function confirm($orgid)
