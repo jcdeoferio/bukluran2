@@ -40,4 +40,8 @@ class Announcement_model extends Model{
 		$this->db->where('announcementid',$announcementid);
 		$this->db->update('announcements',$announcement);
 	}
+	
+	function delete_announcement($announcementid){
+		$this->db->delete('announcements', array('announcementid' => $announcementid)); 
+	}
 }
