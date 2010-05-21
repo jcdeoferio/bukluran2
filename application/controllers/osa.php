@@ -105,6 +105,12 @@ class Osa extends Controller {
 		redirect('osa/announcements');
 	}
 	
+	function delete_announcement($announcementid)
+	{
+		$this->announcement_model->delete_announcement($announcementid);
+		redirect('osa/announcements');
+	}
+	
 	function create_organization()
 	{
 		//$data['stylesheets'] = array('announcement.css');
