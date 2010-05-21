@@ -35,6 +35,7 @@ class Osa extends Controller {
 		$params['announcement']['back_link'] = 'osa/announcements/';
 		
 		$this->load->library('views',$params);
+		$this->load->model('announcement_model');
 	}
 	
 	function index(){
@@ -53,11 +54,55 @@ class Osa extends Controller {
 			'Value' => ''
 			);
 		
+		$content_data['announcement']['content'] = '';
+		$content_data['announcement']['title'] = '';
+		$content_data['title'] = 'Create Announcement';
+		$content_data['submit_url'] = 'osa/create_announcement_submit';
+		
 		$this->load->library('fckeditor', $fckeditorConfig);
 		
 		$this->views->header($data,$this->sidebar_data);		
-		$this->load->view('osa/create_announcement');
+		$this->load->view('osa/create_announcement',$content_data);
 		$this->views->footer();
+	}
+	
+	function create_announcement_submit(){
+		$user = $this->session->userdata(USER);
+		$this->announcement_model->create_announcement($user['loginaccountid'],$this->input->post('title'),$this->input->post('content'));
+		redirect('osa/announcements');
+	}
+	
+	function edit_announcement($announcementid)
+	{
+		$data['title'] = "Edit Announcement - OSA";	
+		
+		$fckeditorConfig = array(
+			'instanceName' => 'content',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '400',
+			'Value' => ''
+			);
+		
+		$content_data['announcement'] = $this->Announcement_model->get_announcement($announcementid);
+		$content_data['title'] = 'Edit Announcement';
+		$content_data['submit_url'] = 'osa/edit_announcement_submit';
+		
+		$this->load->library('fckeditor', $fckeditorConfig);
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/create_announcement',$content_data);
+		$this->views->footer();
+	}
+	
+	function edit_announcement_submit()
+	{
+		$this->announcement_model->edit_announcement(
+			$this->input->post('announcementid'),
+			$this->input->post('title'),
+			$this->input->post('content'));
+		redirect('osa/announcements');
 	}
 	
 	function create_organization()
@@ -107,10 +152,6 @@ class Osa extends Controller {
 		$password = $this->Osa_model->reset_organization_password($username);
 		
 		$this->_new_password("New Password", $username, $password);
-	}
-		
-	function edit_announcement($announcement_id)
-	{
 	}
 	
 	function edit_organization($organization_id,$form_no=1)
@@ -450,9 +491,8 @@ class Osa extends Controller {
 		$query = $this->Organization_model->get_organization_profiles($aysem);
 		foreach ($query as $row)
 		{
-			$this->emailer->send_email($row['heademail'],$subject,$message);
+			$this->Emailer->send_email($row['heademail'],$subject,$message);
 		}
-
 	}
 	
 	function send_to_org($orgid, $subject, $message){

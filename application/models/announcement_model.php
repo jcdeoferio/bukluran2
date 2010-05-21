@@ -24,4 +24,20 @@ class Announcement_model extends Model{
 		$query = $this->db->get();
 		return($query->result_array());
 	}
+	
+	function create_announcement($loginaccountid, $title, $content){		
+		$announcement['loginaccountid'] = $loginaccountid;
+		$announcement['title'] = $title;
+		$announcement['content'] = $content;
+		$announcement['date_created'] = $announcement['date_modified'] = date('Y-m-d H:i:s');
+		$this->db->insert('announcements',$announcement);
+	}
+	
+	function edit_announcement($announcementid, $title, $content){		
+		$announcement['title'] = $title;
+		$announcement['content'] = $content;
+		$announcement['date_modified'] = date('Y-m-d H:i:s');
+		$this->db->where('announcementid',$announcementid);
+		$this->db->update('announcements',$announcement);
+	}
 }
