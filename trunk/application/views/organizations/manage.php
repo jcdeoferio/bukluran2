@@ -25,7 +25,7 @@ $this->pagination->initialize($config);
 		<td><?= $org['orgname'] ?></td>
 		<td><?= $org['username'] ?></td>
 		<td>
-			<? if($org['organizationid']): ?><?= anchor($forward_link.$org['organizationid'], 'View Profile') ?><br/><? endif; ?>
+			<? if($org['organizationid']): ?><?= anchor($forward_link.$org['organizationid'], 'View Application') ?><br/><? endif; ?>
 			<?= anchor("osa/org_reqs/{$org['organizationid']}", 'Manage Organization Requirements') ?><br/>
 			<?= anchor("osa/reset_org_password/{$org['username']}", 'Reset Password') ?>
 		</td>

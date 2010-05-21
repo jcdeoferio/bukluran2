@@ -17,7 +17,7 @@ $this->pagination->initialize($config);
 			<?=anchor($forward_link.$page_no.'/'.$announcement['announcementid'],$announcement['title'])?>
 		</div>
 		<div class="announcementDetails_postInfo">
-			posted by <span class="announcementDetails_username"><?=$announcement['username']?></span> at <span class="announcementDetails_date"><?=$announcement['date_created']?></span>. last modified at <span class="announcementDetails_date"><?=$announcement['date_modified']?></span>.
+			posted by <span class="announcementDetails_username"><?=$announcement['username']?></span> at <span class="announcementDetails_date"><?=$announcement['date_created']?></span>. last modified at <span class="announcementDetails_date"><?=$announcement['date_modified']?></span>. <?= $this->session->user_group_is(OSA_GROUPID)?anchor('osa/edit_announcement/'.$announcement['announcementid'],'edit'):'' ?>
 		</div>
 		<div class="announcementDetails_content">
 			<?=$announcement['content']?>
