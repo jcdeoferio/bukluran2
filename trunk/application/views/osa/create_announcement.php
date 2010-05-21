@@ -8,7 +8,7 @@
 	<? endif;?>
 <? 
 $this->load->helper('form');
-$this->fckeditor->Value = set_value('content',$announcement['content']);
+$this->fckeditor->Value = $announcement['content'];
 ?>
 
 <?=form_open($submit_url);?>
@@ -16,7 +16,7 @@ $this->fckeditor->Value = set_value('content',$announcement['content']);
 	<?= form_hidden('announcementid',$announcement['announcementid']);?>
 <? endif;?>
 <?=form_label('Title:','title');?>
-<?=form_input('title',set_value('title',$announcement['title']));?>
+<?=form_input('title',$announcement['title']);?>
 <?=br(1);?>
 <?=form_label('Content:','content');?>
 <?=$this->fckeditor->Create();?>
