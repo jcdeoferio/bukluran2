@@ -41,6 +41,8 @@
 <!-- jQuery Tablesorter 2.0 Plug-in http://tablesorter.com -->
 	<script src="<?= base_url().'layout/js/jquery.tablesorter.min.js' ?>" type="text/javascript"></script>
 	<script src="<?= base_url().'layout/js/jquery.tablesorter.pager.js' ?>" type="text/javascript"></script>
+	<script src="<?= base_url().'layout/js/jquery.tablesorter.filter.js' ?>" type="text/javascript"></script>
+	<!--http://www.compulsivoco.com/2008/08/tablesorter-filter-results-based-on-search-string/-->
 	<?= link_tag('layout/css/bluesorter/style.css','stylesheet','text/css','','screen')."\n";?>
 	<?= link_tag('layout/css/jquery.tablesorter.pager.css','stylesheet','text/css','','screen')."\n";?>
 <!-- /jQuery Tablesorter 2.0 Plug-in -->

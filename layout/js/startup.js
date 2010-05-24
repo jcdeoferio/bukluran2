@@ -10,7 +10,13 @@ $(document).ready(function(){
 			load('');
 	});
 
-	$('.tablesorter').tablesorter({widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pagination")});
+	$('.tablesorter')
+		.tablesorter({widthFixed: true, widgets: ['zebra']})
+		.tablesorterPager({container: $("#pagination")})
+		.tablesorterFilter({filterContainer: $("#filter-box"),
+                          filterClearContainer: $("#filter-clear-button"),
+                          filterColumns: [0],
+                          filterCaseSensitive: false});
 	$('.form_large #submit').removeClass('submit_default').button();
 /*
 	var notification = $('.notification');
