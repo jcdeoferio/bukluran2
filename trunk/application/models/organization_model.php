@@ -44,15 +44,32 @@ class Organization_model extends Model{
 		return($query->result_array());
 	}
 	
-	function get_members($orgid, $sem){
-		//$sem = $this->Variable->current_app_aysem();
+	function get_members($organizationid, $appsemid){
 		$this->db->from('students s');
 		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
-		$this->db->where('m.organizationid', $orgid);
-		$this->db->where('m.appsemid', $sem);
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		$this->db->where('position', NULL);
+		$this->db->order_by('webmail', 'asc');
 		
 		$query = $this->db->get();
 		return($query->result_array());
+	}
+	
+	function get_officers($organizationid, $appsemid){
+		$this->db->from('students s');
+		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		$this->db->where('position IS NOT', NULL);
+		$this->db->order_by('webmail', 'asc');
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
+	function roster_add_student($organizationid, $appsemid, $webmail, $email, $position = NULL){
+		
 	}
 	
 	function get_advisers($orgid, $sem){

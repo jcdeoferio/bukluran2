@@ -19,6 +19,8 @@ class Organization extends Controller {
 		$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
 		$this->sidebar_data['anchors'] = array('Application Forms','Change Password');
 		
+		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
+		
 		$params['sidebar'] = $this->sidebar_data;
 		
 		$params['announcement']['title'] = "Announcements - ".$this->session->username();
@@ -73,13 +75,101 @@ class Organization extends Controller {
 		$this->views->footer();
 	}
 	
-	function form3()
-	{
-		$data['title'] = "Officer Roster - ".$this->session->username();
+	function form3($appsemid = CURRENT_APPSEM, $organizationid = NULL){
+		$orgname = NULL;
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->Organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
+		$data['title'] = "Officer and Member Roster - ".$this->session->username();
+		
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['add_officer_url'] = "organization/form3_add_student/true/{$appsemid}/{$organizationid}";
+		$content_data['add_member_url'] = "organization/form3_add_student/false/{$appsemid}/{$organizationid}";
+		$content_data['officers'] = $this->Organization_model->get_officers();
+		$content_data['members'] = $this->Organization_model->get_members();
 		
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form3');
+		$this->load->view('organization/forms/form3', $content_data);
 		$this->views->footer();
+	}
+	
+	function form3_add_student($isofficer, $appsemid, $organizationid){
+		if(!is_bool($isofficer) || !is_numeric($appsemid) || !is_numeric($organizationid))
+			redirect('organization/forms');
+		
+		$data['title'] = "Add Officer - ".$this->session->username();
+		
+		if(!$this->session->user_group_is(OSA_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		$isofficer = $isofficer?TRUE:FALSE;
+		
+		$organization = $this->Organization_model->get_organization($organizationid);
+		$orgname = $organization['orgname'];
+		
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['orgname'] = $orgname;
+		$content_data['isofficer'] = $isofficer;
+		$content_data['submit_url'] = "organization/form3_add_student_submit/{$isofficer}/{$appsemid}/{$organizationid}";
+
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form3_add_student', $content_data);
+		$this->views->footer();
+	}
+	
+	function form3_add_student_submit($isofficer, $appsemid, $organizationid){
+		if(!is_bool($isofficer) || !is_numeric($appsemid) || !is_numeric($organizationid))
+			redirect('organization/forms');
+			
+		if(!$this->session->user_group_is(OSA_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		$isofficer = $isofficer?TRUE:FALSE;
+		
+		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email');
+		$this->form_validation->set_rules('email', 'Email Address', 'valid_email');
+		
+		if($isofficer)
+			$this->form_validation->set_rules('position', 'Position', 'required');
+		
+		$postback['webmail'] = $this->input->post('webmail');
+		$postback['email'] = $this->input->post('email');
+		$postback['position'] = $this->input->post('position');
+		
+		if(!$this->form_validation->run()){
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+			
+			redirect("organization/form3_add_student/{$isofficer}/{$appsemid}/{$organizationid}");
+		}
+		else{
+			if($isofficer)
+				$this->Organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email, $position);
+			else
+				$this->Organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email);
+		}
+
+		redirect("organization/form3/{$appsemid}/{$organizationid}");
 	}
 	
 	function form4()
@@ -116,6 +206,10 @@ class Organization extends Controller {
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form7');
 		$this->views->footer();
+	}
+	
+	function form_change_appsem_submit($url_form_part){
+		redirect("organization/{$url_form_part}/{$this->input->post('appsem')}");
 	}
 	
 	function change_password()
