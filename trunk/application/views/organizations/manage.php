@@ -11,6 +11,7 @@ $this->pagination->initialize($config);
 	</div>
 	<?= anchor('osa/create_organization', 'Add New Organization'); ?>
 	<?php if(isset($orgs) && count($orgs) > 0):?>
+			
 	<table class="tablesorter">
 	<thead>
 		<tr>
@@ -47,7 +48,9 @@ $this->pagination->initialize($config);
 				40=>40
 			),'10','class="pagesize"')?>
 		<?=form_close()?>
+		Search: <input name="filter" id="filter-box" value="" maxlength="30" size="30" type="text"> <input id="filter-clear-button" type="submit" value="Clear"/>
 	</div>
+	
 	<!--
 	<?=$this->pagination->create_links();?>
 	-->
