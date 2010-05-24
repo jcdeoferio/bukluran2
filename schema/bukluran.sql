@@ -65,6 +65,7 @@ CREATE TABLE orgmemberships(
 	organizationid integer REFERENCES organizations,
 	studentid integer REFERENCES students,
 	appsemid smallint REFERENCES appsems,
+	position varchar(128),
 	confirmed boolean NOT NULL DEFAULT FALSE,
 	CONSTRAINT orgmemberships_pk PRIMARY KEY (organizationid, studentid, appsemid));
 

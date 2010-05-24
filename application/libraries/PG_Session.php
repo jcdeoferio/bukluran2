@@ -36,6 +36,24 @@ class PG_Session extends CI_Session{
 			return(NULL);
 	}
 	
+	function organizationid(){
+		if($this->userdata(USER) && $this->user_group_is(ORG_GROUPID)){
+			$user = $this->userdata(USER);
+			return($user['organization']);
+		}
+		else
+			return(NULL);
+	}
+	
+	function orgname(){
+		if($this->userdata(USER) && $this->user_group_is(ORG_GROUPID)){
+			$user = $this->userdata(USER);
+			return($user['orgname']);
+		}
+		else
+			return(NULL);
+	}
+	
 	function save_postback_variable($postback){
 		$this->set_userdata(POSTBACKVAR, $postback);
 	}
