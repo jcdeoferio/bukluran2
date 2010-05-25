@@ -1,10 +1,11 @@
 <div class="span-19 last" id="content_main">
 	<div class="contentHeader_text">
-		Application Forms
+		Form 3 - Officer and Member Roster
 	</div>
 	
 	<p>
-	Currently viewing form 3 of organizatino <?= $orgname ?> for application period <strong><?= $pretty_application_aysem ?></strong>
+	Currently viewing form 3 of organization <strong><?= $orgname ?></strong><br/>
+	for application period <strong><?= $pretty_application_aysem ?></strong>
 	</p>
 	
 	<? if($this->session->user_group_is(OSA_GROUPID) && count($appsems) > 1): ?>

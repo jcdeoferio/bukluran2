@@ -103,8 +103,8 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['add_officer_url'] = "organization/form3_add_student/true/{$appsemid}/{$organizationid}";
 		$content_data['add_member_url'] = "organization/form3_add_student/false/{$appsemid}/{$organizationid}";
-		$content_data['officers'] = $this->organization_model->get_officers();
-		$content_data['members'] = $this->organization_model->get_members();
+		$content_data['officers'] = $this->Organization_model->get_officers($organizationid, $appsemid);
+		$content_data['members'] = $this->Organization_model->get_members($organizationid, $appsemid);
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form3', $content_data);
@@ -112,8 +112,14 @@ class Organization extends Controller {
 	}
 	
 	function form3_add_student($isofficer, $appsemid, $organizationid){
-		if(!is_bool($isofficer) || !is_numeric($appsemid) || !is_numeric($organizationid))
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
 			redirect('organization/forms');
+		
+		$isofficer = $isofficer=='true'?TRUE:FALSE;
+		if($isofficer)
+			$isofficerstr = 'true';
+		else
+			$isofficerstr = 'false';
 		
 		$data['title'] = "Add Officer - ".$this->session->username();
 		
@@ -122,15 +128,14 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 		}
 		
-		$isofficer = $isofficer?TRUE:FALSE;
-		
 		$organization = $this->organization_model->get_organization($organizationid);
 		$orgname = $organization['orgname'];
 		
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['orgname'] = $orgname;
 		$content_data['isofficer'] = $isofficer;
-		$content_data['submit_url'] = "organization/form3_add_student_submit/{$isofficer}/{$appsemid}/{$organizationid}";
+		$content_data['submit_url'] = "organization/form3_add_student_submit/{$isofficerstr}/{$appsemid}/{$organizationid}";
+		$content_data['postback'] = $this->session->postback_variable();
 
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form3_add_student', $content_data);
@@ -138,15 +143,19 @@ class Organization extends Controller {
 	}
 	
 	function form3_add_student_submit($isofficer, $appsemid, $organizationid){
-		if(!is_bool($isofficer) || !is_numeric($appsemid) || !is_numeric($organizationid))
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
 			redirect('organization/forms');
+		
+		$isofficer = $isofficer=='true'?TRUE:FALSE;
+		if($isofficer)
+			$isofficerstr = 'true';
+		else
+			$isofficerstr = 'false';
 			
 		if(!$this->session->user_group_is(OSA_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
 		}
-		
-		$isofficer = $isofficer?TRUE:FALSE;
 		
 		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email');
 		$this->form_validation->set_rules('email', 'Email Address', 'valid_email');
@@ -156,22 +165,29 @@ class Organization extends Controller {
 		
 		$postback['webmail'] = $this->input->post('webmail');
 		$postback['email'] = $this->input->post('email');
-		$postback['position'] = $this->input->post('position');
+		$postback['position'] = $isofficer?$this->input->post('position'):NULL;
 		
 		if(!$this->form_validation->run()){
 			$this->session->save_validation_errors();
 			$this->session->save_postback_variable($postback);
 			
-			redirect("organization/form3_add_student/{$isofficer}/{$appsemid}/{$organizationid}");
+			redirect("organization/form3_add_student/{$isofficerstr}/{$appsemid}/{$organizationid}");
 		}
 		else{
-			if($isofficer)
-				$this->organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email, $position);
-			else
-				$this->organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email);
+			$add_success = $this->Organization_model->roster_add_student($organizationid, $appsemid, $postback['webmail'], $postback['email'], $postback['position']);
+			
+			if($add_success)
+				redirect("organization/form3/{$appsemid}/{$organizationid}");
+			else{
+				$this->load->helper('inflector');
+				
+				$studenttype = articlize($isofficer?'officer':'member');
+				$this->session->add_validation_error("{$postback['webmail']} is already $studenttype");
+				$this->session->save_postback_variable($postback);
+				
+				redirect("organization/form3_add_student/{$isofficerstr}/{$appsemid}/{$organizationid}");
+			}
 		}
-
-		redirect("organization/form3/{$appsemid}/{$organizationid}");
 	}
 	
 	function form4()
