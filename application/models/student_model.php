@@ -18,6 +18,14 @@ class Student_model extends Model{
 		return($query->result_array());
 	}
 	
+	function get_profile($studentid){
+		$this->db->from('students s');
+		$this->db->where('studentid',$studentid);
+		
+		$query = $this->db->get();
+		return($query->row_array());	
+	}
+	
 	function confirm($studentid, $orgid, $aysem){
 		$this->db->where('studentid',$studentid);
 		$this->db->where('organizationid',$orgid);

@@ -31,6 +31,11 @@ class Announcement_model extends Model{
 		$announcement['content'] = $content;
 		$announcement['date_created'] = $announcement['date_modified'] = date('Y-m-d H:i:s');
 		$this->db->insert('announcements',$announcement);
+		
+		$this->db->from('announcements');
+		$this->db->where('date_created',$announcement['date_created']);
+		$query = $this->db->get();
+		return $query->row_array();
 	}
 	
 	function edit_announcement($announcementid, $title, $content){		
