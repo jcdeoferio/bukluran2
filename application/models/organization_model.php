@@ -9,25 +9,26 @@ class Organization_model extends Model{
 	function get_organization($organizationid){
 		$this->db->from('organizations o');
 		$this->db->join('orgprofiles p','o.organizationid = p.organizationid');
-		$this->db->join('orgcategories cat','cat.orgcategoryid = p.orgcategoryid');
-		$this->db->join('orgstatuses stat','stat.orgstatusid = p.orgstatusid');
+		$this->db->join('(SELECT orgcategoryid, description AS orgcategorydesc FROM orgcategories) cat','cat.orgcategoryid = p.orgcategoryid');
+		$this->db->join('(SELECT orgstatusid, description AS orgstatusdesc FROM orgstatuses) stat','stat.orgstatusid = p.orgstatusid');
 		$this->db->where('o.organizationid', $organizationid);
 		
 		$query = $this->db->get();
 		return($query->row_array());
 	}
 	
-	function get_organizations($limit = 20, $offset = 0){
+	function get_organizations(){
 		$this->db->from('organizations o');
+		$this->db->join('loginaccounts l', 'o.loginaccountid = l.loginaccountid', 'right');
+		$this->db->where('groupid', ORG_GROUPID);
 		$this->db->order_by('orgname');
-		//$this->db->limit($limit, $offset);
+		$this->db->order_by('username');
 		
 		$query = $this->db->get();
 		return($query->result_array());
 	}
 	
 	function get_organization_profile($orgid, $sem){
-		//$sem = $this->Variable->current_app_aysem();
 		$this->db->from('orgprofiles p');
 		$this->db->where('p.appsemid', $sem);
 		$this->db->where('p.organizationid', $orgid);
@@ -42,6 +43,24 @@ class Organization_model extends Model{
 		
 		$query = $this->db->get();
 		return($query->result_array());
+	}
+	
+	function get_orgstatus($orgstatusid){
+		$this->db->from('orgstatuses');
+		$this->db->where('orgstatusid', $orgstatusid);
+		
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return($row['description']);
+	}
+		
+	function get_orgcategory($orgcategoryid){
+		$this->db->from('orgcategories');
+		$this->db->where('orgcategoryid', $orgcategoryid);
+		
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return($row['description']);
 	}
 	
 	function get_members_and_officers($organizationid, $appsemid){
