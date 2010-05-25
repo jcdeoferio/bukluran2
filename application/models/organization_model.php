@@ -164,4 +164,16 @@ class Organization_model extends Model{
 		$query = $this->db->get();
 		return($query->row_array());
 	}
+	
+	function create_clarification($orgid,$aysem,$description){
+		$arr = array(
+			'appsemid' => $aysem,
+			'organizationid' => $orgid,
+			'description' => $description
+		);
+		$this->db->insert('orgclarifications',$arr);
+		
+		$query = $this->db->get_where('orgclarifications',$arr);
+		return $query->row_array();
+	}
 }

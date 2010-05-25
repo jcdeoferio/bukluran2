@@ -14,13 +14,13 @@ class Email_queue extends Controller {
 	
 	function index()
 	{	
-		$orgs = $this->organization_model->get_organizations();
-		$advisers = $this->organization_model->get_advisers(1,20093);
-		$members = $this->organization_model->get_members_and_officers(1,20093);
-		$this->email_queue_model->queue_announcement_email(1,$orgs);
-		$this->email_queue_model->queue_osa_to_organization_email(1,1);
-		$this->email_queue_model->queue_faculty_confirmation_email(1,$advisers);
-		$this->email_queue_model->queue_member_confirmation_email(1,$members);
+		//$orgs = $this->organization_model->get_organizations();
+		//$advisers = $this->organization_model->get_advisers(1,20093);
+		//$members = $this->organization_model->get_members_and_officers(1,20093);
+		//$this->email_queue_model->queue_announcement_email(1,$orgs);
+		//$this->email_queue_model->queue_osa_to_organization_email(1,1);
+		//$this->email_queue_model->queue_faculty_confirmation_email(1,$advisers);
+		//$this->email_queue_model->queue_member_confirmation_email(1,$members);
 	}
 	
 	function send_email($N = 5)
