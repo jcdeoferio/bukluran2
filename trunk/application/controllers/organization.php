@@ -13,7 +13,8 @@ class Organization extends Controller {
 		$this->load->helper('form');
 		
 		$this->load->model('Variable');
-		$this->load->model('Organization_model');
+		$this->load->model('organization_model');
+		$this->load->model('email_queue_model');
 		
 		$this->sidebar_data = array();
 		$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
@@ -88,7 +89,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->Organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -101,8 +102,8 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['add_officer_url'] = "organization/form3_add_student/true/{$appsemid}/{$organizationid}";
 		$content_data['add_member_url'] = "organization/form3_add_student/false/{$appsemid}/{$organizationid}";
-		$content_data['officers'] = $this->Organization_model->get_officers();
-		$content_data['members'] = $this->Organization_model->get_members();
+		$content_data['officers'] = $this->organization_model->get_officers();
+		$content_data['members'] = $this->organization_model->get_members();
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form3', $content_data);
@@ -122,7 +123,7 @@ class Organization extends Controller {
 		
 		$isofficer = $isofficer?TRUE:FALSE;
 		
-		$organization = $this->Organization_model->get_organization($organizationid);
+		$organization = $this->organization_model->get_organization($organizationid);
 		$orgname = $organization['orgname'];
 		
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
@@ -164,9 +165,9 @@ class Organization extends Controller {
 		}
 		else{
 			if($isofficer)
-				$this->Organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email, $position);
+				$this->organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email, $position);
 			else
-				$this->Organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email);
+				$this->organization_model->roster_add_student($organizationid, $appsemid, $webmail, $email);
 		}
 
 		redirect("organization/form3/{$appsemid}/{$organizationid}");
@@ -228,22 +229,32 @@ class Organization extends Controller {
 		$this->views->load_announcements($page_no,$announcement_id);
 	}
 	
-	function send_member_confirmation_emails($orgid){
-		$sem = $this->Variable->current_application_aysem();
-		$query = $this->Organization_model->get_members($orgid, $sem);
-		foreach ($query->result_array() as $row)
-		{
-			$this->Emailer->send_email($row['webmail'],$subject,$message);
-		}
+	function send_member_confirmation_emails(){
+		$aysem = $this->Variable->current_application_aysem();
+		$user = $this->session->userdata(USER);
+		$members = $this->organization_model->get_members_and_officers($user['organizationid'],$aysem);
+		$this->email_queue_model->queue_member_confirmation_email($user['organizationid'],$members);
+		
+		//$aysem = $this->Variable->current_application_aysem();
+		//$query = $this->organization_model->get_members($orgid, $aysem);
+		//foreach ($query->result_array() as $row)
+		//{
+		//	$this->Emailer->send_email($row['webmail'],$subject,$message);
+		//}
 	}
 	
-	function send_adviser_confirmation_emails($orgid){
+	function send_adviser_confirmation_emails(){
 		$aysem = $this->Variable->current_application_aysem();
-		$query = $this->Organization_model->get_advisers($orgid, $aysem);
-		foreach ($query->result_array() as $row)
-		{
-			$this->Emailer->send_email($row['webmail'],$subject,$message);
-		}
+		$user = $this->session->userdata(USER);
+		$advisers = $this->organization_model->get_advisers($user['organizationid'],$aysem);
+		$this->email_queue_model->queue_faculty_confirmation_email($user['organizationid'],$advisers);
+	
+		//$aysem = $this->Variable->current_application_aysem();
+		//$query = $this->organization_model->get_advisers($orgid, $aysem);
+		//foreach ($query->result_array() as $row)
+		//{
+		//	$this->Emailer->send_email($row['webmail'],$subject,$message);
+		//}
 	}
 }
 

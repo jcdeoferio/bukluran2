@@ -14,15 +14,16 @@ class Osa extends Controller {
 			redirect('login');
 			
 		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
-		$this->sidebar_data['anchors'] = array('Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
+		$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
+		$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
 		
 		$this->load->helper('html');
 		$this->load->helper('form');
 		
 		$this->load->model('Osa_model');
 		$this->load->model('Variable');
-		$this->load->model('Organization_model');
+		$this->load->model('organization_model');
+		$this->load->model('email_queue_model');
 		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 		
@@ -68,7 +69,11 @@ class Osa extends Controller {
 	
 	function create_announcement_submit(){
 		$user = $this->session->userdata(USER);
-		$this->announcement_model->create_announcement($user['loginaccountid'],$this->input->post('title'),$this->input->post('content'));
+		$announcement = $this->announcement_model->create_announcement($user['loginaccountid'],$this->input->post('title'),$this->input->post('content'));
+		
+		$orgs = $this->organization_model->get_organizations();
+		$this->email_queue_model->queue_announcement_email($announcement['announcementid'],$orgs);
+		
 		redirect('osa/announcements');
 	}
 	
@@ -347,10 +352,10 @@ class Osa extends Controller {
 		$data['title'] = "Requirements - OSA";
 		
 		$this->load->model('Orgrequirement_model');
-		$this->load->model('Organization_model');
+		$this->load->model('organization_model');
 		
 		$content_data['org_reqs'] = $this->Orgrequirement_model->get_requirements_appsem($organizationid, $appsemid);
-		$content_data['org'] = $this->Organization_model->get_organization($organizationid);
+		$content_data['org'] = $this->organization_model->get_organization($organizationid);
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
@@ -371,12 +376,12 @@ class Osa extends Controller {
 		$data['title'] = "View/Edit Organization Requirement Details - OSA";
 		
 		$this->load->model('Orgrequirement_model');
-		$this->load->model('Organization_model');
+		$this->load->model('organization_model');
 		
 		$org_req = $this->Orgrequirement_model->get_requirement($organizationid, $requirementid);
 		
 		$content_data['org_req'] = $org_req;
-		$content_data['org'] = $this->Organization_model->get_organization($organizationid);
+		$content_data['org'] = $this->organization_model->get_organization($organizationid);
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($org_req['appsemid']);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['submit_url'] = "osa/manage_org_req_submit/{$organizationid}/{$requirementid}";
@@ -490,22 +495,22 @@ class Osa extends Controller {
 		return(in_array($sem, array(1, 2 ,3)));
 	}
 	
-	function send_to_all_orgs($subject, $message){
-		$this->load->library('Emailer');
-		
-		$aysem = $this->Variable->current_application_aysem();
-		$query = $this->Organization_model->get_organization_profiles($aysem);
-		foreach ($query as $row)
-		{
-			$this->Emailer->send_email($row['heademail'],$subject,$message);
-		}
-	}
+	//function send_to_all_orgs($subject, $message){
+	//	$this->load->library('Emailer');
+	//	
+	//	$aysem = $this->Variable->current_application_aysem();
+	//	$query = $this->organization_model->get_organization_profiles($aysem);
+	//	foreach ($query as $row)
+	//	{
+	//		$this->Emailer->send_email($row['heademail'],$subject,$message);
+	//	}
+	//}
 	
-	function send_to_org($orgid, $subject, $message){
-		$aysem = $this->Variable->current_application_aysem();
-		$query = $this->Organization_model->get_organization_profile($orgid, $aysem);
-		$this->Emailer->send_email($query['heademail'],$subject,$message);
-	}
+	//function send_to_org($orgid, $subject, $message){
+	//	$aysem = $this->Variable->current_application_aysem();
+	//	$query = $this->organization_model->get_organization_profile($orgid, $aysem);
+	//	$this->Emailer->send_email($query['heademail'],$subject,$message);
+	//}
 	
 }
 

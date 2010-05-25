@@ -58,5 +58,11 @@ define('REQ_DESC_MAXLENGTH', 1024);
 //===OSA Manage Organization Requirements Module===
 define('ORG_REQ_COMMENT_MAXLENGTH', 1024);
 
+//===Email Queue Module===
+define('MEMBER_CONFIRMATION_EMAIL', 1);
+define('FACULTY_CONFIRMATION_EMAIL', 2);
+define('OSA_TO_ORGANIZATION_EMAIL', 3);
+define('ANNOUNCEMENT_EMAIL', 4);
+
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

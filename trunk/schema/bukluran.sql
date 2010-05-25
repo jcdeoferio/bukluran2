@@ -158,6 +158,33 @@ CREATE TABLE facultyprofile(
 	mobile_number varchar(16),
 	home_number varchar(16),
 	office_number varchar(16));
+	
+CREATE TABLE email_types(
+	emailtypeid serial PRIMARY KEY,
+	description varchar(32));
+	
+CREATE TABLE orgclarifications(
+	orgclarificationid serial PRIMARY KEY,
+	appsemid integer REFERENCES appsems,
+	organizationid integer REFERENCES organizations,
+	description text);
+	
+CREATE TABLE email_queue(
+	emailqueueid serial PRIMARY KEY,
+	emailtypeid integer REFERENCES email_types NOT NULL,
+	organizationid integer REFERENCES organizations DEFAULT null,
+	facultyid integer REFERENCES faculty DEFAULT null,
+	studentid integer REFERENCES students DEFAULT null,
+	announcementid integer REFERENCES announcements DEFAULT null,
+	orgclarificationid integer REFERENCES orgclarifications DEFAULT null,
+	sent boolean DEFAULT false);
+
+COPY email_types (description) FROM stdin;
+member confirmation
+faculty confirmation
+osa to organization
+announcement
+\.
 
 COPY groups (groupname) FROM stdin;
 student

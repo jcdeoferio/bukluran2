@@ -44,6 +44,18 @@ class Organization_model extends Model{
 		return($query->result_array());
 	}
 	
+	function get_members_and_officers($organizationid, $appsemid){
+		$this->db->from('students s');
+		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		//$this->db->where('position', NULL);
+		$this->db->order_by('webmail', 'asc');
+		
+		$query = $this->db->get();
+		return($query->result_array());	
+	}
+	
 	function get_members($organizationid, $appsemid){
 		$this->db->from('students s');
 		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
@@ -81,5 +93,22 @@ class Organization_model extends Model{
 		
 		$query = $this->db->get();
 		return($query->result_array());
+	}
+	
+	function get_clarifications($orgid, $aysem){
+		$this->db->from('orgclarifications');
+		$this->db->where('organizationid',$orgid);
+		$this->db->where('appsemid',$aysem);
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
+	function get_clarification($id){
+		$this->db->from('orgclarifications');
+		$this->db->where('orgclarificationid',$id);
+		
+		$query = $this->db->get();
+		return($query->row_array());
 	}
 }
