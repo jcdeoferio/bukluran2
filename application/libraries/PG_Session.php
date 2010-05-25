@@ -39,7 +39,7 @@ class PG_Session extends CI_Session{
 	function organizationid(){
 		if($this->userdata(USER) && $this->user_group_is(ORG_GROUPID)){
 			$user = $this->userdata(USER);
-			return($user['organization']);
+			return($user['organizationid']);
 		}
 		else
 			return(NULL);
@@ -83,5 +83,9 @@ class PG_Session extends CI_Session{
 		}
 		else
 			return(validation_errors());
+	}
+	
+	function has_validation_errors(){
+		return($this->userdata(VALERR) !== FALSE);
 	}
 }

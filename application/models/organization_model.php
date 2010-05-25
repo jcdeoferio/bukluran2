@@ -73,7 +73,7 @@ class Organization_model extends Model{
 		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
 		$this->db->where('organizationid', $organizationid);
 		$this->db->where('appsemid', $appsemid);
-		$this->db->where('position IS NOT', NULL);
+		$this->db->where('position IS NOT NULL', NULL, FALSE);
 		$this->db->order_by('webmail', 'asc');
 		
 		$query = $this->db->get();
@@ -81,7 +81,60 @@ class Organization_model extends Model{
 	}
 	
 	function roster_add_student($organizationid, $appsemid, $webmail, $email, $position = NULL){
+		$student = $this->assertive_get_student($webmail, $email);
+		$studentid = $student['studentid'];
 		
+		if($this->membership_exists($studentid, $organizationid, $appsemid))
+			return(FALSE);
+		
+		$this->insert_membership($studentid, $organizationid, $appsemid, $email, $position);
+		
+		return(TRUE);
+	}
+	
+	function assertive_get_student($webmail, $email = NULL){
+		if(!$this->student_exists($webmail))
+			$this->insert_student($webmail, $email);
+			
+		return($this->get_student($webmail));
+	}
+	
+	function get_student($webmail){
+		$this->db->from('students');
+		$this->db->where('webmail', $webmail);
+		
+		$query = $this->db->get();
+		return($query->row_array());
+	}
+	
+	function insert_student($webmail, $email){
+		$this->db->set('webmail', $webmail);
+		$this->db->insert('students');
+	}
+	
+	function insert_membership($studentid, $organizationid, $appsemid, $email, $position = NULL){
+		$this->db->set('studentid', $studentid);
+		$this->db->set('organizationid', $organizationid);
+		$this->db->set('appsemid', $appsemid);
+		$this->db->set('email', $email);
+		$this->db->set('position', $position);
+		$this->db->insert('orgmemberships');
+	}
+	
+	function student_exists($webmail){
+		$this->db->from('students');
+		$this->db->where('webmail', $webmail);
+		
+		return($this->db->count_all_results() > 0);
+	}
+	
+	function membership_exists($studentid, $organizationid, $appsemid){
+		$this->db->from('orgmemberships');
+		$this->db->where('studentid', $studentid);
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		
+		return($this->db->count_all_results() > 0);
 	}
 	
 	function get_advisers($orgid, $sem){
