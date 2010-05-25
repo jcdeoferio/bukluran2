@@ -167,7 +167,7 @@ CREATE TABLE orgclarifications(
 	orgclarificationid serial PRIMARY KEY,
 	appsemid integer REFERENCES appsems,
 	organizationid integer REFERENCES organizations,
-	date_created timestamp without time zone,
+	date_created timestamp default now(),
 	description text);
 	
 CREATE TABLE email_queue(

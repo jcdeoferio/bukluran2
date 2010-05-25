@@ -103,8 +103,8 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['add_officer_url'] = "organization/form3_add_student/true/{$appsemid}/{$organizationid}";
 		$content_data['add_member_url'] = "organization/form3_add_student/false/{$appsemid}/{$organizationid}";
-		$content_data['officers'] = $this->Organization_model->get_officers($organizationid, $appsemid);
-		$content_data['members'] = $this->Organization_model->get_members($organizationid, $appsemid);
+		$content_data['officers'] = $this->organization_model->get_officers($organizationid, $appsemid);
+		$content_data['members'] = $this->organization_model->get_members($organizationid, $appsemid);
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form3', $content_data);
@@ -279,6 +279,11 @@ class Organization extends Controller {
 		$data['title'] = "View Message  - ".$this->session->username();
 		$data['message'] = false;
 		$data['span'] = 19;
+		
+		$user = $this->session->userdata(USER);
+		
+		if($data['clarification']['organizationid'] != $user['organizationid'])
+			redirect('organization');
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/clarification',$data);
