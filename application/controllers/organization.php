@@ -41,9 +41,10 @@ class Organization extends Controller {
 	function forms()
 	{
 		$data['title'] = "Application Forms - ".$this->session->username();
-		
+		$user = $this->session->userdata(USER);
+		$data['clarifications'] = $this->organization_model->get_clarifications($user['organizationid'], $this->Variable->current_application_aysem());
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/index');
+		$this->load->view('organization/forms/index',$data);
 		$this->views->footer();
 	}
 	
@@ -255,6 +256,17 @@ class Organization extends Controller {
 		//{
 		//	$this->Emailer->send_email($row['webmail'],$subject,$message);
 		//}
+	}
+	
+	function view_clarification($id){
+		$data['clarification'] = $this->organization_model->get_clarification($id);
+		$data['title'] = "View Message  - ".$this->session->username();
+		$data['message'] = false;
+		$data['span'] = 19;
+		
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/clarification',$data);
+		$this->views->footer();
 	}
 }
 
