@@ -15,8 +15,8 @@ $this->pagination->initialize($config);
 	<table class="tablesorter">
 	<thead>
 		<tr>
-			<th>Organization</th>
-			<th>Username</th>
+			<th>Organization Name</th>
+			<th>Status</th>
 			<th>Action</th>
 		</tr>
 	</thead>
@@ -24,7 +24,7 @@ $this->pagination->initialize($config);
 		<?php foreach($orgs as $org): ?>
 		<tr>
 		<td><?= $org['orgname'] ?></td>
-		<td><?= $org['username'] ?></td>
+		<td><?= $org['profile']['orgstatusdesc'] ?></td>
 		<td>
 			<? if($org['organizationid']): ?><?= anchor($forward_link.$org['organizationid'], 'View Application') ?><br/><? endif; ?>
 			<?= anchor("osa/org_reqs/{$org['organizationid']}", 'Manage Organization Requirements') ?><br/>

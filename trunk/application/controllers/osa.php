@@ -139,7 +139,11 @@ class Osa extends Controller {
 		
 		$orgname = $this->input->post('orgname');
 		$username = $this->input->post('username');
-		$password = $this->Osa_model->create_organization($orgname, $username);
+		$org_data = $this->Osa_model->create_organization($orgname, $username);
+		$password = $org_data['password'];
+		$orgid = $org_data['organizationid'];
+		
+		$this->Osa_model->create_organization_profile($orgid,$this->Variable->current_application_aysem());
 		
 		$this->_new_password("Successfully Added New Organization", $username, $password);
 	}
@@ -180,7 +184,21 @@ class Osa extends Controller {
 		
 		$limit = 20;
 		
-		$orgs = $this->Osa_model->get_organizations($limit, ($page_no - 1) * $limit);
+		$orgs = $this->organization_model->get_organizations();
+		for($i=0;$i<count($orgs);$i++){
+			$orgs[$i]['profile'] = $this->organization_model->get_organization_profile(
+				$orgs[$i]['organizationid'],
+				$this->Variable->current_application_aysem()
+			);
+			
+			if($orgs[$i]['profile']['orgstatusid']){
+				$orgs[$i]['profile']['orgstatusdesc'] = $this->organization_model->get_orgstatus($orgs[$i]['profile']['orgstatusid']);
+			}
+			
+			if($orgs[$i]['profile']['orgcategoryid']){
+				$orgs[$i]['profile']['orgcategorydesc'] = $this->organization_model->get_orgcategory($orgs[$i]['profile']['orgcategoryid']);
+			}			
+		}
 		
 		$content_data['orgs'] = $orgs;
 		$content_data['span'] = 19;

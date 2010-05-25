@@ -48,7 +48,7 @@ class Main extends Controller {
 		
 		$this->views->header($data);
 		if($org_id == -1){
-			$data['orgs']=$this->Organization_model->get_organizations($limit, ($page_no - 1) * $limit);
+			$data['orgs']=$this->Organization_model->get_organizations();
 			$data['span']=24;
 			$data['site_link']='main/organizations/';
 			$data['forward_link']='main/organizations/0/';

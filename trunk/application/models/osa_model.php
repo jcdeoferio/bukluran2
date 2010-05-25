@@ -5,19 +5,18 @@ class Osa_model extends Model{
 	public function __construct(){
 		parent::__construct();
 	}
-	
-	function get_organizations($limit = 20, $offset = 0){
+	/*
+	function get_organizations(){
 		$this->db->from('organizations o');
 		$this->db->join('loginaccounts l', 'o.loginaccountid = l.loginaccountid', 'right');
 		$this->db->where('groupid', ORG_GROUPID);
 		$this->db->order_by('orgname');
 		$this->db->order_by('username');
-		//$this->db->limit($limit, $offset);
 		
 		$query = $this->db->get();
 		return($query->result_array());
 	}
-	
+	*/
 	function is_unique_orgusername($username){
 		$this->db->from('loginaccounts');
 		$this->db->where('username', $username);
@@ -39,17 +38,31 @@ class Osa_model extends Model{
 		$this->db->from('loginaccounts');
 		$this->db->where('username', $username);
 		$query = $this->db->get();
-		$result = $query->row_array();
+		$loginaccount = $query->row_array();
 		
-		$loginaccountid = $result['loginaccountid'];
+		$loginaccountid = $loginaccount['loginaccountid'];
 		
 		$this->db->set('loginaccountid', $loginaccountid);
 		$this->db->set('orgname', $orgname);
 		$this->db->insert('organizations');
 		
+		$this->db->from('organizations');
+		$this->db->where('loginaccountid', $loginaccountid);
+		$this->db->where('orgname', $orgname);
+		$query = $this->db->get();
+		$org = $query->row_array();
+		
 		$this->db->trans_complete();
 		
-		return($password);
+		return(array('password'=>$password,'organizationid'=>$org['organizationid']));
+	}
+	
+	function create_organization_profile($organizationid, $aysem){
+		$this->db->set('organizationid',$organizationid);
+		$this->db->set('appsemid',$aysem);
+		$this->db->set('orgstatusid',1);
+		$this->db->set('orgcategoryid',1);
+		$this->db->insert('orgprofiles');
 	}
 	
 	function reset_organization_password($username){
