@@ -233,12 +233,51 @@ class Organization extends Controller {
 	function change_password()
 	{
 		$data['title'] = "Change Password  - ".$this->session->username();
-		$data['message'] = false;
 		$data['span'] = 19;
+		$data['stylesheets'] = array('login.css');
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/change_password',$data);
 		$this->views->footer();
+	}
+	
+	function change_password_submit()
+	{
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>', '<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
+		
+		$this->form_validation->set_rules('old_pass', '"Current Password"', 'required|callback__password_check');
+		$this->form_validation->set_message('_password_check', "The %s field doesn't match the current password of your account.");
+		$this->form_validation->set_rules('new_pass_1', '"New Password"', 'required');
+		$this->form_validation->set_rules('new_pass_2', '"New Password Confirmation"', 'required|matches[new_pass_1]');
+		
+		if (!$this->form_validation->run())
+		{
+			$this->change_password();
+		}else{
+			$this->load->model('osa_model');
+			$this->osa_model->change_organization_password($this->session->username(),$this->input->post('new_pass_1'));
+			
+			$data['title'] = "Change Password  - ".$this->session->username();
+			$data['span'] = 19;
+			$data['stylesheets'] = array('login.css');
+			
+			$this->views->header($data,$this->sidebar_data);
+			$this->load->view('organization/change_password_success',$data);
+			$this->views->footer();
+		}
+	}
+	
+	function _password_check()
+	{
+		$this->load->model('login_model');
+		$res = $this->login_model->authenticate_login($this->session->username(),$this->input->post('old_pass'));
+		
+		if(count($res) == 0){
+			
+			return FALSE;
+		}
+		return TRUE;
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)

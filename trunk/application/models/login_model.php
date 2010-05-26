@@ -16,7 +16,7 @@ class Login_model extends Model{
 		$query = $this->db->get();
 		$row = $query->row_array();
 		
-		if($row['groupid'] == ORG_GROUPID){
+		if(array_key_exists('groupid', $row) && $row['groupid'] == ORG_GROUPID){
 			$this->db->from('organizations');
 			$this->db->where('loginaccountid',$row['loginaccountid']);
 			$query = $this->db->get();
