@@ -5,12 +5,6 @@
 		Organization Requirements
 	</div>
 
-	<? if($editable): ?>
-		<?= anchor("osa/org_reqs/{$org['organizationid']}/{$org_req['appsemid']}", 'Back to Organization Requirements') ?>
-	<? else: ?>
-		<?= anchor("", 'Back to Organization Requirements') ?>
-	<? endif; ?>
-
 	<p><?= $this->session->validation_errors() ?></p>
 
 	<p>
@@ -64,4 +58,10 @@
 	<? endif; ?>
 	</table>
 	<?= form_close() ?>
+	
+		<? if($editable): ?>
+		<?= anchor("osa/org_reqs/{$org['organizationid']}/{$org_req['appsemid']}", 'Back to Organization Requirements') ?>
+	<? else: ?>
+		<?= anchor("", 'Back to Organization Requirements') ?>
+	<? endif; ?>
 </div>

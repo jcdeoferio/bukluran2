@@ -16,7 +16,7 @@ class Main extends Controller {
 	}
 	
 	function index()
-	{	
+	{
 		if($this->session->logged_in()){
 			$userdata = $this->session->userdata(USER);
 			redirect($userdata['groupname'].'/announcements');
