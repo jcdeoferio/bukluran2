@@ -69,9 +69,10 @@ class Login extends Controller {
 		}
 	}
 	
-	function link(){
+	function link($link=""){
 		$data['stylesheets'] = array('login.css');
 		$data['title'] = 'Login';
+		$data['link'] = $link;
 		$this->views->header($data);
 		$this->load->view('login/link');
 		$this->views->footer();
