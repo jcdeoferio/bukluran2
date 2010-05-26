@@ -32,7 +32,8 @@ class Faculty_model extends Model{
 	}
 	
 	function get_faculty_details($facultyid){
-		$this->db->from('faculty');
+		$this->db->from('faculty f');
+		$this->db->join('linkaccounts l','l.linkaccountid = f.useraccountid');
 		$this->db->where('facultyid',$facultyid);
 		$query = $this->db->get();
 		return $query->row_array();

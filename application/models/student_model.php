@@ -20,6 +20,7 @@ class Student_model extends Model{
 	
 	function get_profile($studentid){
 		$this->db->from('students s');
+		$this->db->join('linkaccounts l','l.linkaccountid = s.useraccountid');
 		$this->db->where('studentid',$studentid);
 		
 		$query = $this->db->get();

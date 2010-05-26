@@ -203,7 +203,7 @@ class Osa extends Controller {
 		$content_data['orgs'] = $orgs;
 		$content_data['span'] = 19;
 		$content_data['site_link'] = 'osa/organizations/';
-		$content_data['forward_link'] = 'osa/organizations/0/';
+		$content_data['forward_link'] = 'osa/view_application/';
 		
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('organizations/manage', $content_data);
@@ -511,6 +511,19 @@ class Osa extends Controller {
 	
 	function _sem_check($sem){
 		return(in_array($sem, array(1, 2 ,3)));
+	}
+	
+	function view_application($orgid)
+	{
+		$org = $this->organization_model->get_organization($orgid);
+		
+		$data['title'] = "View Application - OSA";
+		$data['span'] = 19;
+		$content_data['org'] = $org;
+				
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/view_org_application', $content_data);
+		$this->views->footer();
 	}
 	
 	//function send_to_all_orgs($subject, $message){

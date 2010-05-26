@@ -195,4 +195,14 @@ class Organization_model extends Model{
 		$query = $this->db->get_where('orgclarifications',$arr);
 		return $query->row_array();
 	}
+	
+	function get_position($studentid, $organizationid, $appsemid){
+		$this->db->from('orgmemberships');
+		$this->db->where('studentid', $studentid);
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		return $row['position'];
+	}
 }
