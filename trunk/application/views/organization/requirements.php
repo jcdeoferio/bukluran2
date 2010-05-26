@@ -59,4 +59,6 @@
 	You may add requirements using the <?= anchor('osa/manage_reqs', 'Manage Requirements') ?> module.
 	<? endif; ?>
 	
+	<?= anchor("osa/organizations", 'Back to Organization List') ?>
+	
 </div>

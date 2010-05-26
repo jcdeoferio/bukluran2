@@ -9,12 +9,21 @@ class Login_model extends Model{
 	function authenticate_login($username, $password){
 		$this->db->from('loginaccounts l');
 		$this->db->join('groups g', 'l.groupid = g.groupid');
-		$this->db->join('organizations o', 'l.loginaccountid = o.loginaccountid', 'left');
+		//$this->db->join('organizations o', 'l.loginaccountid = o.loginaccountid', 'left');
 		$this->db->where('username', $username);
 		$this->db->where('password', md5($password));
 		
 		$query = $this->db->get();
-		return($query->row_array());
+		$row = $query->row_array();
+		
+		if($row['groupid'] == ORG_GROUPID){
+			$this->db->from('organizations');
+			$this->db->where('loginaccountid',$row['loginaccountid']);
+			$query = $this->db->get();
+			$row2 = $query->row_array();
+			$row = array_merge($row2,$row);
+		}
+		return $row;
 	}
 	
 	function authenticate_link($link){

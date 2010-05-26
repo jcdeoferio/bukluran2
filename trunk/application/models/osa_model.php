@@ -115,10 +115,10 @@ class Osa_model extends Model{
 	}
 	
 	function add_req($appsemid, $name, $description){
-		$this->db->set('appsemid', $appsemid);
+		$this->db->set('appsemid', intval($appsemid));
 		$this->db->set('name', $name);
 		$this->db->set('description', $description);
-		$this->db->set('insertedby', $this->session->loginaccountid());
+		$this->db->set('insertedby', intval($this->session->loginaccountid()));
 		$this->db->insert('requirements');
 	}
 	
