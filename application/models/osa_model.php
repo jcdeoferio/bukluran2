@@ -75,6 +75,17 @@ class Osa_model extends Model{
 		return($password);
 	}
 	
+	function change_organization_password($username,$password){
+		//$password = $this->generate_password();
+		
+		$this->db->set('password', md5($password));
+		$this->db->where('username', $username);
+		$this->db->update('loginaccounts');
+		
+		return($password);
+	}
+	
+	
 	function generate_password($length = 8){
 		$validchars = "0123456789abcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
