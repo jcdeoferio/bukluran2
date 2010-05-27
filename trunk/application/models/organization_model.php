@@ -268,4 +268,14 @@ class Organization_model extends Model{
 		return($this->db->count_all_results() > 0);
 	}
 	
+	function save_organization($orgid,$orgname){
+		$this->db->where('organizationid',$orgid);
+		$this->db->update('organizations',array('orgname'=>$orgname));
+	}
+	
+	function save_organization_profile($organizationid,$appsemid,$profile){
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('appsemid',$appsemid);
+		$this->db->update('orgprofiles',$profile);
+	}
 }
