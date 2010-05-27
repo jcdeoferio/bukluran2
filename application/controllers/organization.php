@@ -55,6 +55,7 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
 			$orgname = $this->session->orgname();
 		}
 		
@@ -66,6 +67,7 @@ class Organization extends Controller {
 			$orgname = $organization['orgname'];
 		}
 		
+		$organization = $this->organization_model->get_organization($organizationid);
 		
 		$data['title'] = "Information Sheet - ".$this->session->username();
 		
@@ -87,12 +89,62 @@ class Organization extends Controller {
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
-		$content_data['organization'] = $this->organization_model->get_organization($this->session->organizationid());		
+		$content_data['organization'] = $organization;		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form1', $content_data);
 		$this->views->footer();
 	}
 	
+	function form1_submit($appsemid, $organizationid){
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$this->form_validation->set_rules('name', 'Organization Name', 'required');
+		}
+		$this->form_validation->set_rules('acronym', 'Acronym', 'required');
+		$this->form_validation->set_rules('date_established', 'Date Established', 'required|callback__valid_date');
+		if($this->input->post('sec_incorporated')){
+			$this->form_validation->set_rules('date_incorporated', 'Date Incorporated', 'required|callback__valid_date');
+		}
+		$this->form_validation->set_rules('mailaddr', 'Mailing Address', 'required');
+		$this->form_validation->set_rules('orgemail', 'Email Address', 'required|valid_email');
+		$this->form_validation->set_rules('heademail', "Head's Email Address", 'required|valid_email');
+		$this->form_validation->set_rules('description', 'Description', 'required');
+		$this->form_validation->set_rules('category', 'Category', 'required');
+		$this->form_validation->set_rules('sec_incorporated', 'SEC Incorporation', 'required');
+		
+		$this->form_validation->set_message('_valid_date', "The %s field is not a valid date.");
+		
+		if(!$this->form_validation->run()){
+			$this->form1();
+		}else{
+			if($this->session->user_group_is(OSA_GROUPID)){
+				$this->organization_model->save_organization($organizationid,$this->input->post('name'));
+			}
+			$profile['acronym'] = $this->input->post('acronym');
+			$profile['establisheddate'] = $this->input->post('date_established');
+			$profile['orgcategoryid'] = $this->input->post('category');
+			$profile['secincorporated'] = $this->input->post('sec_incorporated');
+			$profile['incorporationdate'] = $this->input->post('date_incorporated')?:NULL;
+			$profile['secincorporated'] = $profile['secincorporated']?'true':'false';
+			$profile['mailaddr'] = $this->input->post('mailaddr');
+			$profile['orgemail'] = $this->input->post('orgemail');
+			$profile['heademail'] = $this->input->post('heademail');
+			$profile['orgdescription'] = $this->input->post('description');
+			
+			
+			$this->organization_model->save_organization_profile($organizationid,$appsemid,$profile);
+			if($this->session->user_group_is(OSA_GROUPID)){
+				redirect('osa/organizations');
+			}else{
+				redirect('organization/forms');
+			}
+		}		
+	}
+	
+	function _valid_date($str){
+		$date = preg_split("/-/",$str);	
+		return count($date) == 3 && checkdate(intval($date[1]),intval($date[2]),intval($date[0]));
+	}
+
 	function form1_faculty_adviser($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
 		$orgname = NULL;

@@ -39,9 +39,6 @@ body{background:url('../images/background.png');}
 	text-shadow: 0px 2px 5px #999;
 	margin-bottom:10px;
 }
-input[type="checkbox"], input[type="radio"], input.checkbox, input.radio {
-	position: absolute;
-}
 
 /*
 label.top {
