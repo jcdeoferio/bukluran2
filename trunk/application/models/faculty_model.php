@@ -57,7 +57,14 @@ class Faculty_model extends Model{
 	function save($facultyid, $faculty, $faculty_profile){
 		$this->db->where('facultyid',$facultyid);
 		$this->db->update('faculty',$faculty);
-		$this->db->update('facultyprofile',$faculty_profile);
+		
+		if($this->has_profile($facultyid)){
+			$this->db->where('facultyid',$facultyid);
+			$this->db->update('facultyprofile',$faculty_profile);
+		}else{
+			$faculty_profile['facultyid'] = $facultyid;
+			$this->db->insert('facultyprofile',$faculty_profile);
+		}
 	}
 	
 	function confirm($facultyid, $aysem, $orgid){
