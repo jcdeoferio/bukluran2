@@ -31,6 +31,8 @@ class Organization extends Controller {
 		$params['announcement']['back_link'] = 'organization/announcements/';
 		
 		$this->load->library('views',$params);
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>', '<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
 	}
 	
 	function index()
@@ -48,29 +50,146 @@ class Organization extends Controller {
 		$this->views->footer();
 	}
 	
-	function form1()
+	function form1($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
+		
 		$data['title'] = "Information Sheet - ".$this->session->username();
 		
 		$fckeditorConfig = array(
-			'instanceName' => 'org_description',
+			'instanceName' => 'description',
 			'BasePath' => base_url().'system/plugins/fckeditor/',
 			'ToolbarSet' => 'Basic',
 			'Width' => '100%',
 			'Height' => '200',
 			'Value' => ''
-			);
-		
+			);	
 		$this->load->library('fckeditor', $fckeditorConfig);
+		$categories = $this->organization_model->get_orgcategories();
+		foreach($categories as $cat){
+			$content_data['categories'][$cat['orgcategoryid']] = $cat['description'];
+		}
+		
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['organization'] = $this->organization_model->get_organization($this->session->organizationid());		
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form1', $content_data);
+		$this->views->footer();
+	}
+	
+	function form1_faculty_adviser($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		$orgname = NULL;
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
+		$data['title'] = "Faculty Advisers - ".$this->session->username();
+		
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['add_adviser_url'] = "organization/form1_add_adviser/{$appsemid}/{$organizationid}";
+		$content_data['advisers'] = $this->organization_model->get_advisers($organizationid, $appsemid);
 		
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form1');
+		$this->load->view('organization/forms/form1_faculty_adviser', $content_data);
 		$this->views->footer();
+	}
+	
+	function form1_add_adviser($appsemid, $organizationid){
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+			redirect('organization/forms');
+		
+		$data['title'] = "Add Faculty Adviser - ".$this->session->username();
+		
+		if(!$this->session->user_group_is(OSA_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		$organization = $this->organization_model->get_organization($organizationid);
+		$orgname = $organization['orgname'];
+		
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['orgname'] = $orgname;
+		$content_data['submit_url'] = "organization/form1_add_adviser_submit/{$appsemid}/{$organizationid}";
+		$content_data['postback'] = $this->session->postback_variable();
+
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form1_add_adviser', $content_data);
+		$this->views->footer();
+	}
+	
+	function form1_add_adviser_submit($appsemid, $organizationid){
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+			redirect('organization/forms');
+					
+		if(!$this->session->user_group_is(OSA_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email');
+		$this->form_validation->set_rules('email', 'Email Address', 'valid_email');
+		
+		$postback['webmail'] = $this->input->post('webmail');
+		$postback['email'] = $this->input->post('email');
+		
+		if(!$this->form_validation->run()){
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+			
+			redirect("organization/form1_add_adviser/{$appsemid}/{$organizationid}");
+		}
+		else{
+			$add_success = $this->organization_model->add_faculty($organizationid, $appsemid, $postback['webmail'], $postback['email']);
+			
+			if($add_success)
+				redirect("organization/form1_faculty_adviser/{$appsemid}/{$organizationid}");
+			else{
+				$this->load->helper('inflector');
+				
+				$this->session->add_validation_error("{$postback['webmail']} is already a faculty adviser");
+				$this->session->save_postback_variable($postback);
+				
+				redirect("organization/form1_add_adviser/{$appsemid}/{$organizationid}");
+			}
+		}
 	}
 	
 	function form2()
 	{
-		$data['title'] = "Faculty Adviser and Finance Statement - ".$this->session->username();
+		$data['title'] = "Finance Statement - ".$this->session->username();
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form2');
@@ -243,9 +362,6 @@ class Organization extends Controller {
 	
 	function change_password_submit()
 	{
-		$this->load->library('form_validation');
-		$this->form_validation->set_error_delimiters('<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>', '<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
-		
 		$this->form_validation->set_rules('old_pass', '"Current Password"', 'required|callback__password_check');
 		$this->form_validation->set_message('_password_check', "The %s field doesn't match the current password of your account.");
 		$this->form_validation->set_rules('new_pass_1', '"New Password"', 'required');

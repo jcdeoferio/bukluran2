@@ -4,7 +4,8 @@
 	</div>
 	<div>
 		<?=anchor('organization/form1',"Information Sheet");?><br />
-		<?=anchor('organization/form2',"Faculty Adviser, Head and Finance Statement");?><br />
+		<?=anchor('organization/form1_faculty_adviser',"Faculty Advisers");?><br />
+		<?=anchor('organization/form2',"Finance Statement");?><br />
 		<?=anchor('organization/form3',"Officer and Member Roster");?><br />
 		<?=anchor('organization/form5',"Accomplishment Report");?><br />
 		<?=anchor('organization/form6',"Calendar of Activities");?><br />
