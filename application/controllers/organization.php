@@ -486,10 +486,15 @@ class Organization extends Controller {
 		$data['title'] = "View Message  - ".$this->session->username();
 		$data['message'] = false;
 		$data['span'] = 19;
+		$data['back_link'] = $this->session->user_group_is(OSA_GROUPID)?
+								"osa/view_application/{$data['clarification']['organizationid']}/{$data['clarification']['appsemid']}":
+								"organization";
 		
 		$user = $this->session->userdata(USER);
 		
-		if($data['clarification']['organizationid'] != $user['organizationid'])
+		if(!$this->session->user_group_is(OSA_GROUPID) && 
+			$data['clarification']['organizationid'] != $user['organizationid'] &&
+			$data['clarification']['appsemid'] == $this->Variable->current_application_aysem())
 			redirect('organization');
 		
 		$this->views->header($data,$this->sidebar_data);

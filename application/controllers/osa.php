@@ -201,6 +201,7 @@ class Osa extends Controller {
 		}
 		
 		$content_data['orgs'] = $orgs;
+		$content_data['aysem'] = $this->Variable->current_application_aysem();
 		$content_data['span'] = 19;
 		$content_data['site_link'] = 'osa/organizations/';
 		$content_data['forward_link'] = 'osa/view_application/';
@@ -513,19 +514,90 @@ class Osa extends Controller {
 		return(in_array($sem, array(1, 2 ,3)));
 	}
 	
-	function view_application($orgid)
+	function view_application($orgid,$aysem)
 	{
-		$org = $this->organization_model->get_organization($orgid);
+		$org = $this->organization_model->get_organization_profile($orgid,$aysem);		
 		
 		$data['title'] = "View Application - OSA";
 		$data['span'] = 19;
 		$content_data['org'] = $org;
+		$content_data['aysem'] = $aysem;
+		$content_data['clarifications'] = $this->organization_model->get_clarifications($orgid, $aysem);
 				
 		$this->views->header($data,$this->sidebar_data);		
-		$this->load->view('osa/view_org_application', $content_data);
+		$this->load->view('organization/forms/index', $content_data);
 		$this->views->footer();
 	}
 	
+	function create_clarification($orgid,$aysem){
+		$data['title'] = "Create Message - OSA";	
+		
+		$fckeditorConfig = array(
+			'instanceName' => 'description',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '400',
+			'Value' => ''
+			);
+		$content_data['title'] = "Create Message";	
+		$content_data['clarification']['description'] = '';
+		$content_data['back_url'] = "osa/view_application/{$orgid}/{$aysem}";
+		$content_data['submit_url'] = "osa/create_clarification_submit/{$orgid}/{$aysem}";
+		
+		$this->load->library('fckeditor', $fckeditorConfig);
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/create_clarification',$content_data);
+		$this->views->footer();
+	}
+	
+	function create_clarification_submit($orgid,$aysem){
+		$this->load->model('email_queue_model');
+		
+		$clarification = $this->organization_model->create_clarification($orgid,$aysem,$this->input->post('description'));
+		$this->email_queue_model->queue_osa_to_organization_email($clarification['orgclarificationid'],$orgid);
+		
+		redirect("osa/view_application/{$orgid}/{$aysem}");
+	}
+	
+	function edit_clarification($orgid,$aysem,$clarificationid){
+		$data['title'] = "Create Message - OSA";	
+		
+		$fckeditorConfig = array(
+			'instanceName' => 'description',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '400',
+			'Value' => ''
+			);
+		$content_data['title'] = "Create Message";	
+		$content_data['clarification'] = $this->organization_model->get_clarification($clarificationid);
+		$content_data['back_url'] = "osa/view_application/{$orgid}/{$aysem}";
+		$content_data['submit_url'] = "osa/edit_clarification_submit/{$orgid}/{$aysem}";
+		
+		$this->load->library('fckeditor', $fckeditorConfig);
+		
+		$this->views->header($data,$this->sidebar_data);		
+		$this->load->view('osa/create_clarification',$content_data);
+		$this->views->footer();
+	}
+	
+	function edit_clarification_submit($orgid,$aysem){
+		$this->load->model('email_queue_model');
+		
+		$clarification = $this->organization_model->edit_clarification($this->input->post('orgclarificationid'),$this->input->post('description'));
+		$this->email_queue_model->queue_osa_to_organization_email($clarification['orgclarificationid'],$orgid);
+		
+		redirect("osa/view_application/{$orgid}/{$aysem}");
+	}
+	
+	function delete_clarification($id,$orgid,$aysem){
+		$this->organization_model->delete_clarification($id);
+		$this->view_application($orgid,$aysem);
+	}
+
 	//function send_to_all_orgs($subject, $message){
 	//	$this->load->library('Emailer');
 	//	

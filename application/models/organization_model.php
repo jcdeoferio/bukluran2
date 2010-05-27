@@ -202,6 +202,19 @@ class Organization_model extends Model{
 		return $query->row_array();
 	}
 	
+	function edit_clarification($id,$description){
+		$this->db->where('orgclarificationid',$id);
+		$this->db->update('orgclarifications',array('description' => $description));
+	}
+	
+	function delete_clarification($id){
+		$this->db->where('orgclarificationid',$id);
+		$this->db->delete('email_queue');
+		
+		$this->db->where('orgclarificationid',$id);
+		$this->db->delete('orgclarifications');
+	}
+	
 	function get_position($studentid, $organizationid, $appsemid){
 		$this->db->from('orgmemberships');
 		$this->db->where('studentid', $studentid);

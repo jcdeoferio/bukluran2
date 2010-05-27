@@ -11,7 +11,7 @@
 	</div>
 	<?endif;?>
 	<?=$clarification['description']?>
-	<?=br(2).anchor('organization','Back')?>
+	<?=br(2).anchor($back_link,'Back')?>
 </div>
 
 <script type="text/javascript">
