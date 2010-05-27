@@ -3,13 +3,23 @@
 		Application Forms
 	</div>
 	<div>
-		<?=anchor('organization/form1',"Form 1 - Information Sheet");?><br />
-		<?=anchor('organization/form1_faculty_adviser',"Form 1 - Faculty Advisers");?><br />
-		<?=anchor('organization/form2',"Form 2 - Finance Statement");?><br />
-		<?=anchor('organization/form3',"Forms 3 and 4 - Officer and Member Roster");?><br />
-		<?=anchor('organization/form5',"Form 5 - Accomplishment Report");?><br />
-		<?=anchor('organization/form6',"Form 6 - Calendar of Activities");?><br />
-		<?=anchor('organization/form7',"Form 7 - Acknowledgement");?><br /><br /><br />
+	<? if($this->session->user_group_is(OSA_GROUPID)):?>
+		<?=anchor("organization/form1/{$aysem}/{$org['organizationid']}","Form 1 - Information Sheet");?><br />
+		<?=anchor("organization/form1_faculty_adviser/{$aysem}/{$org['organizationid']}","Form 1 - Faculty Advisers");?><br />
+		<?=anchor("organization/form2/{$aysem}/{$org['organizationid']}","Form 2 - Finance Statement");?><br />
+		<?=anchor("organization/form3/{$aysem}/{$org['organizationid']}","Forms 3 and 4 - Officer and Member Roster");?><br />
+		<?=anchor("organization/form5/{$aysem}/{$org['organizationid']}","Form 5 - Accomplishment Report");?><br />
+		<?=anchor("organization/form6/{$aysem}/{$org['organizationid']}","Form 6 - Calendar of Activities");?><br />
+		<?=anchor("organization/form7/{$aysem}/{$org['organizationid']}","Form 7 - Acknowledgement");?><br /><br /><br />
+	<? else:?>
+		<?=anchor("organization/form1","Form 1 - Information Sheet");?><br />
+		<?=anchor("organization/form1_faculty_adviser","Form 1 - Faculty Advisers");?><br />
+		<?=anchor("organization/form2","Form 2 - Finance Statement");?><br />
+		<?=anchor("organization/form3","Forms 3 and 4 - Officer and Member Roster");?><br />
+		<?=anchor("organization/form5","Form 5 - Accomplishment Report");?><br />
+		<?=anchor("organization/form6","Form 6 - Calendar of Activities");?><br />
+		<?=anchor("organization/form7","Form 7 - Acknowledgement");?><br /><br /><br />
+	<? endif;?>
 	</div>
 	
 	<div class="contentHeader_text">

@@ -16,9 +16,14 @@ class Organization extends Controller {
 		$this->load->model('organization_model');
 		$this->load->model('email_queue_model');
 		
-		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
-		$this->sidebar_data['anchors'] = array('Application Forms','Change Password');
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
+			$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
+		}else{			
+			//$this->sidebar_data = array();
+			$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
+			$this->sidebar_data['anchors'] = array('Application Forms','Change Password');
+		}
 		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 		
