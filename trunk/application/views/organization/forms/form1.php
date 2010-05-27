@@ -2,96 +2,94 @@
 	<div class="contentHeader_text">
 		Information Sheet
 	</div>
-	<div>
-		<?php 
-			$this->load->helper('form');
-			$months = array(
-						'1' => 'January',
-						'2' => 'February',
-						'3' => 'March',
-						'4' => 'April',
-						'5' => 'May',
-						'6' => 'June',
-						'7' => 'July',
-						'8' => 'August',
-						'9' => 'September',
-						'10' => 'October',
-						'11' => 'November',
-						'12' => 'December');
-			$days = array();
-			for($i=1;$i<=31;$i++){
-				$days[$i] = $i;
-			}
-			$years = array();
-			for($i=1908;$i<=2010;$i++){
-				$years[$i] = $i;
-			}
-			$categories = array('Academic','Alliance','Cause-Oriented','Community Service','Dormitory Association','Fraternity','Regional/Provincial','Religious','Sorority','Special Interest','Sports and Recreatio');			
-		?>
-		<em><em class="required">*</em> Required Fields</em><?=br(3)?>
-		<?php if(isset($error)):?>
-		<div class="error">test</div>
-		<?php endif;?>
-		<?=form_open('organization/form1');?>
-		<?=form_fieldset('Organization Details');?>
-		<ol>
-		<li>
-		<?=form_label('Official Name<em class="required">*</em>:','org_name',array('class'=>'top'));?>
-		<?=form_input('org_name','','id="org_name" size="90"');?>
-		</li>
-		<li>
-		<?=form_label('Other Name(s)/Acronym<em class="required">*</em>:','org_other_names',array('class'=>'top'));?>
-		<?=form_input('org_other_names','','id="org_other_names" size="90"');?><br/>
-		</li>
-		<li>
-		<?=form_label('Date Establised<em class="required">*</em>:','established_month',array('class'=>'top'))?>
-		<?=form_dropdown('establised_month',$months,'','id="established_month"')?>
-		<?=form_dropdown('establised_day',$days)?>
-		<?=form_dropdown('establised_year',$years)?>
-		</li>
-		<li>
-		<?=form_label('Category<em class="required">*</em>:','org_category',array('class'=>'top'))?>
-		<?=form_dropdown('org_category',$categories,'','id="org_category"');?><br/>
-		</li>
-		<li>
-		Is your organization incorporated with the Securities &amp; Exchange Commission<em class="required">*</em>?<br/>
-		<?=form_radio(array('name'=>'sec_incorporation','value'=>'yes','id'=>'sec_yes'))?><?=form_label('Yes','sec_yes')?>
-		<div id="sec_date">
-		Specify Date:
-		<?=form_dropdown('sec_month',$months)?>
-		<?=form_dropdown('sec_day',$days)?>
-		<?=form_dropdown('sec_year',$years)?>
-		</div>
-		<?=form_radio(array('name'=>'sec_incorporation','value'=>'no','id'=>'sec_no','checked'=>'checked'))?><?=form_label('No','sec_no')?>
-		</li>
-		<li>
-		<?=form_label('Organization Description<em class="required">*</em>:','org_description',array('class'=>'top')).br(1)?>
-		<?=$this->fckeditor->Create();?>
-		</li>
-		</ol>
-		<?=form_fieldset_close();?>
+	
+	<p>
+	Currently viewing form 1 of organization <strong><?= $organization['orgname'] ?></strong><br/>
+	for application period <strong><?= $pretty_application_aysem ?></strong>
+	</p>
+	
+	<? if($this->session->user_group_is(OSA_GROUPID) && count($appsems) > 1): ?>
+	
+	<?= form_open($change_appsem_submit_url) ?>
+	View application form for different application period:
+	<?= form_dropdown('appsem', $appsems, $appsemid) ?>
+	<?= form_submit('submit', 'Go') ?>
+	<?= form_close(); ?>
+	
+	<? endif; ?>
+	
+	
+	<?=form_open('organization/form1_submit')?>
+	<table>
+		<tr>
+			<td><?=form_label('Official Name of the Organization:','name')?></td>
+			<td><?=form_input('name',$organization['orgname'])?></td>
+		</tr>
+		<tr>
+			<td><?=form_label('Acronym or Other Names:','acronym')?></td>
+			<td><?=form_input('acronym')?></td>
+		</tr>
+		<tr>
+			<td><?=form_label('Date Established (yyyy-mm-dd):','date_established')?></td>
+			<td><?=form_input('date_established','','class="datepicker"')?></td>
+		</tr>
+		<tr>
+			<td><?=form_label('Category:','category')?></td>
+			<td><?=form_dropdown('category',$categories)?></td>
+		</tr>
+		<tr>
+			<td><?=form_label('Is your organization incorporated with the<br/>Securities & Exchange Commission?','sec_incorporated')?></td>
+			<td>
+				<div class="radio">
+				<?=form_radio('sec_incorporated',true,false,'id="sec_incorporated_yes"')?>
+				<?=form_label('Yes','sec_incorporated_yes')?>
+				<?=form_radio('sec_incorporated',false,true,'id="sec_incorporated_no"')?>
+				<?=form_label('No','sec_incorporated_no')?>
+				</div>
+			</td>
+		</tr>
+		<tr id="incorporated">
+			<td><?=form_label('Date Incorporated (yyyy-mm-dd):','date_incorporated')?></td>
+			<td><?=form_input('date_incorporated','','class="datepicker"')?></td>
+		</tr>
+		<tr>
+			<td><?=form_label('Mailing Address:','mailaddr')?></td>
+			<td><?=form_input('mailaddr')?></td>
+		</tr>
+		<tr>
+			<td><?=form_label("Permanent Email Address:",'orgemail')?></td>
+			<td><?=form_input('orgemail')?></td>
+		</tr>
+		<tr>
+			<td><?=form_label("Head's Email Address:",'heademail')?></td>
+			<td><?=form_input('heademail')?></td>
+		</tr>
 		
-		<?=form_fieldset('Organization Contact Information');?>
-		<ol>
-		<li>
-		<?=form_label('Mailing Address<em class="required">*</em>:','org_mailing_address',array('class'=>'top'));?>
-		<?=form_input('org_mailing_address','','id="org_mailing_address" size="90"');?><br/>
-		</li>
-		<li>
-		<?=form_label('Organization Email Address<em class="required">*</em>:','org_email',array('class'=>'top'));?>
-		<?=form_input('org_email','','id="org_email" size="50"');?><br/>
-		</li>
-		<li>
-		<?=form_label('Organization Head\'s Email Address<em class="required">*</em>:','org_head_email',array('class'=>'top'));?>
-		<?=form_input('org_head_email','','id="org_head_email" size="50"');?><br/>
-		</li>
-		</ol>
-		<?=form_fieldset_close();?>
-				
-		<?=form_fieldset('',array('class'=>'submit'));?>
-		<?=form_submit('submit','Save Details');?>		
-		<?=form_fieldset_close();?>
-		<?=form_close();?>
-	</div>
+	</table>
+	
+	<?=form_submit('submit','Save')?>
+	<?=form_close()?>
 </div>
+
+<script>
+	$('.datepicker').datepicker({
+		changeMonth: true,
+		changeYear: true,
+		dateFormat: 'yy-mm-dd',
+		minDate: '1908-06-01',
+		maxDate: 0
+	});
+	$('.radio').buttonset();
+	
+	$('#incorporated').hide();
+	
+	$('#sec_incorporated_yes').click(function(){
+		$('#incorporated').fadeIn('slow');
+	});
+	
+	$('#sec_incorporated_no').click(function(){
+		$('#incorporated').fadeOut('slow');
+	});
+	
+</script>
 

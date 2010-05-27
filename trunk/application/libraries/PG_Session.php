@@ -71,7 +71,7 @@ class PG_Session extends CI_Session{
 	}
 	
 	function add_validation_error($error){
-		$this->set_userdata(VALERR, $this->userdata(VALERR)."<p>{$error}</p>");
+		$this->set_userdata(VALERR, $this->userdata(VALERR).'<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>'.$error.'<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
 	}
 	
 	function validation_errors(){

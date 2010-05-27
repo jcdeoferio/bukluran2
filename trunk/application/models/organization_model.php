@@ -63,6 +63,12 @@ class Organization_model extends Model{
 		return($row['description']);
 	}
 	
+	function get_orgcategories(){
+		$this->db->from('orgcategories');		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
+	
 	function get_members_and_officers($organizationid, $appsemid){
 		$this->db->from('students s');
 		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
@@ -117,7 +123,7 @@ class Organization_model extends Model{
 			
 		return($this->get_student($webmail));
 	}
-	
+
 	function get_student($webmail){
 		$this->db->from('students');
 		$this->db->where('webmail', $webmail);
@@ -205,4 +211,61 @@ class Organization_model extends Model{
 		$row = $query->row_array();
 		return $row['position'];
 	}
+	
+	function add_faculty($organizationid, $appsemid, $webmail, $email){
+		$faculty = $this->assertive_get_faculty($webmail, $email);
+		$facultyid = $faculty['facultyid'];
+		
+		if($this->adviser_exists($facultyid, $organizationid, $appsemid))
+			return(FALSE);
+		
+		$this->insert_adviser($facultyid, $organizationid, $appsemid, $email);
+		
+		return(TRUE);
+	}
+	
+	function adviser_exists($facultyid, $organizationid, $appsemid){
+		$this->db->from('orgadvisers');
+		$this->db->where('facultyid', $facultyid);
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		
+		return($this->db->count_all_results() > 0);
+	}
+	
+	function insert_adviser($facultyid, $organizationid, $appsemid, $email){
+		$this->db->set('facultyid', $facultyid);
+		$this->db->set('organizationid', $organizationid);
+		$this->db->set('appsemid', $appsemid);
+		$this->db->insert('orgadvisers');
+	}
+
+	function assertive_get_faculty($webmail, $email = NULL){
+		if(!$this->faculty_exists($webmail))
+			$this->insert_faculty($webmail, $email);
+			
+		return($this->get_faculty($webmail));
+	}
+	
+	function get_faculty($webmail){
+		$this->db->from('faculty');
+		$this->db->where('webmail', $webmail);
+		
+		$query = $this->db->get();
+		return($query->row_array());
+	}
+	
+	function insert_faculty($webmail, $email){
+		$this->db->set('webmail', $webmail);
+		$this->db->set('email', $email);
+		$this->db->insert('faculty');
+	}
+	
+	function faculty_exists($webmail){
+		$this->db->from('faculty');
+		$this->db->where('webmail', $webmail);
+		
+		return($this->db->count_all_results() > 0);
+	}
+	
 }
