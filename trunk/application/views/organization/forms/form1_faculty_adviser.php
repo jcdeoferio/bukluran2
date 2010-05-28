@@ -31,6 +31,7 @@
 	<tr>
 		<th>UP Webmail</th>
 		<th>Email Address</th>
+		<th>Action</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -38,6 +39,7 @@
 		<tr>
 			<td><?= $adviser['webmail'] ?></td>
 			<td><?= $adviser['email'] ?></td>
+			<td><?= anchor("organization/delete_adviser/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?></td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>

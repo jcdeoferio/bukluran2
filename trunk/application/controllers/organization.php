@@ -175,6 +175,7 @@ class Organization extends Controller {
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
 		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
 		$content_data['add_adviser_url'] = "organization/form1_add_adviser/{$appsemid}/{$organizationid}";
 		$content_data['advisers'] = $this->organization_model->get_advisers($organizationid, $appsemid);
 		
@@ -277,6 +278,7 @@ class Organization extends Controller {
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
 		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
 		$content_data['add_officer_url'] = "organization/form3_add_student/true/{$appsemid}/{$organizationid}";
 		$content_data['add_member_url'] = "organization/form3_add_student/false/{$appsemid}/{$organizationid}";
 		$content_data['officers'] = $this->organization_model->get_officers($organizationid, $appsemid);
@@ -350,7 +352,7 @@ class Organization extends Controller {
 			redirect("organization/form3_add_student/{$isofficerstr}/{$appsemid}/{$organizationid}");
 		}
 		else{
-			$add_success = $this->Organization_model->roster_add_student($organizationid, $appsemid, $postback['webmail'], $postback['email'], $postback['position']);
+			$add_success = $this->organization_model->roster_add_student($organizationid, $appsemid, $postback['webmail'], $postback['email'], $postback['position']);
 			
 			if($add_success)
 				redirect("organization/form3/{$appsemid}/{$organizationid}");
@@ -505,6 +507,42 @@ class Organization extends Controller {
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/clarification',$data);
 		$this->views->footer();
+	}
+	
+	function delete_member($studentid, $appsemid = CURRENT_APPSEM, $organizationid = NULL){				
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+		
+		$this->organization_model->delete_member($organizationid,$studentid,$appsemid);
+		
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$this->form3($appsemid,$organizationid);
+		}else{
+			$this->form3();
+		}
+	}
+	
+	function delete_adviser($facultyid, $appsemid = CURRENT_APPSEM, $organizationid = NULL){				
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+		
+		$this->organization_model->delete_adviser($organizationid,$facultyid,$appsemid);
+		
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$this->form1_faculty_adviser($appsemid,$organizationid);
+		}else{
+			$this->form1_faculty_adviser();
+		}
 	}
 }
 
