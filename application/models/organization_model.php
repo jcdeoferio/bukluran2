@@ -291,4 +291,18 @@ class Organization_model extends Model{
 		$this->db->where('appsemid',$appsemid);
 		$this->db->update('orgprofiles',$profile);
 	}
+	
+	function delete_member($organizationid,$studentid,$appsemid){
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('studentid',$studentid);
+		$this->db->where('appsemid',$appsemid);
+		$this->db->delete('orgmemberships');
+	}
+	
+	function delete_adviser($organizationid,$facultyid,$appsemid){
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('facultyid',$facultyid);
+		$this->db->where('appsemid',$appsemid);
+		$this->db->delete('orgadvisers');
+	}
 }

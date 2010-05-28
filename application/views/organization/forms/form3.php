@@ -31,6 +31,7 @@
 		<th>UP Webmail</th>
 		<th>Email Address</th>
 		<th>Position</th>
+		<th>Action</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -39,6 +40,7 @@
 			<td><?= $officer['webmail'] ?></td>
 			<td><?= $officer['email'] ?></td>
 			<td><?= $officer['position'] ?></td>
+			<td><?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?></td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>
@@ -65,6 +67,7 @@
 	<tr>
 		<th>UP Webmail</th>
 		<th>Email Address</th>
+		<th>Action</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -72,6 +75,7 @@
 		<tr>
 			<td><?= $member['webmail'] ?></td>
 			<td><?= $member['email'] ?></td>
+			<td><?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?></td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>
