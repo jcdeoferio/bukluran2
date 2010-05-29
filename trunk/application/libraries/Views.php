@@ -76,13 +76,13 @@ class Views {
 		$this->CI->load->view('footer');
 	}
 
-    function load_announcements($page_no = 0, $announcement_id = -1)
+    function load_announcements($offset = 0, $announcement_id = -1)
     {	
-		$limit = 20;
+		$limit = 5;
 		
 		$this->data['title'] = $this->data['announcement']['title'];
 		$this->data['stylesheets'] = array('announcement.css');
-		$this->data['announcement']['page_no'] = $page_no;
+		$this->data['announcement']['page_no'] = $offset;
 		
 		$this->CI->load->view('htmlhead', $this->data);
 		$this->CI->load->view('header');
@@ -93,7 +93,9 @@ class Views {
 			$this->CI->load->view('sidebar/links_only',$this->data['sidebar']);
 		}
 		if($announcement_id == -1){
-			$this->data['announcement']['announcements'] = $this->CI->Announcement_model->get_announcements($limit, ($page_no - 1) * $limit);
+			$this->data['announcement']['announcements'] = $this->CI->Announcement_model->get_announcements($limit, $offset);
+			$this->data['announcement']['total'] = $this->CI->Announcement_model->count_announcements();
+			$this->data['announcement']['limit'] = $limit;
 			$this->CI->load->view('announcements/list', $this->data['announcement']);
 		}else{
 			$this->data['announcement']['announcement'] = $this->CI->Announcement_model->get_announcement($announcement_id);

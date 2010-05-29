@@ -25,6 +25,11 @@ class Announcement_model extends Model{
 		return($query->result_array());
 	}
 	
+	function count_announcements(){
+		$this->db->from('announcements');
+		return $this->db->count_all_results();
+	}
+	
 	function create_announcement($loginaccountid, $title, $content){		
 		$announcement['loginaccountid'] = $loginaccountid;
 		$announcement['title'] = $title;
