@@ -584,32 +584,64 @@ class Organization extends Controller {
 		$this->views->load_announcements($page_no,$announcement_id);
 	}
 	
-	function send_member_confirmation_emails(){
-		$aysem = $this->Variable->current_application_aysem();
-		$user = $this->session->userdata(USER);
-		$members = $this->organization_model->get_members_and_officers($user['organizationid'],$aysem);
-		$this->email_queue_model->queue_member_confirmation_email($user['organizationid'],$members);
+	function send_member_confirmation_email($studentid, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
 		
-		//$aysem = $this->Variable->current_application_aysem();
-		//$query = $this->organization_model->get_members($orgid, $aysem);
-		//foreach ($query->result_array() as $row)
-		//{
-		//	$this->Emailer->send_email($row['webmail'],$subject,$message);
-		//}
+		if(is_null($organizationid))
+			redirect('organization');
+
+		$member['studentid'] = $studentid;
+		$this->email_queue_model->queue_member_confirmation_email($organizationid,array($member));
+		$this->form3($appsemid,$organizationid);
 	}
 	
-	function send_adviser_confirmation_emails(){
-		$aysem = $this->Variable->current_application_aysem();
-		$user = $this->session->userdata(USER);
-		$advisers = $this->organization_model->get_advisers($user['organizationid'],$aysem);
-		$this->email_queue_model->queue_faculty_confirmation_email($user['organizationid'],$advisers);
+	function send_adviser_confirmation_email($facultyid, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
 	
-		//$aysem = $this->Variable->current_application_aysem();
-		//$query = $this->organization_model->get_advisers($orgid, $aysem);
-		//foreach ($query->result_array() as $row)
-		//{
-		//	$this->Emailer->send_email($row['webmail'],$subject,$message);
-		//}
+		$adviser['facultyid'] = $facultyid;
+		$this->email_queue_model->queue_faculty_confirmation_email($organizationid,array($adviser));
+		$this->form1_faculty_adviser($appsemid,$organizationid);
+	}
+		
+	function send_member_confirmation_emails($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+
+		$members = $this->organization_model->get_members_and_officers($organizationid,$appsemid);
+		$this->email_queue_model->queue_member_confirmation_email($organizationid,$members);
+		$this->form3($appsemid,$organizationid);
+	}
+	
+	function send_adviser_confirmation_emails($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+	
+		$advisers = $this->organization_model->get_advisers($organizationid,$appsemid);
+		$this->email_queue_model->queue_faculty_confirmation_email($organizationid,$advisers);
+		$this->form1_faculty_adviser($appsemid,$organizationid);
 	}
 	
 	function view_clarification($id){

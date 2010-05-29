@@ -43,7 +43,10 @@
 			<td><?= $officer['webmail'] ?></td>
 			<td><?= $officer['email'] ?></td>
 			<td><?= $officer['position'] ?></td>
-			<td><?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?></td>
+			<td>
+				<?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
+				<?= anchor("organization/send_member_confirmation_email/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
+			</td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>
@@ -78,7 +81,10 @@
 		<tr>
 			<td><?= $member['webmail'] ?></td>
 			<td><?= $member['email'] ?></td>
-			<td><?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?></td>
+			<td>
+				<?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
+				<?= anchor("organization/send_member_confirmation_email/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
+			</td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>
@@ -92,6 +98,8 @@
 	
 	<?= anchor($add_member_url, 'Add A Member') ?>
 	</p>
+	<?= anchor("organization/send_member_confirmation_emails".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation Emails')?>
 	<?endif;?>
+	
 </div>
 
