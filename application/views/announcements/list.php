@@ -1,10 +1,11 @@
 <?php
 $config['base_url'] = site_url($site_link);
-$config['total_rows'] = count($announcements); //TODO: GET FROM MODEL
-$config['per_page'] = '20'; 
+$config['total_rows'] = $total;
+$config['per_page'] = $limit; 
 
 $this->pagination->initialize($config); 
 ?>
+<?=$total?>
 
 <div class="span-<?=isset($span)?$span:24?> last" id="content_main">
 	<div class="contentHeader_text">
