@@ -173,12 +173,20 @@ CREATE TABLE orgclarifications(
 CREATE TABLE email_queue(
 	emailqueueid serial PRIMARY KEY,
 	emailtypeid integer REFERENCES email_types NOT NULL,
-	organizationid integer REFERENCES organizations DEFAULT null,
-	facultyid integer REFERENCES faculty DEFAULT null,
-	studentid integer REFERENCES students DEFAULT null,
-	announcementid integer REFERENCES announcements DEFAULT null,
-	orgclarificationid integer REFERENCES orgclarifications DEFAULT null,
-	sent boolean DEFAULT false);
+	organizationid integer REFERENCES organizations DEFAULT -1,
+	facultyid integer REFERENCES faculty DEFAULT -1,
+	studentid integer REFERENCES students DEFAULT -1,
+	announcementid integer REFERENCES announcements DEFAULT -1,
+	orgclarificationid integer REFERENCES orgclarifications DEFAULT -1,
+	sent boolean DEFAULT false,
+	UNIQUE(emailtypeid,organizationid,facultyid,studentid,announcementid,orgclarificationid,sent));
+
+	
+INSERT INTO organizations(organizationid,orgname) VALUES (-1,'');
+INSERT INTO faculty(facultyid) VALUES (-1);
+INSERT INTO students(studentid) VALUES (-1);
+INSERT INTO announcements(announcementid) VALUES (-1);
+INSERT INTO orgclarifications(orgclarificationid) VALUES (-1);
 
 COPY email_types (description) FROM stdin;
 member confirmation
@@ -234,10 +242,10 @@ INSERT INTO appsems (appsemid, insertedby) VALUES (cast((SELECT value FROM varia
 INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'organization'), 'org1', md5('password'));
 INSERT INTO linkaccounts (groupid, hashcode) VALUES ((SELECT groupid FROM groups WHERE groupname = 'student'), 'student');
 INSERT INTO linkaccounts (groupid, hashcode) VALUES ((SELECT groupid FROM groups WHERE groupname = 'faculty'), 'faculty');
-INSERT INTO faculty (useraccountid, webmail, email) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'faculty'), 'faculty@up.edu.ph','faculty@up.edu.ph');
+INSERT INTO faculty (useraccountid, webmail) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'faculty'), 'faculty@up.edu.ph');
 INSERT INTO students (useraccountid, webmail) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'student'), 'student@up.edu.ph');
 INSERT INTO organizations (loginaccountid, orgname) VALUES ((SELECT loginaccountid FROM loginaccounts WHERE username = 'org1'),'organization 1');
-INSERT INTO orgadvisers (organizationid, facultyid, appsemid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT facultyid FROM faculty WHERE email = 'faculty@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'));
+INSERT INTO orgadvisers (organizationid, facultyid, appsemid, email) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT facultyid FROM faculty WHERE webmail = 'faculty@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'),'faculty@up.edu.ph');
 INSERT INTO orgmemberships (organizationid, studentid, appsemid , email) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT studentid FROM students WHERE webmail = 'student@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'),'student@up.edu.ph');
 INSERT INTO orgprofiles (organizationid, appsemid, orgcategoryid, orgstatusid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'),(SELECT orgcategoryid FROM orgcategories WHERE description='Fraternity'),(SELECT orgstatusid FROM orgstatuses WHERE description = 'Renewed'));
 INSERT INTO announcements (title,loginaccountid,date_created,date_modified,content) VALUES ('Sample announcement1',(SELECT loginaccountid FROM loginaccounts WHERE username = 'osa'),now(),now(),'Sample announcement content1');
