@@ -52,6 +52,7 @@ class Announcement_model extends Model{
 	}
 	
 	function delete_announcement($announcementid){
+		$this->db->delete('email_queue', array('announcementid' => $announcementid));
 		$this->db->delete('announcements', array('announcementid' => $announcementid)); 
 	}
 }
