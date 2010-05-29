@@ -2,6 +2,9 @@
 	<div class="contentHeader_text">
 		Application Forms
 	</div>
+	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+		Registration is Currently Closed.
+	<?else:?>
 	<div>
 	<? if($this->session->user_group_is(OSA_GROUPID)):?>
 		<?=anchor("organization/form1/{$aysem}/{$org['organizationid']}","Form 1 - Information Sheet");?><br />
@@ -77,6 +80,6 @@
 	<? else:?>
 		No Messages From OSA
 	<? endif;?>
-	
+	<?endif;?>
 </div>
 

@@ -2,6 +2,9 @@
 	<div class="contentHeader_text">
 		Form 5
 	</div>
+	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+		Registration is Currently Closed.
+	<?else:?>
 	
 	<p>
 	Currently viewing form 3 of organization <strong><?= $orgname ?></strong><br/>
@@ -16,6 +19,7 @@
 	<?= form_submit('submit', 'Go') ?>
 	<?= form_close(); ?>
 	
+	<? endif; ?>
 	<? endif; ?>
 </div>
 
