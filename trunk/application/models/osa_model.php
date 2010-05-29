@@ -4,6 +4,7 @@ class Osa_model extends Model{
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->helper('password');
 	}
 	/*
 	function get_organizations(){
@@ -27,7 +28,7 @@ class Osa_model extends Model{
 	function create_organization($orgname, $username){
 		$this->db->trans_start();
 		
-		$password = $this->generate_password();
+		$password = generate_password();
 		
 		$this->db->set('groupid', ORG_GROUPID);
 		$this->db->set('username', $username);
@@ -66,7 +67,7 @@ class Osa_model extends Model{
 	}
 	
 	function reset_organization_password($username){
-		$password = $this->generate_password();
+		$password = generate_password();
 		
 		$this->db->set('password', md5($password));
 		$this->db->where('username', $username);
@@ -76,7 +77,7 @@ class Osa_model extends Model{
 	}
 	
 	function change_organization_password($username,$password){
-		//$password = $this->generate_password();
+		//$password = generate_password();
 		
 		$this->db->set('password', md5($password));
 		$this->db->where('username', $username);
@@ -85,7 +86,7 @@ class Osa_model extends Model{
 		return($password);
 	}
 	
-	
+	/*
 	function generate_password($length = 8){
 		$validchars = "0123456789abcdfghjkmnpqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -105,6 +106,7 @@ class Osa_model extends Model{
 
 		return $password;
 	}
+	*/
 	
 	function requirements_appsem($appsemid){
 		$this->db->select('requirementid, name, description');

@@ -4,6 +4,7 @@ class Organization_model extends Model{
 
 	public function __construct(){
 		parent::__construct();
+		$this->load->helper('password');
 	}
 	
 	function get_organization($organizationid){
@@ -133,7 +134,10 @@ class Organization_model extends Model{
 	}
 	
 	function insert_student($webmail, $email){
+		$linkaccount = $this->insert_link_account(STUDENT_GROUPID);
+		
 		$this->db->set('webmail', $webmail);
+		$this->db->set('useraccountid', $linkaccount['linkaccountid']);
 		$this->db->insert('students');
 	}
 	
@@ -270,7 +274,10 @@ class Organization_model extends Model{
 	}
 	
 	function insert_faculty($webmail){
+		$linkaccount = $this->insert_link_account(FACULTY_GROUPID);
+		
 		$this->db->set('webmail', $webmail);
+		$this->db->set('useraccountid', $linkaccount['linkaccountid']);
 		$this->db->insert('faculty');
 	}
 	
@@ -305,4 +312,32 @@ class Organization_model extends Model{
 		$this->db->where('appsemid',$appsemid);
 		$this->db->delete('orgadvisers');
 	}
+	
+	function link_account_code_exists($code){
+		$this->db->from('linkaccounts');
+		$this->db->where('hashcode',$code);
+		
+		return($this->db->count_all_results() > 0);
+	}
+	
+	function get_link_account($hashcode){
+		$this->db->from('linkaccounts');
+		$this->db->where('hashcode',$hashcode);
+		
+		$query = $this->db->get();
+		return($query->row_array());
+	}
+	
+	function insert_link_account($groupid){
+		$hashcode = generate_password(16);
+		while($this->link_account_code_exists($hashcode)){
+			$hashcode = generate_password(16);
+		}
+		$this->db->set('hashcode', $hashcode);
+		$this->db->set('groupid', $groupid);
+		$this->db->insert('linkaccounts');
+		
+		return $this->get_link_account($hashcode);
+	}
+
 }
