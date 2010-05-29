@@ -3,6 +3,10 @@
 		Form 1 - Faculty Advisers
 	</div>
 	
+	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+		Registration is Currently Closed.
+	<?else:?>
+	
 	<p>
 	Currently viewing form 3 of organization <strong><?= $orgname ?></strong><br/>
 	for application period <strong><?= $pretty_application_aysem ?></strong>
@@ -53,5 +57,6 @@
 	
 	<?= anchor($add_adviser_url, 'Add A Faculty Adviser') ?>
 	</p>
+	<?endif;?>
 </div>
 

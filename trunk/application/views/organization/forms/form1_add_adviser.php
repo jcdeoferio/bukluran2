@@ -7,6 +7,10 @@
 		Form 1 - Add Faculty Adviser
 	</div>
 	
+	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+		Registration is Currently Closed.
+	<?else:?>
+	
 	<p><?= $this->session->validation_errors() ?></p>
 	
 	<p>
@@ -30,4 +34,5 @@
 	</tr>
 	</table>
 	<?= form_close() ?>
+	<?endif;?>
 </div>

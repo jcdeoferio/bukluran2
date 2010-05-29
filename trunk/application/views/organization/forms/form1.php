@@ -5,6 +5,10 @@
 		Form 1 - Information Sheet
 	</div>
 	
+	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+		Registration is Currently Closed.
+	<?else:?>
+	
 	<p>
 	Currently viewing form 1 of organization <strong><?= $organization['orgname'] ?></strong><br/>
 	for application period <strong><?= $pretty_application_aysem ?></strong>
@@ -76,6 +80,7 @@
 	
 	<?=form_submit('submit','Save')?>
 	<?=form_close()?>
+	<?endif;?>
 </div>
 
 <script>

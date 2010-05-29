@@ -2,6 +2,9 @@
 	<div class="contentHeader_text">
 		Forms 3 and 4 - Officer and Member Roster
 	</div>
+	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+		Registration is Currently Closed.
+	<?else:?>
 	
 	<p>
 	Currently viewing form 3 of organization <strong><?= $orgname ?></strong><br/>
@@ -89,5 +92,6 @@
 	
 	<?= anchor($add_member_url, 'Add A Member') ?>
 	</p>
+	<?endif;?>
 </div>
 
