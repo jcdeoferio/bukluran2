@@ -34,6 +34,7 @@
 		<th>UP Webmail</th>
 		<th>Email Address</th>
 		<th>Position</th>
+		<th>Status</th>
 		<th>Action</th>
 	</tr>
 	</thead>
@@ -43,6 +44,7 @@
 			<td><?= $officer['webmail'] ?></td>
 			<td><?= $officer['email'] ?></td>
 			<td><?= $officer['position'] ?></td>
+			<td><?=$officer['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
 				<?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 				<?= anchor("organization/send_member_confirmation_email/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
@@ -73,6 +75,7 @@
 	<tr>
 		<th>UP Webmail</th>
 		<th>Email Address</th>
+		<th>Status</th>
 		<th>Action</th>
 	</tr>
 	</thead>
@@ -81,6 +84,7 @@
 		<tr>
 			<td><?= $member['webmail'] ?></td>
 			<td><?= $member['email'] ?></td>
+			<td><?=$member['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
 				<?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 				<?= anchor("organization/send_member_confirmation_email/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>

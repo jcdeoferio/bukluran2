@@ -35,6 +35,7 @@
 	<tr>
 		<th>UP Webmail</th>
 		<th>Email Address</th>
+		<th>Status</th>
 		<th>Action</th>
 	</tr>
 	</thead>
@@ -43,6 +44,7 @@
 		<tr>
 			<td><?= $adviser['webmail'] ?></td>
 			<td><?= $adviser['email'] ?></td>
+			<td><?=$adviser['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
 				<?= anchor("organization/delete_adviser/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 				<?= anchor("organization/send_adviser_confirmation_email/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
