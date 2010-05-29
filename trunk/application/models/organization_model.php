@@ -253,7 +253,7 @@ class Organization_model extends Model{
 		$this->db->insert('orgadvisers');
 	}
 
-	function assertive_get_faculty($webmail, $email = NULL){
+	function assertive_get_faculty($webmail, $email){
 		if(!$this->faculty_exists($webmail))
 			$this->insert_faculty($webmail, $email);
 			
