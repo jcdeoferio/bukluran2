@@ -245,12 +245,34 @@ class Organization extends Controller {
 		}
 	}
 	
-	function form2()
+	function form2($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
+		$orgname = NULL;
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
 		$data['title'] = "Finance Statement - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
 		
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form2');
+		$this->load->view('organization/forms/form2', $content_data);
 		$this->views->footer();
 	}
 	
@@ -368,30 +390,65 @@ class Organization extends Controller {
 		}
 	}
 	
-	function form4()
+	function form5($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
-		$data['title'] = "Member Roster - ".$this->session->username();
+		$orgname = NULL;
 		
-		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form4');
-		$this->views->footer();
-	}
-	
-	function form5()
-	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
 		$data['title'] = "Accomplishment Report - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
 		
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form5');
+		$this->load->view('organization/forms/form5', $content_data);
 		$this->views->footer();
 	}
 	
-	function form6()
+	function form6($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
+		$orgname = NULL;
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
 		$data['title'] = "Calendar of Activites - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
 		
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form6');
+		$this->load->view('organization/forms/form6', $content_data);
 		$this->views->footer();
 	}
 	
