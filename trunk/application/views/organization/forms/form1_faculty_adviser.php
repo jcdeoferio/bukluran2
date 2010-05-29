@@ -43,7 +43,10 @@
 		<tr>
 			<td><?= $adviser['webmail'] ?></td>
 			<td><?= $adviser['email'] ?></td>
-			<td><?= anchor("organization/delete_adviser/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?></td>
+			<td>
+				<?= anchor("organization/delete_adviser/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
+				<?= anchor("organization/send_adviser_confirmation_email/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
+			</td>
 		</tr>
 	<? endforeach; ?>
 	</tbody>
@@ -57,6 +60,7 @@
 	
 	<?= anchor($add_adviser_url, 'Add A Faculty Adviser') ?>
 	</p>
+	<?= anchor("organization/send_adviser_confirmation_emails".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation Emails')?>
 	<?endif;?>
 </div>
 

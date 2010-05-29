@@ -8,6 +8,8 @@ class Email_queue_model extends Model{
 	
 	function queue_member_confirmation_email($organizationid,$students)
 	{
+		if(count($students) == 0)
+			return;
 		foreach($students as $student){
 			$id = $student['studentid'];
 			$rows[] = "{$organizationid},{$id},".MEMBER_CONFIRMATION_EMAIL;
@@ -19,6 +21,8 @@ class Email_queue_model extends Model{
 	
 	function queue_faculty_confirmation_email($organizationid,$advisers)
 	{
+		if(count($advisers) == 0)
+			return;
 		foreach($advisers as $adviser){
 			$id = $adviser['facultyid'];
 			$rows[] = "{$organizationid},{$id},".FACULTY_CONFIRMATION_EMAIL;
@@ -39,6 +43,8 @@ class Email_queue_model extends Model{
 	
 	function queue_announcement_email($announcementid,$organizations)
 	{
+		if(count($organizations) == 0)
+			return;
 		foreach($organizations as $org){
 			$id = $org['organizationid'];
 			$rows[] = "{$announcementid},{$id},".ANNOUNCEMENT_EMAIL;
