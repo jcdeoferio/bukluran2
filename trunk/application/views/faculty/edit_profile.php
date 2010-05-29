@@ -2,16 +2,9 @@
 	<div class="contentHeader_text">
 		Edit Profile
 	</div>
-	<? if(validation_errors()):?>
-	<div class="ui-widget">
-	<div class="ui-state-error ui-corner-all notification" title="Login Error">
-		<span class="ui-icon ui-icon-alert notification-icon"></span>
-		<?= validation_errors(); ?>
-		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span>
-	</div>
-	</div>
-	<?endif?>
-		
+
+	<?= validation_errors(); ?>
+
 	<?= form_open('faculty/edit_profile_submit',array('class'=>'form_large','method'=>'post'))."\n"?>
 		<?= form_label('First Name','firstname',array('class'=>'label'))."\n"; ?>
 		<?= form_input(array('name'=>'firstname','id'=>'firstname','value'=>set_value('firstname',$faculty['firstname']),'type'=>'text','size'=>'23','class'=>'text_input')).br(1)."\n";?>
@@ -42,9 +35,6 @@
 		
 		<?= form_label('UP Webmail','webmail',array('class'=>'label')).br(1)."\n"; ?>
 		<?= form_input(array('name'=>'webmail','id'=>'webmail','value'=>set_value('webmail',$faculty['webmail']),'type'=>'text','size'=>'23','class'=>'text_input')).br(1)."\n";?>
-		
-		<?= form_label('Email Address','email',array('class'=>'label')).br(1)."\n"; ?>
-		<?= form_input(array('name'=>'email','id'=>'email','value'=>set_value('email',$faculty['email']),'type'=>'text','size'=>'23','class'=>'text_input')).br(3)."\n";?>
 		
 		
 		<?= form_submit('submit','Save Profile','class="submit_default" id="submit"')."\n";?>

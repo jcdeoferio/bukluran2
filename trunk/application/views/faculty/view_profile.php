@@ -23,7 +23,6 @@
 		<b>Office Number:</b> <?=$faculty['office_number'].br(2)?>
 	<?endif;?>
 		<b>UP Webmail:</b> <?=$faculty['webmail'].br(1)?>
-		<b>Email Address:</b> <?=$faculty['email'].br(2)?>
 		
 	<?= anchor('faculty/edit_profile','Edit Profile') ?>
 </div>

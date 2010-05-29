@@ -226,7 +226,7 @@ class Organization_model extends Model{
 	}
 	
 	function add_faculty($organizationid, $appsemid, $webmail, $email){
-		$faculty = $this->assertive_get_faculty($webmail, $email);
+		$faculty = $this->assertive_get_faculty($webmail);
 		$facultyid = $faculty['facultyid'];
 		
 		if($this->adviser_exists($facultyid, $organizationid, $appsemid))
@@ -250,12 +250,13 @@ class Organization_model extends Model{
 		$this->db->set('facultyid', $facultyid);
 		$this->db->set('organizationid', $organizationid);
 		$this->db->set('appsemid', $appsemid);
+		$this->db->set('email', $email);
 		$this->db->insert('orgadvisers');
 	}
 
-	function assertive_get_faculty($webmail, $email){
+	function assertive_get_faculty($webmail){
 		if(!$this->faculty_exists($webmail))
-			$this->insert_faculty($webmail, $email);
+			$this->insert_faculty($webmail);
 			
 		return($this->get_faculty($webmail));
 	}
@@ -268,9 +269,8 @@ class Organization_model extends Model{
 		return($query->row_array());
 	}
 	
-	function insert_faculty($webmail, $email){
+	function insert_faculty($webmail){
 		$this->db->set('webmail', $webmail);
-		$this->db->set('email', $email);
 		$this->db->insert('faculty');
 	}
 	

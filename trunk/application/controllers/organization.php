@@ -17,12 +17,25 @@ class Organization extends Controller {
 		$this->load->model('email_queue_model');
 		
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
-			$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
-		}else{			
-			//$this->sidebar_data = array();
-			$this->sidebar_data['hrefs'] = array('organization/forms','organization/change_password');
-			$this->sidebar_data['anchors'] = array('Application Forms','Change Password');
+			$this->sidebar_data['links'][0]['title'] = 'Announcements';
+			$this->sidebar_data['links'][0]['hrefs'] = array('osa/announcements','osa/create_announcement');
+			$this->sidebar_data['links'][0]['anchors'] = array('Home','Create Announcement');
+			$this->sidebar_data['links'][1]['title'] = 'Organizations';
+			$this->sidebar_data['links'][1]['hrefs'] = array('osa/organizations','osa/manage_reqs');
+			$this->sidebar_data['links'][1]['anchors'] = array('Applications','Requirements');
+			$this->sidebar_data['links'][2]['title'] = 'Application Period';
+			$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
+			$this->sidebar_data['links'][2]['anchors'] = array('Manage');
+		}else{
+			$this->sidebar_data['links'][0]['title'] = 'Announcements';
+			$this->sidebar_data['links'][0]['hrefs'] = array('organization/announcements');
+			$this->sidebar_data['links'][0]['anchors'] = array('Home');
+			$this->sidebar_data['links'][1]['title'] = 'Registration';
+			$this->sidebar_data['links'][1]['hrefs'] = array('organization/forms');
+			$this->sidebar_data['links'][1]['anchors'] = array('Forms');
+			$this->sidebar_data['links'][2]['title'] = 'Account';
+			$this->sidebar_data['links'][2]['hrefs'] = array('organization/change_password');
+			$this->sidebar_data['links'][2]['anchors'] = array('Change Password');
 		}
 		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());

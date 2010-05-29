@@ -15,9 +15,19 @@ class Student extends Controller {
 		$this->load->model('Student_model');
 		$this->load->model('Organization_model');
 		
-		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('student/organizations','student/upload');
-		$this->sidebar_data['anchors'] = array('Manage Organizations','Upload UP ID');		
+		$this->sidebar_data['links'][0]['title'] = 'Announcements';
+		$this->sidebar_data['links'][0]['hrefs'] = array('student/announcements');
+		$this->sidebar_data['links'][0]['anchors'] = array('Home');
+		$this->sidebar_data['links'][1]['title'] = 'Organizations';
+		$this->sidebar_data['links'][1]['hrefs'] = array('student/organizations');
+		$this->sidebar_data['links'][1]['anchors'] = array('Manage');
+		$this->sidebar_data['links'][2]['title'] = 'Profile';
+		$this->sidebar_data['links'][2]['hrefs'] = array('student/upload');
+		$this->sidebar_data['links'][2]['anchors'] = array('Upload UP ID');
+				
+		//$this->sidebar_data['hrefs'] = array('student/organizations','student/upload');
+		//$this->sidebar_data['anchors'] = array('Manage Organizations','Upload UP ID');		
+		
 		$params['sidebar'] = $this->sidebar_data;
 		$params['announcement']['title'] = "Announcements - ".$this->session->username();
 		$params['announcement']['span'] = 19;

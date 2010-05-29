@@ -12,10 +12,19 @@ class Osa extends Controller {
 		
 		if(!$this->session->user_group_is(OSA_GROUPID))
 			redirect('login');
-			
-		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
-		$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
+
+		$this->sidebar_data['links'][0]['title'] = 'Announcements';
+		$this->sidebar_data['links'][0]['hrefs'] = array('osa/announcements','osa/create_announcement');
+		$this->sidebar_data['links'][0]['anchors'] = array('Home','Create Announcement');
+		$this->sidebar_data['links'][1]['title'] = 'Organizations';
+		$this->sidebar_data['links'][1]['hrefs'] = array('osa/organizations','osa/manage_reqs');
+		$this->sidebar_data['links'][1]['anchors'] = array('Applications','Requirements');
+		$this->sidebar_data['links'][2]['title'] = 'Application Period';
+		$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
+		$this->sidebar_data['links'][2]['anchors'] = array('Manage');			
+		
+		//$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
+		//$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
 		
 		$this->load->helper('html');
 		$this->load->helper('form');
