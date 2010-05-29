@@ -21,8 +21,7 @@ CREATE TABLE students(
 CREATE TABLE faculty(
 	facultyid serial PRIMARY KEY,
 	useraccountid integer REFERENCES linkaccounts,
-	webmail varchar(128),
-	email varchar(128));
+	webmail varchar(128));
 	
 CREATE TABLE appsems(
 	appsemid smallint PRIMARY KEY,
@@ -71,6 +70,7 @@ CREATE TABLE orgmemberships(
 
 CREATE TABLE orgadvisers(
 	organizationid integer REFERENCES organizations,
+	email varchar(128),
 	facultyid integer REFERENCES faculty,
 	appsemid smallint REFERENCES appsems,
 	confirmed boolean NOT NULL DEFAULT FALSE,

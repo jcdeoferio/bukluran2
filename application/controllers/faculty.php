@@ -11,14 +11,20 @@ class Faculty extends Controller {
 		$this->load->helper('html');
 		$this->load->helper('url');
 		$this->load->helper('form');
-		//$this->load->library('form_validation');
+		$this->load->library('form_validation');
+		$this->form_validation->set_error_delimiters('<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>', '<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
 		$this->load->model('Osa_model');
 		
-		
-		$this->sidebar_data = array();
-		$this->sidebar_data['hrefs'] = array('faculty/organizations','faculty/view_profile','faculty/edit_profile');
-		$this->sidebar_data['anchors'] = array('Manage Organizations','View Profile','Edit Profile');
-		
+		$this->sidebar_data['links'][0]['title'] = 'Announcements';
+		$this->sidebar_data['links'][0]['hrefs'] = array('faculty/announcements');
+		$this->sidebar_data['links'][0]['anchors'] = array('Home');
+		$this->sidebar_data['links'][1]['title'] = 'Organizations';
+		$this->sidebar_data['links'][1]['hrefs'] = array('faculty/organizations');
+		$this->sidebar_data['links'][1]['anchors'] = array('Manage');
+		$this->sidebar_data['links'][2]['title'] = 'Profile';
+		$this->sidebar_data['links'][2]['hrefs'] = array('faculty/view_profile','faculty/edit_profile');
+		$this->sidebar_data['links'][2]['anchors'] = array('View Profile','Edit Profile');
+				
 		$params['sidebar'] = $this->sidebar_data;
 		
 		$params['announcement']['title'] = "Announcements - ".$this->session->username();
@@ -86,6 +92,14 @@ class Faculty extends Controller {
 	{
 		$this->form_validation->set_rules('firstname', 'First Name', 'required');
 		$this->form_validation->set_rules('middlename', 'Middle Name', 'required');
+		$this->form_validation->set_rules('lastname', 'Last Name', 'required');
+		$this->form_validation->set_rules('department', 'Department', 'required');
+		$this->form_validation->set_rules('faculty_position_and_rank', 'Faculty Position and Rank', 'required');
+		$this->form_validation->set_rules('mobile_number', 'Mobile Number', 'required');
+		$this->form_validation->set_rules('home_number', 'Home Number', 'required');
+		$this->form_validation->set_rules('office_number', 'Office Number', 'required');
+		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email');
+		
 		if (!$this->form_validation->run())
 		{
 			$this->edit_profile();
@@ -104,7 +118,6 @@ class Faculty extends Controller {
 			$faculty_profile['office_number']=$this->input->get_post('office_number');
 			
 			$faculty['webmail']=$this->input->get_post('webmail');
-			$faculty['email']=$this->input->get_post('email');
 			
 			$this->Faculty_model->save($user['facultyid'],$faculty,$faculty_profile);
 			redirect('faculty/view_profile');

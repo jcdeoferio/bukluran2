@@ -40,6 +40,29 @@ body{background:url('../images/background.png');}
 	margin-bottom:10px;
 }
 
+.sidebar_links h1{
+	border-bottom:1px solid #AAA;
+	font-size:15px;
+	font-weight:bold;
+	margin-top:15px;
+	margin-bottom:0px;
+}
+
+.sidebar_links a{
+	display:block;
+	padding: 10px;
+	border-bottom:1px solid #CCC;
+	text-decoration:none;
+}
+
+.sidebar_links a:hover{
+	background:#EEE;
+}
+
+.sidebar_links a.selected{
+	background:#EEE;
+}
+
 /*
 label.top {
 display:block;
