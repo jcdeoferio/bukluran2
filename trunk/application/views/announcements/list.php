@@ -5,7 +5,6 @@ $config['per_page'] = $limit;
 
 $this->pagination->initialize($config); 
 ?>
-<?=$total?>
 
 <div class="span-<?=isset($span)?$span:24?> last" id="content_main">
 	<div class="contentHeader_text">
