@@ -16,12 +16,15 @@ class Osa extends Controller {
 		$this->sidebar_data['links'][0]['title'] = 'Announcements';
 		$this->sidebar_data['links'][0]['hrefs'] = array('osa/announcements','osa/create_announcement');
 		$this->sidebar_data['links'][0]['anchors'] = array('Home','Create Announcement');
-		$this->sidebar_data['links'][1]['title'] = 'Organizations';
+		$this->sidebar_data['links'][0]['selected'] = -1;
+		$this->sidebar_data['links'][1]['title'] = 'Registration';
 		$this->sidebar_data['links'][1]['hrefs'] = array('osa/organizations','osa/manage_reqs');
-		$this->sidebar_data['links'][1]['anchors'] = array('Applications','Requirements');
+		$this->sidebar_data['links'][1]['anchors'] = array('Manage Organizations','Requirements');
+		$this->sidebar_data['links'][1]['selected'] = -1;
 		$this->sidebar_data['links'][2]['title'] = 'Application Period';
 		$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
-		$this->sidebar_data['links'][2]['anchors'] = array('Manage');			
+		$this->sidebar_data['links'][2]['anchors'] = array('Manage');
+		$this->sidebar_data['links'][2]['selected'] = -1;
 		
 		//$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
 		//$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
@@ -71,9 +74,11 @@ class Osa extends Controller {
 		
 		$this->load->library('fckeditor', $fckeditorConfig);
 		
+		$this->sidebar_data['links'][0]['selected'] = 1;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/create_announcement',$content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][0]['selected'] = -1;
 	}
 	
 	function create_announcement_submit(){
@@ -105,9 +110,11 @@ class Osa extends Controller {
 		
 		$this->load->library('fckeditor', $fckeditorConfig);
 		
+		$this->sidebar_data['links'][0]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/create_announcement',$content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][0]['selected'] = -1;
 	}
 	
 	function edit_announcement_submit()
@@ -131,9 +138,11 @@ class Osa extends Controller {
 		$data['title'] = "Add New Organization - OSA";	
 		$content_data['submit_url'] = 'osa/create_organization_submit';
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/create_organization', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function create_organization_submit(){
@@ -164,9 +173,11 @@ class Osa extends Controller {
 	function _new_password($title, $username, $password){
 		$data['title'] = $title;
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/create_organization_success', compact('title', 'username', 'password'));
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function reset_org_password($username = NULL){
@@ -176,10 +187,6 @@ class Osa extends Controller {
 		$password = $this->Osa_model->reset_organization_password($username);
 		
 		$this->_new_password("New Password", $username, $password);
-	}
-	
-	function edit_organization($organization_id,$form_no=1)
-	{
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -215,9 +222,11 @@ class Osa extends Controller {
 		$content_data['site_link'] = 'osa/organizations/';
 		$content_data['forward_link'] = 'osa/view_application/';
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('organizations/manage', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	//=============MANAGE REQUIREMENTS MODULE=============
@@ -230,9 +239,11 @@ class Osa extends Controller {
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['reqs'] = $this->Osa_model->requirements_appsem($appsemid);
 		
+		$this->sidebar_data['links'][1]['selected'] = 1;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/manage_reqs', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function manage_reqs_change_appsem(){
@@ -253,10 +264,11 @@ class Osa extends Controller {
 		$content_data['name'] = '';
 		$content_data['description'] = '';
 		
-		
+		$this->sidebar_data['links'][1]['selected'] = 1;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/req_form', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function add_req_submit($appsemid = NULL){
@@ -294,10 +306,11 @@ class Osa extends Controller {
 		$content_data['submit_url'] = "osa/edit_req_submit/{$requirement['requirementid']}";
 		$content_data['postback'] = $this->session->postback_variable();
 		
-		
+		$this->sidebar_data['links'][1]['selected'] = 1;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/req_form', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function edit_req_submit($requirementid = NULL){
@@ -388,9 +401,11 @@ class Osa extends Controller {
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/requirements', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function org_reqs_change_appsem($organizationid){
@@ -416,9 +431,11 @@ class Osa extends Controller {
 		$content_data['editable'] = TRUE;
 		$content_data['postback'] = $this->session->postback_variable();
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/req_details', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function manage_org_req_submit($organizationid = NULL, $requirementid = NULL){
@@ -488,9 +505,11 @@ class Osa extends Controller {
 		$content_data['current_acadyear'] = $this->Variable->current_acadyear()?:mdate('%Y');
 		$content_data['current_sem'] = $this->Variable->current_sem();
 		
+		$this->sidebar_data['links'][2]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/manage_app_period', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][2]['selected'] = -1;
 	}
 	
 	function manage_app_period_submit(){
@@ -532,10 +551,12 @@ class Osa extends Controller {
 		$content_data['org'] = $org;
 		$content_data['aysem'] = $aysem;
 		$content_data['clarifications'] = $this->organization_model->get_clarifications($orgid, $aysem);
-				
+		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('organization/forms/index', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function create_clarification($orgid,$aysem){
@@ -556,9 +577,11 @@ class Osa extends Controller {
 		
 		$this->load->library('fckeditor', $fckeditorConfig);
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/create_clarification',$content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function create_clarification_submit($orgid,$aysem){
@@ -588,9 +611,11 @@ class Osa extends Controller {
 		
 		$this->load->library('fckeditor', $fckeditorConfig);
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('osa/create_clarification',$content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function edit_clarification_submit($orgid,$aysem){

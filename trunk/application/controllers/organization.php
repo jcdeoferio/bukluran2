@@ -20,22 +20,28 @@ class Organization extends Controller {
 			$this->sidebar_data['links'][0]['title'] = 'Announcements';
 			$this->sidebar_data['links'][0]['hrefs'] = array('osa/announcements','osa/create_announcement');
 			$this->sidebar_data['links'][0]['anchors'] = array('Home','Create Announcement');
-			$this->sidebar_data['links'][1]['title'] = 'Organizations';
+			$this->sidebar_data['links'][0]['selected'] = -1;
+			$this->sidebar_data['links'][1]['title'] = 'Registration';
 			$this->sidebar_data['links'][1]['hrefs'] = array('osa/organizations','osa/manage_reqs');
-			$this->sidebar_data['links'][1]['anchors'] = array('Applications','Requirements');
+			$this->sidebar_data['links'][1]['anchors'] = array('Manage Organizations','Requirements');
+			$this->sidebar_data['links'][1]['selected'] = -1;
 			$this->sidebar_data['links'][2]['title'] = 'Application Period';
 			$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
 			$this->sidebar_data['links'][2]['anchors'] = array('Manage');
+			$this->sidebar_data['links'][2]['selected'] = -1;
 		}else{
 			$this->sidebar_data['links'][0]['title'] = 'Announcements';
 			$this->sidebar_data['links'][0]['hrefs'] = array('organization/announcements');
 			$this->sidebar_data['links'][0]['anchors'] = array('Home');
+			$this->sidebar_data['links'][0]['selected'] = -1;
 			$this->sidebar_data['links'][1]['title'] = 'Registration';
 			$this->sidebar_data['links'][1]['hrefs'] = array('organization/forms');
 			$this->sidebar_data['links'][1]['anchors'] = array('Forms');
+			$this->sidebar_data['links'][1]['selected'] = -1;
 			$this->sidebar_data['links'][2]['title'] = 'Account';
 			$this->sidebar_data['links'][2]['hrefs'] = array('organization/change_password');
 			$this->sidebar_data['links'][2]['anchors'] = array('Change Password');
+			$this->sidebar_data['links'][2]['selected'] = -1;
 		}
 		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
@@ -63,9 +69,12 @@ class Organization extends Controller {
 		$data['title'] = "Application Forms - ".$this->session->username();
 		$user = $this->session->userdata(USER);
 		$data['clarifications'] = $this->organization_model->get_clarifications($user['organizationid'], $this->Variable->current_application_aysem());
+		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/index',$data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form1($appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -107,10 +116,13 @@ class Organization extends Controller {
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
-		$content_data['organization'] = $organization;		
+		$content_data['organization'] = $organization;	
+
+		$this->sidebar_data['links'][1]['selected'] = 0;		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form1', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form1_submit($appsemid, $organizationid){
@@ -191,10 +203,12 @@ class Organization extends Controller {
 		$content_data['orgid'] = $organizationid;
 		$content_data['add_adviser_url'] = "organization/form1_add_adviser/{$appsemid}/{$organizationid}";
 		$content_data['advisers'] = $this->organization_model->get_advisers($organizationid, $appsemid);
-		
+	
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form1_faculty_adviser', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form1_add_adviser($appsemid, $organizationid){
@@ -216,9 +230,11 @@ class Organization extends Controller {
 		$content_data['submit_url'] = "organization/form1_add_adviser_submit/{$appsemid}/{$organizationid}";
 		$content_data['postback'] = $this->session->postback_variable();
 
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form1_add_adviser', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form1_add_adviser_submit($appsemid, $organizationid){
@@ -284,9 +300,11 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form2', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form3($appsemid = CURRENT_APPSEM, $organizationid = NULL){
@@ -319,9 +337,11 @@ class Organization extends Controller {
 		$content_data['officers'] = $this->organization_model->get_officers($organizationid, $appsemid);
 		$content_data['members'] = $this->organization_model->get_members($organizationid, $appsemid);
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form3', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form3_add_student($isofficer, $appsemid, $organizationid){
@@ -350,9 +370,11 @@ class Organization extends Controller {
 		$content_data['submit_url'] = "organization/form3_add_student_submit/{$isofficerstr}/{$appsemid}/{$organizationid}";
 		$content_data['postback'] = $this->session->postback_variable();
 
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form3_add_student', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form3_add_student_submit($isofficer, $appsemid, $organizationid){
@@ -429,9 +451,11 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form5', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form6($appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -460,9 +484,11 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form6', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form7($appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -491,9 +517,11 @@ class Organization extends Controller {
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form7', $content_data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function form_change_appsem_submit($url_form_part){
@@ -506,9 +534,11 @@ class Organization extends Controller {
 		$data['span'] = 19;
 		$data['stylesheets'] = array('login.css');
 		
+		$this->sidebar_data['links'][2]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/change_password',$data);
 		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
 	function change_password_submit()
@@ -529,9 +559,11 @@ class Organization extends Controller {
 			$data['span'] = 19;
 			$data['stylesheets'] = array('login.css');
 			
+			$this->sidebar_data['links'][2]['selected'] = 0;
 			$this->views->header($data,$this->sidebar_data);
 			$this->load->view('organization/change_password_success',$data);
 			$this->views->footer();
+			$this->sidebar_data['links'][2]['selected'] = -1;
 		}
 	}
 	

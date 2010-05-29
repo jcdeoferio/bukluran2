@@ -18,12 +18,15 @@ class Student extends Controller {
 		$this->sidebar_data['links'][0]['title'] = 'Announcements';
 		$this->sidebar_data['links'][0]['hrefs'] = array('student/announcements');
 		$this->sidebar_data['links'][0]['anchors'] = array('Home');
+		$this->sidebar_data['links'][0]['selected'] = -1;
 		$this->sidebar_data['links'][1]['title'] = 'Organizations';
 		$this->sidebar_data['links'][1]['hrefs'] = array('student/organizations');
 		$this->sidebar_data['links'][1]['anchors'] = array('Manage');
+		$this->sidebar_data['links'][1]['selected'] = -1;
 		$this->sidebar_data['links'][2]['title'] = 'Profile';
 		$this->sidebar_data['links'][2]['hrefs'] = array('student/upload');
 		$this->sidebar_data['links'][2]['anchors'] = array('Upload UP ID');
+		$this->sidebar_data['links'][2]['selected'] = -1;
 				
 		//$this->sidebar_data['hrefs'] = array('student/organizations','student/upload');
 		//$this->sidebar_data['anchors'] = array('Manage Organizations','Upload UP ID');		
@@ -86,10 +89,11 @@ class Student extends Controller {
 		$data['message'] = FALSE;
 		$data['stylesheets'] = array('login.css');
 		$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'], $this->aysem);
-		
+		$this->sidebar_data['links'][2]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('student/upload',$data);
 		$this->views->footer();
+		$this->sidebar_data['links'][2]['selected'] = -1;
 	}
 	
 	function do_upload()
@@ -100,8 +104,9 @@ class Student extends Controller {
 		$data['stylesheets'] = array('login.css');
 		
 		$user_data = $this->session->userdata(USER);
-		
+		$this->sidebar_data['links'][2]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
+		$this->sidebar_data['links'][2]['selected'] = -1;
 		if (!$this->upload->do_upload())
 		{
 			$data['message'] = $this->upload->display_errors();	

@@ -43,21 +43,14 @@ class Views {
 		$this->data['organization']['orgs'] = $orgs;
 		$this->data['organization']['messages'] = $messages;
 		
-		$this->CI->load->view('htmlhead',$this->data);
-		$this->CI->load->view('header');
-		$this->CI->load->view('layout/content/header');
+		$this->data['sidebar']['links'][1]['selected']=0;
 		
-		$this->CI->load->view('layout/content/div_open');
-		$this->CI->load->view('sidebar/links_only',$this->data['sidebar']);
-		
+		$this->header($this->data,$this->data['sidebar']);
 		$this->CI->load->view('organizations/confirm_list', $this->data['organization']);
-				
-		$this->CI->load->view('layout/content/div_close');
-		
-		$this->CI->load->view('layout/content/footer');
-		$this->CI->load->view('footer');
+		$this->footer();
 		
 		$this->data['organization']['message'] = FALSE;
+		$this->data['sidebar'][1]['selected']=-1;
 	}
 	
 	function header($data=FALSE,$sidebar=FALSE)
@@ -84,13 +77,13 @@ class Views {
 		$this->data['stylesheets'] = array('announcement.css');
 		$this->data['announcement']['page_no'] = $offset;
 		
-		$this->CI->load->view('htmlhead', $this->data);
-		$this->CI->load->view('header');
-		$this->CI->load->view('layout/content/header');
 		
-		$this->CI->load->view('layout/content/div_open');
-		if(isset($this->data['sidebar'])){
-			$this->CI->load->view('sidebar/links_only',$this->data['sidebar']);
+		if(array_key_exists('sidebar',$this->data)){
+			$this->data['sidebar']['links'][0]['selected']=0;
+			$this->header($this->data,$this->data['sidebar']);
+			$this->data['sidebar']['links'][0]['selected']=-1;
+		}else{
+			$this->header($this->data);
 		}
 		if($announcement_id == -1){
 			$this->data['announcement']['announcements'] = $this->CI->Announcement_model->get_announcements($limit, $offset);
@@ -102,10 +95,9 @@ class Views {
 			$this->CI->load->view('announcements/announcement', $this->data['announcement']);
 		}
 		
-		$this->CI->load->view('layout/content/div_close');
+		$this->footer();
 		
-		$this->CI->load->view('layout/content/footer');
-		$this->CI->load->view('footer');
+		
     }
 }
 

@@ -18,12 +18,15 @@ class Faculty extends Controller {
 		$this->sidebar_data['links'][0]['title'] = 'Announcements';
 		$this->sidebar_data['links'][0]['hrefs'] = array('faculty/announcements');
 		$this->sidebar_data['links'][0]['anchors'] = array('Home');
+		$this->sidebar_data['links'][0]['selected'] = -1;
 		$this->sidebar_data['links'][1]['title'] = 'Organizations';
 		$this->sidebar_data['links'][1]['hrefs'] = array('faculty/organizations');
 		$this->sidebar_data['links'][1]['anchors'] = array('Manage');
+		$this->sidebar_data['links'][1]['selected'] = -1;
 		$this->sidebar_data['links'][2]['title'] = 'Profile';
 		$this->sidebar_data['links'][2]['hrefs'] = array('faculty/view_profile','faculty/edit_profile');
 		$this->sidebar_data['links'][2]['anchors'] = array('View Profile','Edit Profile');
+		$this->sidebar_data['links'][2]['selected'] = -1;
 				
 		$params['sidebar'] = $this->sidebar_data;
 		
@@ -68,9 +71,11 @@ class Faculty extends Controller {
 		$data['messages'] = $messages;
 		$data['faculty'] = $this->Faculty_model->get_profile_and_details($user['facultyid']);
 		
+		$this->sidebar_data['links'][2]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('faculty/view_profile',$data);
 		$this->views->footer();
+		$this->sidebar_data['links'][2]['selected'] = -1;
 	}
 	
 	function edit_profile($messages = FALSE)
@@ -83,9 +88,11 @@ class Faculty extends Controller {
 		$data['faculty'] = $this->Faculty_model->get_profile_and_details($user['facultyid']);
 		$data['has_profile'] = $this->Faculty_model->has_profile($user['facultyid']);
 		
+		$this->sidebar_data['links'][2]['selected'] = 1;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('faculty/edit_profile',$data);
 		$this->views->footer();
+		$this->sidebar_data['links'][2]['selected'] = -1;
 	}
 	
 	function edit_profile_submit()
