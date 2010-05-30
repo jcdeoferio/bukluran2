@@ -36,7 +36,7 @@
 			<?=form_hidden('collections_no',count($collections))?>
 			</div>
 			
-			<?= anchor('organization/form2_add_collection','Add Collection','class="add_collection"').br(2)?>
+			<?= anchor('organization/form2_add_collection'.($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":""),'Add Collection','class="add_collection"').br(2)?>
 			<?if(count($collections) > 0):?>			
 			<table id = "collections">
 				<thead>
@@ -56,7 +56,7 @@
 					<?=form_input('collection_amount_'.($i+1),$collections[$i]['amount'])?>
 					</td>
 					<td>
-					<?=anchor("organization/delete_collection/{$collections[$i]['orgcollectionid']}",'Delete')?>
+					<?=anchor("organization/delete_collection/{$collections[$i]['orgcollectionid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 					</td>
 				</tr>
 				<?$collections_total+=$collections[$i]['amount']?>
@@ -79,7 +79,7 @@
 			<?=form_hidden('disbursements_no',count($disbursements))?>
 			</div>
 			
-			<?= anchor('organization/form2_add_disbursement','Add Disbursement','class="add_disbursement"').br(2)?>
+			<?= anchor('organization/form2_add_disbursement'.($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":""),'Add Disbursement','class="add_disbursement"').br(2)?>
 			<?if(count($disbursements)>0):?>
 			<table id = "disbursements">
 				<thead>
@@ -99,7 +99,7 @@
 					<?=form_input('disbursement_amount_'.($i+1),$disbursements[$i]['amount'])?>
 					</td>
 					<td>
-					<?=anchor("organization/delete_disbursement/{$disbursements[$i]['orgdisbursementid']}",'Delete')?>
+					<?=anchor("organization/delete_disbursement/{$disbursements[$i]['orgdisbursementid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 					</td>
 				</tr>
 				<?$disbursements_total+=$disbursements[$i]['amount']?>
