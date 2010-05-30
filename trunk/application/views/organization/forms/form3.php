@@ -28,7 +28,7 @@
 	
 	<?= anchor($add_officer_url, 'Add An Officer') ?>
 	
-	<table class="tablesorter">
+	<table id="officers">
 	<thead>
 	<tr>
 		<th>UP Webmail</th>
@@ -54,6 +54,37 @@
 	</tbody>
 	</table>
 	
+		<div id="pagination_officers">
+		<?=form_open()?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/first.png",'class'=>"first"))?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/prev.png",'class'=>"prev"))?>
+			<?=form_input(array('class'=>'pagedisplay'))?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/next.png",'class'=>"next"))?> 
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/last.png",'class'=>"last"))?> 
+			<?=form_dropdown('pagesize',array(
+				10=>10,
+				20=>20,
+				30=>30,
+				40=>40
+			),'10','class="pagesize"')?>
+		<?=form_close()?>
+		Search: <input name="filter" id="filter-box_officers" value="" maxlength="30" size="30" type="text"> <input id="filter-clear-button_officers" type="submit" value="Clear"/>
+	</div>
+	
+	<script>
+		$('#officers')
+		.tablesorter({widthFixed: true, widgets: ['zebra']})
+		.tablesorterPager({container: $("#pagination_officers")})
+		.tablesorterFilter({filterContainer: $("#filter-box_officers"),
+                          filterClearContainer: $("#filter-clear-button_officers"),
+                          filterColumns: [0],
+                          filterCaseSensitive: false});
+						  
+		$(document).ready(function(){
+			$('#officers').addClass('tablesorter');
+		});
+	</script>
+	
 	<? else: ?>
 	
 	<p>No officers listed</p>
@@ -70,7 +101,7 @@
 	
 	<?= anchor($add_member_url, 'Add A Member') ?>
 	
-	<table class="tablesorter">
+	<table id="members">
 	<thead>
 	<tr>
 		<th>UP Webmail</th>
@@ -93,6 +124,36 @@
 	<? endforeach; ?>
 	</tbody>
 	</table>
+	<div id="pagination_members">
+		<?=form_open()?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/first.png",'class'=>"first"))?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/prev.png",'class'=>"prev"))?>
+			<?=form_input(array('class'=>'pagedisplay'))?>
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/next.png",'class'=>"next"))?> 
+			<?=img(array('src'=>"layout/images/tablesorter.pager.icons/last.png",'class'=>"last"))?> 
+			<?=form_dropdown('pagesize',array(
+				10=>10,
+				20=>20,
+				30=>30,
+				40=>40
+			),'10','class="pagesize"')?>
+		<?=form_close()?>
+		Search: <input name="filter" id="filter-box_members" value="" maxlength="30" size="30" type="text"> <input id="filter-clear-button_members" type="submit" value="Clear"/>
+	</div>
+	
+	<script>
+		$('#members')
+		.tablesorter({widthFixed: true, widgets: ['zebra']})
+		.tablesorterPager({container: $("#pagination_members")})
+		.tablesorterFilter({filterContainer: $("#filter-box_members"),
+                          filterClearContainer: $("#filter-clear-button_members"),
+                          filterColumns: [0],
+                          filterCaseSensitive: false});
+						  
+		$(document).ready(function(){
+			$('#members').addClass('tablesorter');
+		});
+	</script>
 	
 	<? else: ?>
 	
@@ -104,6 +165,6 @@
 	</p>
 	<?= anchor("organization/send_member_confirmation_emails".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation Emails')?>
 	<?endif;?>
-	
 </div>
+
 

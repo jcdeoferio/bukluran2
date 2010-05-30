@@ -17,6 +17,7 @@ $(document).ready(function(){
                           filterClearContainer: $("#filter-clear-button"),
                           filterColumns: [0],
                           filterCaseSensitive: false});
+						  
 	$('.form_large #submit').removeClass('submit_default').button();
 /*
 	var notification = $('.notification');
