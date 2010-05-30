@@ -352,7 +352,7 @@ class Organization extends Controller {
 			}
 		}
 		
-		$this->form2();
+		$this->form2($appsemid,$organizationid);
 	}
 	
 	function form2_add_collection($appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -407,7 +407,7 @@ class Organization extends Controller {
 		}
 		
 		$this->orgform2_model->insert_collection($organizationid,$appsemid,$this->input->post('amount'),$this->input->post('description'));
-		$this->form2();
+		$this->form2($appsemid,$organizationid);
 	}
 	
 	function form2_add_disbursement($appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -460,7 +460,7 @@ class Organization extends Controller {
 		}
 		
 		$this->orgform2_model->insert_disbursement($organizationid,$appsemid,$this->input->post('amount'),$this->input->post('description'));
-		$this->form2();
+		$this->form2($appsemid,$organizationid);
 	}
 	
 	function delete_collection($id, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -480,7 +480,7 @@ class Organization extends Controller {
 		if($this->orgform2_model->collection_belongs($id,$organizationid))
 			$this->orgform2_model->delete_collection($id);
 		
-		$this->form2();
+		$this->form2($appsemid,$organizationid);
 	}
 	
 	function delete_disbursement($id, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -500,7 +500,7 @@ class Organization extends Controller {
 		if($this->orgform2_model->disbursement_belongs($id,$organizationid))
 			$this->orgform2_model->delete_disbursement($id);
 		
-		$this->form2();
+		$this->form2($appsemid,$organizationid);
 	}
 	
 	function form3($appsemid = CURRENT_APPSEM, $organizationid = NULL){
