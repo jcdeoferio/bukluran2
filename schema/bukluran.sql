@@ -57,6 +57,7 @@ CREATE TABLE orgprofiles (
 	interviewed boolean NOT NULL DEFAULT FALSE,
 	approvedby integer REFERENCES linkaccounts(linkaccountid),
 	approveddate timestamp,
+	startingbalance numeric(10,2),
 	CONSTRAINT orgprofiles_pk PRIMARY KEY (organizationid, appsemid));
 
 CREATE TABLE orgmemberships(
@@ -180,6 +181,22 @@ CREATE TABLE email_queue(
 	orgclarificationid integer REFERENCES orgclarifications DEFAULT -1,
 	sent boolean DEFAULT false,
 	UNIQUE(emailtypeid,organizationid,facultyid,studentid,announcementid,orgclarificationid,sent));
+	
+CREATE TABLE orgcollections(
+	orgcollectionid serial PRIMARY KEY,
+	appsemid integer REFERENCES appsems,
+	organizationid integer REFERENCES organizations,
+	amount numeric(10,2),
+	description varchar(128)
+);
+
+CREATE TABLE orgdisbursements(
+	orgdisbursementid serial PRIMARY KEY,
+	appsemid integer REFERENCES appsems,
+	organizationid integer REFERENCES organizations,
+	amount numeric(10,2),
+	description varchar(128)
+);
 
 	
 INSERT INTO organizations(organizationid,orgname) VALUES (-1,'');

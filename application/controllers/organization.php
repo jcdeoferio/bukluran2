@@ -15,6 +15,7 @@ class Organization extends Controller {
 		$this->load->model('Variable');
 		$this->load->model('organization_model');
 		$this->load->model('email_queue_model');
+		$this->load->model('orgform2_model');
 		
 		if($this->session->user_group_is(OSA_GROUPID)){
 			$this->sidebar_data['links'][0]['title'] = 'Announcements';
@@ -282,6 +283,141 @@ class Organization extends Controller {
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
 			$orgname = $this->session->orgname();
+			$organization = $this->organization_model->get_organization($organizationid);
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
+		$this->load->model('orgform2_model');
+		
+		$data['title'] = "Finance Statement - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
+		$content_data['start_bal'] = $organization['startingbalance'];
+		$content_data['collections'] = $this->orgform2_model->get_collections($organizationid,$appsemid);
+		$content_data['disbursements'] = $this->orgform2_model->get_disbursements($organizationid,$appsemid);
+		
+		$this->sidebar_data['links'][1]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form2', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function form2_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+		}
+		
+		$this->orgform2_model->update_starting_balance($organizationid,$appsemid,$this->input->post('start_bal'));
+		
+		$n_collections = $this->input->post('collections_no');
+		
+		for($i=1;$i<=$n_collections;$i++){
+			$id = $this->input->post("collection_id_{$i}");
+			$desc = $this->input->post("collection_detail_{$i}");
+			$amount = $this->input->post("collection_amount_{$i}");
+			if($this->orgform2_model->collection_belongs($id,$organizationid)){
+				$this->orgform2_model->update_collection($id,$desc,$amount);
+			}
+		}
+		
+		$n_disbursements = $this->input->post('disbursements_no');
+		
+		for($i=1;$i<=$n_disbursements;$i++){
+			$id = $this->input->post("disbursement_id_{$i}");
+			$desc = $this->input->post("disbursement_detail_{$i}");
+			$amount = $this->input->post("disbursement_amount_{$i}");
+			if($this->orgform2_model->disbursement_belongs($id,$organizationid)){
+				$this->orgform2_model->update_disbursement($id,$desc,$amount);
+			}
+		}
+		
+		$this->form2();
+	}
+	
+	function form2_add_collection($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		$orgname = NULL;
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+			$orgname = $organization['orgname'];
+		}
+		
+		$this->load->model('orgform2_model');
+		
+		$data['title'] = "Finance Statement - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
+		$content_data['collections'] = $this->orgform2_model->get_collections($organizationid,$appsemid);
+		$content_data['disbursements'] = $this->orgform2_model->get_disbursements($organizationid,$appsemid);
+		
+		$this->sidebar_data['links'][1]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form2_add_collection', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function form2_add_collection_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+		}
+		
+		$this->orgform2_model->insert_collection($organizationid,$appsemid,$this->input->post('amount'),$this->input->post('description'));
+		$this->form2();
+	}
+	
+	function form2_add_disbursement($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		$orgname = NULL;
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
 		}
 		
 		if(is_null($organizationid))
@@ -299,12 +435,72 @@ class Organization extends Controller {
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
+		$content_data['collections'] = $this->orgform2_model->get_collections($organizationid,$appsemid);
+		$content_data['disbursements'] = $this->orgform2_model->get_disbursements($organizationid,$appsemid);
 		
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
-		$this->load->view('organization/forms/form2', $content_data);
+		$this->load->view('organization/forms/form2_add_disbursement', $content_data);
 		$this->views->footer();
 		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function form2_add_disbursement_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+		}
+		
+		$this->orgform2_model->insert_disbursement($organizationid,$appsemid,$this->input->post('amount'),$this->input->post('description'));
+		$this->form2();
+	}
+	
+	function delete_collection($id, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+		}
+		
+		if($this->orgform2_model->collection_belongs($id,$organizationid))
+			$this->orgform2_model->delete_collection($id);
+		
+		$this->form2();
+	}
+	
+	function delete_disbursement($id, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid);
+		}
+		
+		if($this->orgform2_model->disbursement_belongs($id,$organizationid))
+			$this->orgform2_model->delete_disbursement($id);
+		
+		$this->form2();
 	}
 	
 	function form3($appsemid = CURRENT_APPSEM, $organizationid = NULL){
