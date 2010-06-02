@@ -42,11 +42,11 @@
 	</tr>
 	<tr>
 		<td><div class="submitteddetails">Date Submitted:</div></td>
-		<td><div class="submitteddetails"><?= form_input('submittedon', $postback['submittedon']?:$org_req['submittedon'], 'id="submittedon"') ?></div></td>
+		<td><div class="submitteddetails"><?= form_input('submittedon', $postback['submittedon']?:$org_req['submittedon'], ($editable?'':'disabled ').'id="submittedon"') ?></div></td>
 	</tr>
 	<tr>
 		<td><div class="submitteddetails">Comments:</div></td>
-		<td><div class="submitteddetails"><?= form_textarea('comments', $postback['comments']?:$org_req['comments']) ?></div></td>
+		<td><div class="submitteddetails"><?= form_textarea('comments', $postback['comments']?:$org_req['comments'], $editable?'':'disabled') ?></div></td>
 	</tr>
 	<? if($editable): ?>
 	<tr>
@@ -62,6 +62,6 @@
 		<? if($editable): ?>
 		<?= anchor("osa/org_reqs/{$org['organizationid']}/{$org_req['appsemid']}", 'Back to Organization Requirements') ?>
 	<? else: ?>
-		<?= anchor("", 'Back to Organization Requirements') ?>
+		<?= anchor("organization/requirements", 'Back to Organization Requirements') ?>
 	<? endif; ?>
 </div>

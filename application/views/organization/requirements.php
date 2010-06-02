@@ -7,7 +7,7 @@
 	Managing requirements for <strong><?= $org['orgname'] ?></strong> for application period <strong><?= $pretty_application_aysem ?></strong>
 	</p>
 	
-	<? if(count($appsems) > 1): ?>
+	<? if($this->session->user_group_is(OSA_GROUPID) && count($appsems) > 1): ?>
 	
 	<?= form_open("osa/org_reqs_change_appsem/{$org['organizationid']}") ?>
 	Manage requirements for different application period:
@@ -31,10 +31,10 @@
 		<tbody>
 		<? foreach($org_reqs as $org_req): ?>
 		<tr>
-			<td><?= $org_req['submittedon']?'yes':'no' ?></td>
+			<td><?= $org_req['submittedon']?'Yes':'No' ?></td>
 			<td><?= $org_req['name'] ?></td>
 			<td><?= $org_req['submittedon'] ?></td>
-			<td><?= $org_req['comments']?'yes':'no' ?></td>
+			<td><?= $org_req['comments']?'Yes':'No' ?></td>
 			<td>
 				<?
 					$actionurl = NULL;
@@ -56,9 +56,11 @@
 	</table>
 	<? else: ?>
 	There are currently no requirements that organizations need to submit for this application period.<br/>
+	<?if($this->session->user_group_is(OSA_GROUPID)):?>
 	You may add requirements using the <?= anchor('osa/manage_reqs', 'Manage Requirements') ?> module.
+	<?endif;?>
 	<? endif; ?>
-	
+	<?if($this->session->user_group_is(OSA_GROUPID)):?>
 	<?= anchor("osa/organizations", 'Back to Organization List') ?>
-	
+	<? endif; ?>
 </div>
