@@ -80,6 +80,24 @@
 	<? else:?>
 		No Messages From OSA
 	<? endif;?>
+	<?=br(2)?>
+	<?="form1: ".$this->orgregistration_model->form1($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form1_advisers: ".$this->orgregistration_model->form1_advisers($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form2: ".$this->orgregistration_model->form2($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form3_members: ".$this->orgregistration_model->form3_members($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form3_officers: ".$this->orgregistration_model->form3_officers($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form5_eventreports: ".$this->orgregistration_model->form5_eventreports($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form5_awards: ".$this->orgregistration_model->form5_awards($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form6: ".$this->orgregistration_model->form6($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="form7: ".$this->orgregistration_model->form7($this->session->organizationid(),$this->Variable->current_application_aysem())?>
 	<?endif;?>
 </div>
 

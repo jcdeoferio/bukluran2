@@ -7,12 +7,13 @@ class Organization_model extends Model{
 		$this->load->helper('password');
 	}
 	
-	function get_organization($organizationid){
+	function get_organization($organizationid, $appsemid){
 		$this->db->from('organizations o');
 		$this->db->join('orgprofiles p','o.organizationid = p.organizationid');
 		$this->db->join('(SELECT orgcategoryid, description AS orgcategorydesc FROM orgcategories) cat','cat.orgcategoryid = p.orgcategoryid');
 		$this->db->join('(SELECT orgstatusid, description AS orgstatusdesc FROM orgstatuses) stat','stat.orgstatusid = p.orgstatusid');
 		$this->db->where('o.organizationid', $organizationid);
+		$this->db->where('p.appsemid', $appsemid);
 		
 		$query = $this->db->get();
 		return($query->row_array());
@@ -339,5 +340,24 @@ class Organization_model extends Model{
 		
 		return $this->get_link_account($hashcode);
 	}
-
+	
+	function get_member($organizationid, $appsemid, $studentid)
+	{
+		$this->db->from('orgmemberships');
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		$this->db->where('studentid', $studentid);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
+	
+	function get_adviser($organizationid, $appsemid, $facultyid)
+	{
+		$this->db->from('orgadvisers');
+		$this->db->where('organizationid', $organizationid);
+		$this->db->where('appsemid', $appsemid);
+		$this->db->where('facultyid', $facultyid);
+		$query = $this->db->get();
+		return $query->row_array();
+	}
 }

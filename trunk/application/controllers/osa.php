@@ -396,7 +396,7 @@ class Osa extends Controller {
 		$this->load->model('organization_model');
 		
 		$content_data['org_reqs'] = $this->Orgrequirement_model->get_requirements_appsem($organizationid, $appsemid);
-		$content_data['org'] = $this->organization_model->get_organization($organizationid);
+		$content_data['org'] = $this->organization_model->get_organization($organizationid,$appsemid);
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
@@ -424,7 +424,7 @@ class Osa extends Controller {
 		$org_req = $this->Orgrequirement_model->get_requirement($organizationid, $requirementid);
 		
 		$content_data['org_req'] = $org_req;
-		$content_data['org'] = $this->organization_model->get_organization($organizationid);
+		$content_data['org'] = $this->organization_model->get_organization($organizationid,$appsemid);
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($org_req['appsemid']);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['submit_url'] = "osa/manage_org_req_submit/{$organizationid}/{$requirementid}";

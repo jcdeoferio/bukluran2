@@ -4,7 +4,7 @@ Diliman, Quezon City<?=br(2)?>
 
 Greetings!<?=br(2)?>
 
-The <?=$organization['orgname']?> has listed you as <?=$member['position']?:'a member'?> of the in their application for university recognition.<?=br(2)?>
+The <?=$organization['orgname']?> has listed you as <?=$member['position']?:'a member'?> in their application for university recognition.<?=br(2)?>
 
 You can confirm your membership to the organization by going to:<?=br(2)?>
 
@@ -12,7 +12,7 @@ You can confirm your membership to the organization by going to:<?=br(2)?>
 
 Your code for logging in is: <b><?= $member['hashcode']?></b><?=br(2)?>
 
-This code is like a password for your account, please refrain from sharing it to others.<?=br(2)?>
+This code serves as a password for your account, please refrain from sharing it to others.<?=br(2)?>
 
 If you are not affiliated with <?=$organization['orgname']?>, please ignore this message.<?=br(2)?>
 
