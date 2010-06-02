@@ -66,6 +66,16 @@ class Osa_model extends Model{
 		$this->db->insert('orgprofiles');
 	}
 	
+	function create_organization_profiles($aysem){
+		$this->db->where('organizationid >',-1);
+		$orgs = $this->db->get('organizations');
+		$orgs = $orgs->result_array();
+		
+		foreach($orgs as $org){
+			$this->create_organization_profile($org['organizationid'], $aysem);
+		}
+	}
+	
 	function reset_organization_password($username){
 		$password = generate_password();
 		
