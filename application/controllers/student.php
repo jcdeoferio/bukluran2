@@ -68,7 +68,7 @@ class Student extends Controller {
 	{
 		$user = $this->session->userdata('user');
 		$this->Student_model->confirm($user['studentid'], $orgid, $this->aysem);
-		$org = $this->Organization_model->get_organization($orgid);
+		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
 		$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
 	}
 	
@@ -76,7 +76,7 @@ class Student extends Controller {
 	{
 		$user = $this->session->userdata('user');
 		$this->Student_model->unconfirm($user['studentid'], $orgid, $this->aysem);
-		$org = $this->Organization_model->get_organization($orgid);
+		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
 		$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
 	}
 	

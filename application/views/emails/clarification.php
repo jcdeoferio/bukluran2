@@ -10,5 +10,3 @@ The Office of Student Activites has sent a message regarding your application fo
 
 Sincerely yours,<?=br(1)?>
 UP Bukluran<?=br(2)?>
-
-Note: This message is machine generated and will expire when the recognition period closes.

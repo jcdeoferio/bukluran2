@@ -16,6 +16,7 @@ class Organization extends Controller {
 		$this->load->model('organization_model');
 		$this->load->model('email_queue_model');
 		$this->load->model('orgform2_model');
+		$this->load->model('orgregistration_model');
 		
 		if($this->session->user_group_is(OSA_GROUPID)){
 			$this->sidebar_data['links'][0]['title'] = 'Announcements';
@@ -91,11 +92,11 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
-		$organization = $this->organization_model->get_organization($organizationid);
+		$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		
 		$data['title'] = "Information Sheet - ".$this->session->username();
 		
@@ -190,7 +191,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -223,7 +224,7 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 		}
 		
-		$organization = $this->organization_model->get_organization($organizationid);
+		$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		$orgname = $organization['orgname'];
 		
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
@@ -283,14 +284,14 @@ class Organization extends Controller {
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
 			$orgname = $this->session->orgname();
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		}
 		
 		if(is_null($organizationid))
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -325,7 +326,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		}
 		
 		$this->orgform2_model->update_starting_balance($organizationid,$appsemid,$this->input->post('start_bal'));
@@ -369,7 +370,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -403,7 +404,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		}
 		
 		$this->orgform2_model->insert_collection($organizationid,$appsemid,$this->input->post('amount'),$this->input->post('description'));
@@ -424,7 +425,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -456,7 +457,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		}
 		
 		$this->orgform2_model->insert_disbursement($organizationid,$appsemid,$this->input->post('amount'),$this->input->post('description'));
@@ -474,7 +475,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		}
 		
 		if($this->orgform2_model->collection_belongs($id,$organizationid))
@@ -494,7 +495,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		}
 		
 		if($this->orgform2_model->disbursement_belongs($id,$organizationid))
@@ -516,7 +517,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -557,7 +558,7 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 		}
 		
-		$organization = $this->organization_model->get_organization($organizationid);
+		$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 		$orgname = $organization['orgname'];
 		
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
@@ -635,7 +636,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -668,7 +669,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -701,7 +702,7 @@ class Organization extends Controller {
 			redirect('organization');
 			
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid);
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -927,7 +928,7 @@ class Organization extends Controller {
 		$org_req = $this->Orgrequirement_model->get_requirement($organizationid, $requirementid);
 		
 		$content_data['org_req'] = $org_req;
-		$content_data['org'] = $this->organization_model->get_organization($organizationid);
+		$content_data['org'] = $this->organization_model->get_organization($organizationid,$this->Variable->current_application_aysem());
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($org_req['appsemid']);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['submit_url'] = "organization/manage_org_req_submit/{$organizationid}/{$requirementid}";

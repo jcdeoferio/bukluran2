@@ -13,6 +13,7 @@ class Main extends Controller {
 		
 		$this->load->library('views',$params);
 		$this->load->model('Organization_model');
+		$this->load->model('Variable');
 	}
 	
 	function index()
@@ -55,7 +56,7 @@ class Main extends Controller {
 			
 			$this->load->view('organizations/list', $data);
 		}else{
-			$data['org']=$this->Organization_model->get_organization($org_id);
+			$data['org']=$this->Organization_model->get_organization($org_id,$this->Variable->current_application_aysem());
 			$data['span']=24;
 			$data['back_link']='main/organizations/';
 			

@@ -58,6 +58,7 @@ CREATE TABLE orgprofiles (
 	approvedby integer REFERENCES linkaccounts(linkaccountid),
 	approveddate timestamp,
 	startingbalance numeric(10,2),
+	acknowledged boolean NOT NULL DEFAULT FALSE,
 	CONSTRAINT orgprofiles_pk PRIMARY KEY (organizationid, appsemid));
 
 CREATE TABLE orgmemberships(
@@ -84,6 +85,7 @@ CREATE TABLE awardclassifications(
 CREATE TABLE orgawards(
 	orgawardid serial PRIMARY KEY,
 	organizationid integer NOT NULL REFERENCES organizations,
+	appsemid integer NOT NULL REFERENCES appsems,
 	awardname varchar(128) NOT NULL,
 	filepath text,
 	awardclassificationid integer NOT NULL REFERENCES awardclassifications DEFAULT 1,
@@ -97,6 +99,7 @@ CREATE TABLE eventcategories(
 CREATE TABLE plannedevents(
 	plannedeventid serial PRIMARY KEY,
 	organizationid integer REFERENCES organizations,
+	appsemid integer NOT NULL REFERENCES appsems,
 	eventname varchar(128),
 	eventcategoryid integer NOT NULL REFERENCES eventcategories,
 	description varchar(1024));
@@ -104,7 +107,10 @@ CREATE TABLE plannedevents(
 CREATE TABLE eventreports(
 	eventreportid serial PRIMARY KEY,
 	organizationid integer REFERENCES organizations,
-	eventname varchar(128));
+	appsemid integer NOT NULL REFERENCES appsems,
+	eventname varchar(128),
+	eventcategoryid integer NOT NULL REFERENCES eventcategories,
+	description varchar(1024));
 	
 CREATE TABLE requirements(
 	requirementid serial PRIMARY KEY,

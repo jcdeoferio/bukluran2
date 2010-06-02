@@ -40,10 +40,16 @@ class Email_queue extends Controller {
 					$data['organization'] = $this->organization_model->get_organization($row['organizationid'],$this->variable->current_application_aysem());
 					$subject = "Bukluran: ".$data['organization']['orgname']." has added you as a member";
 					$content = $this->load->view('emails/member_confirmation',$data,true);
-					echo($subject.br(2).$content.br(3));
-/*
+					// echo($subject.br(2).$content.br(3));
 					$this->emailer->send_email($data['member']['webmail'],$subject,$content);
-*/
+					
+					$data['message'] = "{$data['organization']['orgname']} has added you as a member";
+					$member = $this->organization_model->get_member($row['organizationid'], $this->variable->current_application_aysem(), $row['studentid']);
+					$subject = "Bukluran: A message has been sent to your UP Webmail Account";
+					$content = $this->load->view('emails/notification',$data,true);
+					// echo($subject.br(2).$content.br(3));
+					$this->emailer->send_email($member['email'],$subject,$content);
+					
 				break;
 				case FACULTY_CONFIRMATION_EMAIL:
 					$data = array();
@@ -52,10 +58,15 @@ class Email_queue extends Controller {
 					$data['clarification'] = $this->organization_model->get_clarification($row['orgclarificationid']);
 					$subject = "Bukluran: ".$data['organization']['orgname']." has added you as a faculty adviser";
 					$content = $this->load->view('emails/faculty_confirmation',$data,true);
-/*
-					echo($subject.br(2).$content.br(3));
-*/
+					// echo($subject.br(2).$content.br(3));
 					$this->emailer->send_email($data['faculty']['webmail'],$subject,$content);
+					
+					$data['message'] = "{$data['organization']['orgname']} has added you as a faculty adviser";
+					$adviser = $this->organization_model->get_adviser($row['organizationid'], $this->variable->current_application_aysem(), $row['facultyid']);
+					$subject = "Bukluran: A message has been sent to your UP Webmail Account";
+					$content = $this->load->view('emails/notification',$data,true);
+					// echo($subject.br(2).$content.br(3));
+					$this->emailer->send_email($adviser['email'],$subject,$content);
 				break;
 				case OSA_TO_ORGANIZATION_EMAIL:
 					$data = array();
@@ -63,9 +74,7 @@ class Email_queue extends Controller {
 					$org = $this->organization_model->get_organization_profile($row['organizationid'],$this->variable->current_application_aysem());
 					$subject = "Bukluran: Message from OSA regarding your application";
 					$content = $this->load->view('emails/clarification',$data,true);
-/*
-					echo($subject.br(2).$content.br(3));
-*/
+					// echo($subject.br(2).$content.br(3));
 					$this->emailer->send_email($org['heademail'],$subject,$content);
 				break;
 				case ANNOUNCEMENT_EMAIL:
@@ -74,9 +83,7 @@ class Email_queue extends Controller {
 					$org = $this->organization_model->get_organization_profile($row['organizationid'],$this->variable->current_application_aysem());
 					$subject = "Bukluran Announcement: ".$data['announcement']['title'];
 					$content = $this->load->view('emails/announcement',$data,true);
-/*
-					echo($subject.br(2).$content.br(3));
-*/
+					// echo($subject.br(2).$content.br(3));
 					$this->emailer->send_email($org['heademail'],$subject,$content);
 				break;
 			}

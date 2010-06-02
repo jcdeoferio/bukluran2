@@ -25,7 +25,6 @@
 	<? endif; ?>
 	
 	<?= validation_errors() ?>
-		
 	<?=form_open("organization/form1_submit/{$appsemid}/{$organization['organizationid']}")?>
 	<table>
 		<tr>
