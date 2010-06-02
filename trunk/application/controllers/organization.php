@@ -36,8 +36,8 @@ class Organization extends Controller {
 			$this->sidebar_data['links'][0]['anchors'] = array('Home');
 			$this->sidebar_data['links'][0]['selected'] = -1;
 			$this->sidebar_data['links'][1]['title'] = 'Registration';
-			$this->sidebar_data['links'][1]['hrefs'] = array('organization/forms');
-			$this->sidebar_data['links'][1]['anchors'] = array('Forms');
+			$this->sidebar_data['links'][1]['hrefs'] = array('organization/forms','organization/requirements');
+			$this->sidebar_data['links'][1]['anchors'] = array('Forms','Requirements');
 			$this->sidebar_data['links'][1]['selected'] = -1;
 			$this->sidebar_data['links'][2]['title'] = 'Account';
 			$this->sidebar_data['links'][2]['hrefs'] = array('organization/change_password');
@@ -895,6 +895,50 @@ class Organization extends Controller {
 		}else{
 			$this->form1_faculty_adviser();
 		}
+	}
+	
+	function requirements()
+	{
+		$data['title'] = "Requirements - ".$this->session->username();
+		
+		$this->load->model('Orgrequirement_model');
+		$this->load->model('organization_model');
+		
+		$content_data['org_reqs'] = $this->Orgrequirement_model->get_requirements_appsem($this->session->organizationid(), $this->Variable->current_application_aysem());
+		$content_data['org'] = $this->organization_model->get_organization($this->session->organizationid());
+		$content_data['appsemid'] = $this->Variable->current_application_aysem();
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($this->Variable->current_application_aysem());
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		
+		$this->sidebar_data['links'][1]['selected'] = 1;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/requirements', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function view_req($requirementid){
+		$organizationid = $this->session->organizationid();
+		$data['title'] = "View Organization Requirement Details - ".$this->session->username();
+		
+		$this->load->model('Orgrequirement_model');
+		$this->load->model('organization_model');
+		
+		$org_req = $this->Orgrequirement_model->get_requirement($organizationid, $requirementid);
+		
+		$content_data['org_req'] = $org_req;
+		$content_data['org'] = $this->organization_model->get_organization($organizationid);
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($org_req['appsemid']);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['submit_url'] = "organization/manage_org_req_submit/{$organizationid}/{$requirementid}";
+		$content_data['editable'] = FALSE;
+		$content_data['postback'] = $this->session->postback_variable();
+		
+		$this->sidebar_data['links'][1]['selected'] = 1;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/req_details', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 }
 
