@@ -139,13 +139,19 @@ class Variable extends Model{
 	}
 	
 	function set_current_aysem($aysem){
+		$return = false;
+		
 		if(!$this->is_legal_aysem_format($aysem))
 			throw new UnexpectedValueException("Illegal aysem format: '{$aysem}'");
 		
-		if(!$this->is_legal_aysem_value($aysem))
-			throw new UnexpectedValueException("Illegal aysem value: '{$aysem}' No such aysem in appsems table");
+		if(!$this->is_legal_aysem_value($aysem)){
+			// throw new UnexpectedValueException("Illegal aysem value: '{$aysem}' No such aysem in appsems table");
+			$this->create_appsem($aysem);
+			$return = true;
+		}
 		
 		$this->set(CURRENT_APP_AYSEM, $aysem);
+		return $return;
 	}
 	
 	function get_valid_appsems(){
@@ -179,5 +185,10 @@ class Variable extends Model{
 		
 		return($this->db->count_all_results() > 0);
 	}
-
+	
+	function create_appsem($appsem){
+		$this->db->set('appsemid',$appsem);
+		$this->db->set('insertedby',$this->session->loginaccountid());
+		$this->db->insert('appsems');
+	}
 }

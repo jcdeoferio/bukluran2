@@ -521,7 +521,10 @@ class Osa extends Controller {
 			
 			if($this->form_validation->run()){
 				$aysem = $this->input->post('acadyear').$this->input->post('sem');
-				$this->Variable->set_current_aysem($aysem);
+				$is_new = $this->Variable->set_current_aysem($aysem);
+				if($is_new){
+					$this->Osa_model->create_organization_profiles($aysem);
+				}
 			}
 		}
 		else{
