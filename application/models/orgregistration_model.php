@@ -125,6 +125,15 @@ class Orgregistration_model extends Model{
 		return $org['acknowledged'] == 't';
 	}
 	
+	function requirements($organizationid, $appsemid){
+		//select * from requirements r where requirementid not in (select requirementid from orgsubmittedrequirements where organizationid = 1) and appsemid = 20093;
+		$this->db->from('requirements r');
+		$this->db->where('requirementid not in',"(select requirementid from orgsubmittedrequirements where organizationid = {$organizationid})",false);
+		$this->db->where('appsemid',$appsemid);
+		
+		return $this->db->count_all_results() == 0;
+	}
+	
 	private function get_profile($organizationid, $appsemid){
 		$this->db->from('orgprofiles');
 		$this->db->where('organizationid',$organizationid);

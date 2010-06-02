@@ -98,6 +98,8 @@
 	<?="form6: ".$this->orgregistration_model->form6($this->session->organizationid(),$this->Variable->current_application_aysem())?>
 	<?=br(1)?>
 	<?="form7: ".$this->orgregistration_model->form7($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?=br(1)?>
+	<?="requirements: ".$this->orgregistration_model->requirements($this->session->organizationid(),$this->Variable->current_application_aysem())?>
 	<?endif;?>
 </div>
 

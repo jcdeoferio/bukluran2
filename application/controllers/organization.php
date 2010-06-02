@@ -906,7 +906,7 @@ class Organization extends Controller {
 		$this->load->model('organization_model');
 		
 		$content_data['org_reqs'] = $this->Orgrequirement_model->get_requirements_appsem($this->session->organizationid(), $this->Variable->current_application_aysem());
-		$content_data['org'] = $this->organization_model->get_organization($this->session->organizationid());
+		$content_data['org'] = $this->organization_model->get_organization($this->session->organizationid(),$this->Variable->current_application_aysem());
 		$content_data['appsemid'] = $this->Variable->current_application_aysem();
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($this->Variable->current_application_aysem());
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
