@@ -68,7 +68,7 @@ class Organization extends Controller {
 	
 	function forms()
 	{
-		$data['title'] = "Application Forms - ".$this->session->username();
+		$data['title'] = "Registration - ".$this->session->username();
 		$user = $this->session->userdata(USER);
 		$data['clarifications'] = $this->organization_model->get_clarifications($user['organizationid'], $this->Variable->current_application_aysem());
 		

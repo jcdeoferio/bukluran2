@@ -31,6 +31,8 @@ body{background:url('../images/background.png');}
 #content_main{}
 #content_main p{line-height:150%;}
 
+.progress-check-icon{display:inline-block;margin-right: 0.3em;}
+
 .notes{
 	font-size:12px;
 	margin-top:10px;
