@@ -368,7 +368,7 @@ class Osa extends Controller {
 	}
 	
 	function _req_name_unique_check($name){
-		if(!$this->Osa_model->is_unique_req_name($name, $this->Variable->current_application_aysem())){
+		if(!$this->Osa_model->is_unique_req_name($name, $this->input->post('appsemid'))){
 			$this->form_validation->set_message('_req_name_unique_check', "Requirement '{$name}' already exists");
 			return(FALSE);
 		}

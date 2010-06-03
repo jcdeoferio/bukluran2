@@ -19,6 +19,7 @@
 	<? endif; ?>
 	a requirement for application period: <strong><?= $pretty_application_aysem ?></strong>
 	<?= form_open($submit_url) ?>
+	<?= form_hidden('appsem',$appsemid)?>
 	<table>
 		<tr>
 			<td><?= form_label('Name:', 'name') ?></td>
