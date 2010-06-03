@@ -155,9 +155,10 @@ class Osa_model extends Model{
 		$this->db->update('requirements');
 	}
 	
-	function is_unique_req_name($name){
+	function is_unique_req_name($name, $appsemid){
 		$this->db->from('requirements');
 		$this->db->where('name', $name);
+		$this->db->where('appsemid', $appsemid);
 		
 		return($this->db->count_all_results() == 0);
 	}
