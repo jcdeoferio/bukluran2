@@ -29,7 +29,7 @@ class Orgregistration_model extends Model{
 		$this->db->where('confirmed','true');
 		$no_confirmed = $this->db->count_all_results();
 		
-		return  $no_advisers > 0 && $no_advisers == $no_confirmed;
+		return  $no_advisers > 0 && $no_confirmed > 0;
 	}
 	
 	function form2($organizationid, $appsemid){
