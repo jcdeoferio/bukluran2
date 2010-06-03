@@ -44,10 +44,10 @@ CREATE TABLE organizations (
 CREATE TABLE orgprofiles (
 	organizationid integer REFERENCES organizations,
 	appsemid integer REFERENCES appsems,
-	orgstatusid integer REFERENCES orgstatuses,
+	orgstatusid integer REFERENCES orgstatuses NOT NULL DEFAULT 1,
 	acronym varchar(32),
 	orgdescription text,
-	orgcategoryid integer REFERENCES orgcategories,
+	orgcategoryid integer REFERENCES orgcategories NOT NULL DEFAULT 1,
 	mailaddr varchar(512),
 	orgemail varchar(128),
 	heademail varchar(128),
@@ -270,5 +270,5 @@ INSERT INTO students (useraccountid, webmail) VALUES ((SELECT linkaccountid FROM
 INSERT INTO organizations (loginaccountid, orgname) VALUES ((SELECT loginaccountid FROM loginaccounts WHERE username = 'org1'),'organization 1');
 INSERT INTO orgadvisers (organizationid, facultyid, appsemid, email) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT facultyid FROM faculty WHERE webmail = 'faculty@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'),'faculty@up.edu.ph');
 INSERT INTO orgmemberships (organizationid, studentid, appsemid , email) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT studentid FROM students WHERE webmail = 'student@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'),'student@up.edu.ph');
-INSERT INTO orgprofiles (organizationid, appsemid, orgcategoryid, orgstatusid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'),(SELECT orgcategoryid FROM orgcategories WHERE description='Fraternity'),(SELECT orgstatusid FROM orgstatuses WHERE description = 'Renewed'));
+INSERT INTO orgprofiles (organizationid, appsemid, orgcategoryid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'),(SELECT orgcategoryid FROM orgcategories WHERE description='Fraternity'));
 INSERT INTO announcements (title,loginaccountid,date_created,date_modified,content) VALUES ('Sample announcement1',(SELECT loginaccountid FROM loginaccounts WHERE username = 'osa'),now(),now(),'Sample announcement content1');

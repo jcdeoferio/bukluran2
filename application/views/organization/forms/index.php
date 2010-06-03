@@ -22,7 +22,16 @@
 		$progress_form7 = $this->orgregistration_model->form7($org['organizationid'],$aysem);
 		$progress_reqs = $this->orgregistration_model->requirements($org['organizationid'],$aysem);
 	}
-	$progress_total = $progress_form1+$progress_form1_advisers+$progress_form2+($progress_form3_members&&$progress_form3_officers)+$progress_form5_eventreports+$progress_form6+$progress_form7+$progress_reqs;
+	$progress_total = $progress_form1+
+		$progress_form1_advisers+
+		$progress_form2+
+		($progress_form3_members&&$progress_form3_officers)+
+		$progress_form5_eventreports+
+		$progress_form6+
+		$progress_form7+
+		$progress_reqs+
+		($org['orgstatusid']>APP_NOT_SUBMITTED)+
+		($org['orgstatusid']==APP_RENEWED);
 ?>
 
 <div class="span-19 last" id="content_main">
@@ -32,10 +41,10 @@
 	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
 		Registration is Currently Closed.
 	<?else:?>
-	Registration progress: <?=round(($progress_total/8.0)*100,2)?>%
-	<?=br(2)?>
 	<div id="progress"></div>
-	<?=br(1)?>
+	Progress: <?=round($progress_total*10,2)?>%<?=br(1)?>
+	Status: <?=$org['orgstatusdesc']?>
+	<?=br(2)?>
 	<div>
 	<? if($this->session->user_group_is(OSA_GROUPID)):?>
 		<div title= "<?=($progress_form1)?"OK":"Form1 Needs to be filled up"?>">
@@ -76,6 +85,11 @@
 		<div title= "<?=($progress_reqs)?"OK":"Some requirements are not yet submitted"?>">
 		<span id="progress_reqs" class="ui-icon ui-icon-<?=($progress_reqs)?"check":"closethick"?> progress-check-icon"></span>
 		<?=anchor("osa/org_reqs/{$org['organizationid']}","Requirements");?><br />
+		</div>
+		
+		<div title= "<?=$org['orgstatusdesc']?>">
+		<span id="progress_reqs" class="ui-icon ui-icon-<?=($org['orgstatusid']>1)?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/submit_forms/{$aysem}/{$org['organizationid']}","Submit to OSA");?><br />
 		</div><br /><br />
 	<? else:?>
 		<div title= "<?=($progress_form1)?"OK":"Form1 Needs to be filled up"?>">
@@ -116,6 +130,11 @@
 		<div title= "<?=($progress_reqs)?"OK":"Some requirements are not yet submitted"?>">
 		<span id="progress_reqs" class="ui-icon ui-icon-<?=($progress_reqs)?"check":"closethick"?> progress-check-icon"></span>
 		<?=anchor("organization/requirements","Requirements");?><br />
+		</div>
+		
+		<div title= "<?=$org['orgstatusdesc']?>">
+		<span id="progress_reqs" class="ui-icon ui-icon-<?=($org['orgstatusid']>1)?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/submit_forms","Submit to OSA");?><br />
 		</div><br /><br />
 	<? endif;?>
 	</div>
@@ -176,9 +195,9 @@
 		No Messages From OSA
 	<? endif;?>
 	<script>
-		var progress = <?=($progress_total/8.0)*100?>;
+		var progress = <?=$progress_total*10?>;
 		$('#progress').progressbar({value:0});
-		$('#progress .ui-progressbar-value').delay(300).animate({width:progress+"%"},3000,"easeOutElastic",function(){$('#progress').progressbar({value:progress});});
+		$('#progress .ui-progressbar-value').delay(300).animate({width:progress+"%"},3000,"easeOutBounce",function(){$('#progress').progressbar({value:progress});});
 	</script>
 	<?endif;?>
 </div>

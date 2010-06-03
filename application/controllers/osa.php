@@ -548,7 +548,7 @@ class Osa extends Controller {
 	
 	function view_application($orgid,$aysem)
 	{
-		$org = $this->organization_model->get_organization_profile($orgid,$aysem);		
+		$org = $this->organization_model->get_organization($orgid,$aysem);		
 		
 		$data['title'] = "View Application - OSA";
 		$data['span'] = 19;

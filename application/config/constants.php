@@ -64,5 +64,10 @@ define('FACULTY_CONFIRMATION_EMAIL', 2);
 define('OSA_TO_ORGANIZATION_EMAIL', 3);
 define('ANNOUNCEMENT_EMAIL', 4);
 
+define('APP_NOT_SUBMITTED', 1);
+define('APP_PENDING', 2);
+define('APP_REJECTED', 3);
+define('APP_RENEWED', 4);
+
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

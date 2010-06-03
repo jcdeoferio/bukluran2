@@ -9,7 +9,8 @@ class Login_model extends Model{
 	function authenticate_login($username, $password){
 		$this->db->from('loginaccounts l');
 		$this->db->join('groups g', 'l.groupid = g.groupid');
-		//$this->db->join('organizations o', 'l.loginaccountid = o.loginaccountid', 'left');
+		// $this->db->join('organizations o', 'l.loginaccountid = o.loginaccountid', 'left');
+		// $this->db->join('orgprofiles p', 'p.organizationid = o.organizationid', 'left');
 		$this->db->where('username', $username);
 		$this->db->where('password', md5($password));
 		
