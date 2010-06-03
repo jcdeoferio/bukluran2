@@ -36,6 +36,7 @@ class Osa extends Controller {
 		$this->load->model('Variable');
 		$this->load->model('organization_model');
 		$this->load->model('email_queue_model');
+		$this->load->model('orgregistration_model');
 		
 		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 		

@@ -1,6 +1,6 @@
 <div class="span-19 last" id="content_main">
 	<div class="contentHeader_text">
-		Application Forms
+		Registration Forms
 	</div>
 	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
 		Registration is Currently Closed.
@@ -80,26 +80,49 @@
 	<? else:?>
 		No Messages From OSA
 	<? endif;?>
-	<?=br(2)?>
-	<?="form1: ".$this->orgregistration_model->form1($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form1_advisers: ".$this->orgregistration_model->form1_advisers($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form2: ".$this->orgregistration_model->form2($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form3_members: ".$this->orgregistration_model->form3_members($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form3_officers: ".$this->orgregistration_model->form3_officers($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form5_eventreports: ".$this->orgregistration_model->form5_eventreports($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form5_awards: ".$this->orgregistration_model->form5_awards($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form6: ".$this->orgregistration_model->form6($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="form7: ".$this->orgregistration_model->form7($this->session->organizationid(),$this->Variable->current_application_aysem())?>
-	<?=br(1)?>
-	<?="requirements: ".$this->orgregistration_model->requirements($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?if($this->session->user_group_is(ORG_GROUPID)):?>
+		<?=br(2)?>
+		<?="form1: ".$this->orgregistration_model->form1($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form1_advisers: ".$this->orgregistration_model->form1_advisers($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form2: ".$this->orgregistration_model->form2($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form3_members: ".$this->orgregistration_model->form3_members($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form3_officers: ".$this->orgregistration_model->form3_officers($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form5_eventreports: ".$this->orgregistration_model->form5_eventreports($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form5_awards: ".$this->orgregistration_model->form5_awards($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form6: ".$this->orgregistration_model->form6($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="form7: ".$this->orgregistration_model->form7($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+		<?=br(1)?>
+		<?="requirements: ".$this->orgregistration_model->requirements($this->session->organizationid(),$this->Variable->current_application_aysem())?>
+	<?else:?>
+		<?=br(2)?>
+		<?="form1: ".$this->orgregistration_model->form1($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form1_advisers: ".$this->orgregistration_model->form1_advisers($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form2: ".$this->orgregistration_model->form2($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form3_members: ".$this->orgregistration_model->form3_members($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form3_officers: ".$this->orgregistration_model->form3_officers($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form5_eventreports: ".$this->orgregistration_model->form5_eventreports($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form5_awards: ".$this->orgregistration_model->form5_awards($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form6: ".$this->orgregistration_model->form6($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="form7: ".$this->orgregistration_model->form7($org['organizationid'],$aysem)?>
+		<?=br(1)?>
+		<?="requirements: ".$this->orgregistration_model->requirements($org['organizationid'],$aysem)?>
+	<?endif;?>
 	<?endif;?>
 </div>
 

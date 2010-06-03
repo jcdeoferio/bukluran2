@@ -31,6 +31,12 @@ body{background:url('../images/background.png');}
 #content_main{}
 #content_main p{line-height:150%;}
 
+.notes{
+	font-size:12px;
+	margin-top:10px;
+	margin-bottom:0px;
+}
+
 .middle{text-align:center; vertical-align:middle;}
 
 .contentHeader_text{

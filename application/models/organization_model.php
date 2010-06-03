@@ -360,4 +360,11 @@ class Organization_model extends Model{
 		$query = $this->db->get();
 		return $query->row_array();
 	}
+	
+	function save_acknowledged($organizationid,$appsemid,$acknowledged){
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('appsemid',$appsemid);
+		$this->db->set('acknowledged',$acknowledged);
+		$this->db->update('orgprofiles');
+	}
 }

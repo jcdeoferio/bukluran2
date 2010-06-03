@@ -165,7 +165,7 @@ class Organization extends Controller {
 			
 			$this->organization_model->save_organization_profile($organizationid,$appsemid,$profile);
 			if($this->session->user_group_is(OSA_GROUPID)){
-				redirect('osa/organizations');
+				redirect("osa/view_application/{$organizationid}/{$appsemid}");
 			}else{
 				redirect('organization/forms');
 			}
@@ -258,20 +258,20 @@ class Organization extends Controller {
 			$this->session->save_validation_errors();
 			$this->session->save_postback_variable($postback);
 			
-			redirect("organization/form1_add_adviser/{$appsemid}/{$organizationid}");
+			$this->form1_add_adviser($appsemid,$organizationid);
 		}
 		else{
 			$add_success = $this->organization_model->add_faculty($organizationid, $appsemid, $postback['webmail'], $postback['email']);
 			
 			if($add_success)
-				redirect("organization/form1_faculty_adviser/{$appsemid}/{$organizationid}");
+				$this->form1_faculty_adviser($appsemid,$organizationid);
 			else{
 				$this->load->helper('inflector');
 				
 				$this->session->add_validation_error("{$postback['webmail']} is already a faculty adviser");
 				$this->session->save_postback_variable($postback);
 				
-				redirect("organization/form1_add_adviser/{$appsemid}/{$organizationid}");
+				$this->form1_add_adviser($appsemid,$organizationid);
 			}
 		}
 	}
@@ -701,8 +701,9 @@ class Organization extends Controller {
 		if(is_null($organizationid))
 			redirect('organization');
 			
+		$organization = $this->organization_model->get_organization($organizationid,$appsemid);	
 		if($this->session->user_group_is(OSA_GROUPID)){
-			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+			//$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 			$orgname = $organization['orgname'];
 		}
 		
@@ -713,12 +714,36 @@ class Organization extends Controller {
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
+		$content_data['organization'] = $organization;
 		
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('organization/forms/form7', $content_data);
 		$this->views->footer();
 		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function form7_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+		}
+		$acknowledged = $this->input->post('acknowledged');
+		$this->organization_model->save_acknowledged($organizationid,$appsemid,$acknowledged);
+		
+		if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("osa/view_application/{$organizationid}/{$appsemid}");
+		}else{
+			redirect('organization/forms');
+		}
 	}
 	
 	function form_change_appsem_submit($url_form_part){
