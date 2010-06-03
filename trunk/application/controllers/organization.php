@@ -1041,15 +1041,19 @@ class Organization extends Controller {
 			}
 		}else{
 			if(is_null($organizationid))
-				redirect('organization');
+				redirect("osa/view_application/{$organizationid}/{$appsemid}");
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
 		}
-		if($this->orgregistration_model->is_ok($organizationid, $appsemid)){
+		if($this->orgregistration_model->is_ok($organizationid, $appsemid) && $org['orgstatusid'] == APP_NOT_SUBMITTED){
 			$this->send_adviser_confirmation_emails($appsemid,$organizationid);
 			$this->send_member_confirmation_emails($appsemid,$organizationid);
 			$this->organization_model->save_organization_profile($organizationid,$appsemid,array('orgstatusid'=>APP_PENDING));
 		}
-		redirect('organization');
+		if($this->session->user_group_is(ORG_GROUPID)){
+			redirect('organization');
+		}else{
+			redirect("osa/view_application/{$organizationid}/{$appsemid}");
+		}
 	}
 }
 
