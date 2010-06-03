@@ -117,7 +117,7 @@ class Organization extends Controller {
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
-		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form1/';
 		$content_data['organization'] = $organization;	
 
 		$this->sidebar_data['links'][1]['selected'] = 0;		
@@ -200,7 +200,7 @@ class Organization extends Controller {
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
-		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form1_faculty_adviser/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		$content_data['add_adviser_url'] = "organization/form1_add_adviser/{$appsemid}/{$organizationid}";
@@ -301,7 +301,7 @@ class Organization extends Controller {
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
-		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form2/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		$content_data['start_bal'] = $organization['startingbalance'];
@@ -644,7 +644,7 @@ class Organization extends Controller {
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
-		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form5/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		
@@ -677,7 +677,7 @@ class Organization extends Controller {
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
-		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form6/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		
@@ -711,7 +711,7 @@ class Organization extends Controller {
 		$content_data['appsemid'] = $appsemid;
 		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
-		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form3/';
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form7/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
 		$content_data['organization'] = $organization;
@@ -747,7 +747,7 @@ class Organization extends Controller {
 	}
 	
 	function form_change_appsem_submit($url_form_part){
-		redirect("organization/{$url_form_part}/{$this->input->post('appsem')}");
+		redirect("organization/{$url_form_part}/{$this->input->post('appsem')}/{$this->input->post('orgid')}");
 	}
 	
 	function change_password()

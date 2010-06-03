@@ -16,11 +16,12 @@
 	<?= form_open($change_appsem_submit_url) ?>
 	View application form for different application period:
 	<?= form_dropdown('appsem', $appsems, $appsemid) ?>
+	<?= form_hidden('orgid',$organization['organizationid'])?>
 	<?= form_submit('submit', 'Go') ?>
 	<?= form_close(); ?>
 	
 	<? endif; ?>
-	<?=form_open('organization/form7_submit'.($this->session->user_group_is(OSA_GROUPID)?"{$appsemid}/{$orgid}":""))?>
+	<?=form_open('organization/form7_submit'.($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":""))?>
 	<h3>Name of Organization: <?=$orgname?></h3>
 	<h4>We attest, upon our honor, that all statements in all the pages submitted for student organization registration are
 true, correct and accurate.</h4>
