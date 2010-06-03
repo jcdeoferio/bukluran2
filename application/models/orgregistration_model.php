@@ -94,11 +94,15 @@ class Orgregistration_model extends Model{
 	}
 	
 	function form5_awards($organizationid, $appsemid){
+		if($this->is_new_profile($organizationid,$appsemid)){
+			return true;
+		}
+		
 		$this->db->from('orgawards');
 		$this->db->where('organizationid',$organizationid);
 		$this->db->where('appsemid',$appsemid);
 		
-		return $this->db->count_all_results() >= 1;
+		return $this->db->count_all_results() > 0;
 	}
 	
 	function form6($organizationid, $appsemid){
