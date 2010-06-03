@@ -19,6 +19,7 @@
 	<?= form_open($change_appsem_submit_url) ?>
 	View application form for different application period:
 	<?= form_dropdown('appsem', $appsems, $appsemid) ?>
+	<?= form_hidden('orgid',$organization['organizationid'])?>
 	<?= form_submit('submit', 'Go') ?>
 	<?= form_close(); ?>
 	
