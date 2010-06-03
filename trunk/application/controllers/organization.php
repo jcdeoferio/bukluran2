@@ -71,6 +71,7 @@ class Organization extends Controller {
 		$data['title'] = "Registration - ".$this->session->username();
 		$user = $this->session->userdata(USER);
 		$data['clarifications'] = $this->organization_model->get_clarifications($user['organizationid'], $this->Variable->current_application_aysem());
+		$data['org'] = $this->organization_model->get_organization($user['organizationid'], $this->Variable->current_application_aysem());
 		
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
@@ -128,6 +129,17 @@ class Organization extends Controller {
 	}
 	
 	function form1_submit($appsemid, $organizationid){
+		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+		
 		if($this->session->user_group_is(OSA_GROUPID)){
 			$this->form_validation->set_rules('name', 'Organization Name', 'required');
 		}
@@ -246,6 +258,11 @@ class Organization extends Controller {
 		if(!$this->session->user_group_is(OSA_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email');
@@ -320,6 +337,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -398,6 +420,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -451,6 +478,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -587,6 +619,11 @@ class Organization extends Controller {
 		if(!$this->session->user_group_is(OSA_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email');
@@ -728,6 +765,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -811,6 +853,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -826,6 +873,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -841,6 +893,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -856,6 +913,11 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
 		}
 		
 		if(is_null($organizationid))
@@ -965,6 +1027,29 @@ class Organization extends Controller {
 		$this->load->view('organization/req_details', $content_data);
 		$this->views->footer();
 		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function submit_forms($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}else{
+			if(is_null($organizationid))
+				redirect('organization');
+			$org = $this->organization_model->get_organization($organizationid, $appsemid);
+		}
+		if($this->orgregistration_model->is_ok($organizationid, $appsemid)){
+			$this->send_adviser_confirmation_emails($appsemid,$organizationid);
+			$this->send_member_confirmation_emails($appsemid,$organizationid);
+			$this->organization_model->save_organization_profile($organizationid,$appsemid,array('orgstatusid'=>APP_PENDING));
+		}
+		redirect('organization');
 	}
 }
 
