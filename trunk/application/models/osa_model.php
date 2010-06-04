@@ -152,6 +152,7 @@ class Osa_model extends Model{
 		$this->db->set('description', $description);
 		$this->db->set('updatedon', 'now()', FALSE);
 		$this->db->set('updatedby', $this->session->loginaccountid());
+		$this->db->where('requirementid', $requirementid);
 		$this->db->update('requirements');
 	}
 	
