@@ -692,6 +692,34 @@ class Organization extends Controller {
 		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
+	function form5_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+		}
+		
+		//INSERT Code Here
+		
+		if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("osa/view_application/{$organizationid}/{$appsemid}");
+		}else{
+			redirect('organization/forms');
+		}
+	}
+	
 	function form6($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
 		$orgname = NULL;
@@ -723,6 +751,34 @@ class Organization extends Controller {
 		$this->load->view('organization/forms/form6', $content_data);
 		$this->views->footer();
 		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function form6_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	{		
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+		
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+		}
+		
+		//INSERT Code Here
+		
+		if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("osa/view_application/{$organizationid}/{$appsemid}");
+		}else{
+			redirect('organization/forms');
+		}
 	}
 	
 	function form7($appsemid = CURRENT_APPSEM, $organizationid = NULL)

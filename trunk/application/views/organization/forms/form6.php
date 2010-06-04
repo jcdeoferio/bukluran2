@@ -21,6 +21,9 @@
 	<?= form_close(); ?>
 	
 	<? endif; ?>
+	
+		<!--insert actual form here-->
+	
 	<? endif; ?>
 </div>
 
