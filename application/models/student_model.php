@@ -42,10 +42,10 @@ class Student_model extends Model{
 	}
 	
 	function set_studentpicture($studentid,$aysem,$path){
-		if($this->get_studentpicture($studentid,$aysem)){ //TODO current aysem
+		if($this->get_studentpicture($studentid,$aysem)){
 			$this->db->where('studentid', $studentid);
-			$this->db->where('appsemid', $aysem); //TODO current aysem
-			$this->db->update('studentpictures',array('filepath'=>$path));//TODO current aysem
+			$this->db->where('appsemid', $aysem); 
+			$this->db->update('studentpictures',array('filepath'=>$path));
 		}else{
 			$this->db->insert('studentpictures',array('studentid'=>$studentid,'appsemid'=>$aysem,'filepath'=>$path));//TODO current aysem
 		}
@@ -66,6 +66,16 @@ class Student_model extends Model{
 		$query = $this->db->get();
 		return($query->row_array());
 	}
-
+	
+	function get_studentusername($studentid){
+		$this->db->from('students');
+		$this->db->where('studentid', $studentid);
+		$query = $this->db->get();
+		$row = $query->row_array();
+		$webmail = $row['webmail'];
+		
+		$webmail = explode('@',$webmail);
+		return $webmail[0];
+	}
 }
 

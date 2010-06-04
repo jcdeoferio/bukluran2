@@ -5,7 +5,7 @@ class Student extends Controller {
 	{
 		parent::Controller();
 		
-		if(!$this->session->user_group_is(STUDENT_GROUPID))
+		if(!$this->session->user_group_is(STUDENT_GROUPID) && !$this->session->user_group_is(ORG_GROUPID) && !$this->session->user_group_is(OSA_GROUPID))
 			redirect('login');
 		
 		$this->load->helper('html');
@@ -14,19 +14,46 @@ class Student extends Controller {
 		
 		$this->load->model('Student_model');
 		$this->load->model('Organization_model');
-		
-		$this->sidebar_data['links'][0]['title'] = 'Announcements';
-		$this->sidebar_data['links'][0]['hrefs'] = array('student/announcements');
-		$this->sidebar_data['links'][0]['anchors'] = array('Home');
-		$this->sidebar_data['links'][0]['selected'] = -1;
-		$this->sidebar_data['links'][1]['title'] = 'Organizations';
-		$this->sidebar_data['links'][1]['hrefs'] = array('student/organizations');
-		$this->sidebar_data['links'][1]['anchors'] = array('Manage');
-		$this->sidebar_data['links'][1]['selected'] = -1;
-		$this->sidebar_data['links'][2]['title'] = 'Profile';
-		$this->sidebar_data['links'][2]['hrefs'] = array('student/upload');
-		$this->sidebar_data['links'][2]['anchors'] = array('Upload UP ID');
-		$this->sidebar_data['links'][2]['selected'] = -1;
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$this->sidebar_data['links'][0]['title'] = 'Announcements';
+			$this->sidebar_data['links'][0]['hrefs'] = array('student/announcements');
+			$this->sidebar_data['links'][0]['anchors'] = array('Home');
+			$this->sidebar_data['links'][0]['selected'] = -1;
+			$this->sidebar_data['links'][1]['title'] = 'Organizations';
+			$this->sidebar_data['links'][1]['hrefs'] = array('student/organizations');
+			$this->sidebar_data['links'][1]['anchors'] = array('Manage');
+			$this->sidebar_data['links'][1]['selected'] = -1;
+			$this->sidebar_data['links'][2]['title'] = 'Profile';
+			$this->sidebar_data['links'][2]['hrefs'] = array('student/upload');
+			$this->sidebar_data['links'][2]['anchors'] = array('Upload UP ID');
+			$this->sidebar_data['links'][2]['selected'] = -1;
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			$this->sidebar_data['links'][0]['title'] = 'Announcements';
+			$this->sidebar_data['links'][0]['hrefs'] = array('osa/announcements','osa/create_announcement');
+			$this->sidebar_data['links'][0]['anchors'] = array('Home','Create Announcement');
+			$this->sidebar_data['links'][0]['selected'] = -1;
+			$this->sidebar_data['links'][1]['title'] = 'Registration';
+			$this->sidebar_data['links'][1]['hrefs'] = array('osa/organizations','osa/manage_reqs');
+			$this->sidebar_data['links'][1]['anchors'] = array('Manage Organizations','Requirements');
+			$this->sidebar_data['links'][1]['selected'] = -1;
+			$this->sidebar_data['links'][2]['title'] = 'Application Period';
+			$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
+			$this->sidebar_data['links'][2]['anchors'] = array('Manage');
+			$this->sidebar_data['links'][2]['selected'] = -1;
+		}else{
+			$this->sidebar_data['links'][0]['title'] = 'Announcements';
+			$this->sidebar_data['links'][0]['hrefs'] = array('organization/announcements');
+			$this->sidebar_data['links'][0]['anchors'] = array('Home');
+			$this->sidebar_data['links'][0]['selected'] = -1;
+			$this->sidebar_data['links'][1]['title'] = 'Registration';
+			$this->sidebar_data['links'][1]['hrefs'] = array('organization/forms','organization/requirements');
+			$this->sidebar_data['links'][1]['anchors'] = array('Forms','Requirements');
+			$this->sidebar_data['links'][1]['selected'] = -1;
+			$this->sidebar_data['links'][2]['title'] = 'Account';
+			$this->sidebar_data['links'][2]['hrefs'] = array('organization/change_password');
+			$this->sidebar_data['links'][2]['anchors'] = array('Change Password');
+			$this->sidebar_data['links'][2]['selected'] = -1;
+		}
 				
 		//$this->sidebar_data['hrefs'] = array('student/organizations','student/upload');
 		//$this->sidebar_data['anchors'] = array('Manage Organizations','Upload UP ID');		
@@ -44,14 +71,7 @@ class Student extends Controller {
 		$params['organization']['unconfirm_link'] = 'student/unconfirm/';
 		$this->load->library('views',$params);
 		
-		$this->aysem = $this->Variable->current_application_aysem();
-		
-		$config['upload_path'] = './uploads/';
-		$config['file_name'] = $this->session->username().'-'.$this->aysem;
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['overwrite'] = TRUE;
-		$config['max_size']	= '250';
-		$this->load->library('upload', $config);
+		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -67,7 +87,7 @@ class Student extends Controller {
 	function confirm($orgid)
 	{
 		$user = $this->session->userdata('user');
-		$this->Student_model->confirm($user['studentid'], $orgid, $this->aysem);
+		$this->Student_model->confirm($user['studentid'], $orgid, $this->Variable->current_application_aysem());
 		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
 		$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
 	}
@@ -75,51 +95,101 @@ class Student extends Controller {
 	function unconfirm($orgid)
 	{
 		$user = $this->session->userdata('user');
-		$this->Student_model->unconfirm($user['studentid'], $orgid, $this->aysem);
+		$this->Student_model->unconfirm($user['studentid'], $orgid, $this->Variable->current_application_aysem());
 		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
 		$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
 	}
 	
-	function upload()
+	function upload($studentid = NULL, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
-		$user_data = $this->session->userdata(USER);
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$user_data = $this->session->userdata(USER);
+			$studentid = $user_data['studentid'];
+			$appsemid = CURRENT_APPSEM;
+			$data['submit_url'] = "student/do_upload";
+			$this->sidebar_data['links'][2]['selected'] = 0;
+		}else if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			if(!$this->Organization_model->membership_exists($studentid, $this->session->organizationid(), $appsemid)){
+				redirect('organization');
+			}
+			$data['submit_url'] = "student/do_upload/{$studentid}";
+			$this->sidebar_data['links'][1]['selected'] = 0;
+		}else{
+			if(is_null($appsemid))
+				redirect('osa');
+			$data['submit_url'] = "student/do_upload/{$studentid}/{$appsemid}/{$organizationid}";
+			$data['organizationid'] = $organizationid;
+			$data['appsemid'] = $appsemid;
+			$this->sidebar_data['links'][1]['selected'] = 0;
+		}
 		
 		$data['title'] = 'Upload UP ID - '.$this->session->username();
 		$data['span'] = 19;
 		$data['message'] = FALSE;
 		$data['stylesheets'] = array('login.css');
-		$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'], $this->aysem);
-		$this->sidebar_data['links'][2]['selected'] = 0;
+		$data['image'] = $this->Student_model->get_studentpicture($studentid, $appsemid);
+		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('student/upload',$data);
 		$this->views->footer();
 		$this->sidebar_data['links'][2]['selected'] = -1;
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
-	function do_upload()
+	function do_upload($studentid = NULL, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$user_data = $this->session->userdata(USER);
+			$studentid = $user_data['studentid'];
+			$appsemid = CURRENT_APPSEM;
+			$data['submit_url'] = "student/do_upload";
+			$this->sidebar_data['links'][2]['selected'] = 0;
+		}else if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			if(!$this->Organization_model->membership_exists($studentid, $this->session->organizationid(), $appsemid)){
+				redirect('organization');
+			}
+			$data['submit_url'] = "student/do_upload/{$studentid}";
+			$this->sidebar_data['links'][1]['selected'] = 0;
+		}else{
+			if(is_null($appsemid))
+				redirect('osa');
+			$data['submit_url'] = "student/do_upload/{$studentid}/{$appsemid}/{$organizationid}";
+			$data['organizationid'] = $organizationid;
+			$data['appsemid'] = $appsemid;
+			$this->sidebar_data['links'][1]['selected'] = 0;
+		}
+		
+		$config['upload_path'] = './uploads/';
+		$config['file_name'] = $this->Student_model->get_studentusername($studentid).'-'.$appsemid;
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['overwrite'] = TRUE;
+		$config['max_size']	= '250';
+		$this->load->library('upload', $config);
+		
 		$data['title'] = 'Upload UP ID - '.$this->session->username();
 		$data['span'] = 19;
 		$data['message'] = FALSE;
 		$data['stylesheets'] = array('login.css');
 		
 		$user_data = $this->session->userdata(USER);
-		$this->sidebar_data['links'][2]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
 		$this->sidebar_data['links'][2]['selected'] = -1;
+		$this->sidebar_data['links'][1]['selected'] = -1;
 		if (!$this->upload->do_upload())
 		{
 			$data['message'] = $this->upload->display_errors();	
-			$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'], $this->aysem);
+			$data['image'] = $this->Student_model->get_studentpicture($studentid, $appsemid);
 			$this->load->view('student/upload', $data);
 		}	
 		else
 		{	
 			$img_data = $this->upload->data();
-			$this->Student_model->set_studentpicture($user_data['studentid'], $this->aysem, $img_data['file_name']);
+			$this->Student_model->set_studentpicture($studentid, $appsemid, $img_data['file_name']);
 			
 			$data['message'] = "Upload Successful!";			
-			$data['image'] = $this->Student_model->get_studentpicture($user_data['studentid'],$this->aysem);
+			$data['image'] = $this->Student_model->get_studentpicture($studentid, $appsemid);
 			
 			$this->load->view('student/upload', $data);
 		}

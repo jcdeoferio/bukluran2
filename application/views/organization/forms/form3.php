@@ -49,6 +49,7 @@
 			<td>
 				<?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 				<?= anchor("organization/send_member_confirmation_email/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
+				<?= anchor("student/upload/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?>
 			</td>
 		</tr>
 	<? endforeach; ?>
@@ -120,6 +121,7 @@
 			<td>
 				<?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
 				<?= anchor("organization/send_member_confirmation_email/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
+				<?= anchor("student/upload/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?>
 			</td>
 		</tr>
 	<? endforeach; ?>
