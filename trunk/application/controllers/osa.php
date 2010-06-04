@@ -553,14 +553,27 @@ class Osa extends Controller {
 		$data['title'] = "View Application - OSA";
 		$data['span'] = 19;
 		$content_data['org'] = $org;
-		$content_data['aysem'] = $aysem;
+		$content_data['appsemid'] = $aysem;
 		$content_data['clarifications'] = $this->organization_model->get_clarifications($orgid, $aysem);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['statuses'] = result_to_option_array($this->organization_model->get_orgstatuses(), 'orgstatusid', 'description');
 		
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
 		$this->load->view('organization/forms/index', $content_data);
 		$this->views->footer();
 		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function change_application_status(){
+		$organizationid = $this->input->post('orgid');
+		$appsemid = $this->input->post('appsemid');
+		$this->organization_model->save_organization_profile($organizationid,$appsemid,array('orgstatusid'=>$this->input->post('orgstatus')));
+		redirect("osa/view_application/{$organizationid}/{$appsemid}");
+	}
+	
+	function form_change_appsem_submit(){
+		redirect("osa/view_application/{$this->input->post('orgid')}/{$this->input->post('appsem')}");
 	}
 	
 	function create_clarification($orgid,$aysem){

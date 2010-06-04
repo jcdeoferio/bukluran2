@@ -55,6 +55,13 @@ class Organization_model extends Model{
 		$row = $query->row_array();
 		return($row['description']);
 	}
+	
+	function get_orgstatuses(){
+		$this->db->from('orgstatuses');
+		
+		$query = $this->db->get();
+		return($query->result_array());
+	}
 		
 	function get_orgcategory($orgcategoryid){
 		$this->db->from('orgcategories');
