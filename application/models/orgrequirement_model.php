@@ -10,9 +10,8 @@ class Orgrequirement_model extends Model{
 		$this->db->select('r.requirementid, name, submittedon, comments');
 		$this->db->distinct();
 		$this->db->from('requirements r');
-		$this->db->join('orgsubmittedrequirements osr', 'r.requirementid = osr.requirementid', 'left');
+		$this->db->join('orgsubmittedrequirements osr', "r.requirementid = osr.requirementid and organizationid = {$organizationid}", 'left');
 		$this->db->where('appsemid', $appsemid);
-		$this->db->where("(organizationid = {$organizationid} OR organizationid IS NULL)");
 		$this->db->order_by('name');
 		
 		$query = $this->db->get();
