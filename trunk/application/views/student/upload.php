@@ -14,13 +14,21 @@
 	
 	<?if(array_key_exists('filepath',$image)):?>
 	Current Picture:<?=br(2)?>
-	<?=img(array('src'=>'./uploads/'.$image['filepath'],'width'=>'100%'))?>
+	<?=img(array('src'=>'./uploads/'.$image['filepath'],'max-width'=>'100%'))?>
 	<?endif;?>
 	
-	<?=form_open_multipart('student/do_upload',array('class'=>"form_large"));?>
+	<?=form_open_multipart($submit_url,array('class'=>"form_large"));?>
 	<?=form_upload('userfile','','class="text_input"');?>
 	<?=form_submit('upload','Upload','class="submit_default" id="submit"');?>
 	<?=form_close();?>
+	
+	<?if($this->session->user_group_is(ORG_GROUPID)):?>
+		<?=anchor('organization/form3','Back')?>
+	<?elseif($this->session->user_group_is(OSA_GROUPID)):?>
+		<?=anchor("osa/view_application/{$organizationid}/{$appsemid}",'Back')?>
+	<?else:?>
+		<?=anchor('student','Back')?>
+	<?endif;?>
 	
 </div>
 
