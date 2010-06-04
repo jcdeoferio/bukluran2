@@ -19,8 +19,10 @@
 	<?= form_hidden('orgid',$orgid)?>
 	<?= form_submit('submit', 'Go') ?>
 	<?= form_close(); ?>
-	
 	<? endif; ?>
+	
+		<!--insert actual form here-->
+
 	<? endif; ?>
 </div>
 

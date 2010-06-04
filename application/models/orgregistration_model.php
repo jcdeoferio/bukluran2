@@ -132,7 +132,7 @@ class Orgregistration_model extends Model{
 	function requirements($organizationid, $appsemid){
 		//select * from requirements r where requirementid not in (select requirementid from orgsubmittedrequirements where organizationid = 1) and appsemid = 20093;
 		$this->db->from('requirements r');
-		$this->db->where('requirementid not in',"(select requirementid from orgsubmittedrequirements where organizationid = {$organizationid})",false);
+		$this->db->where('requirementid not in',"(select requirementid from orgsubmittedrequirements where organizationid = {$organizationid} and appsemid = {$appsemid})",false);
 		$this->db->where('appsemid',$appsemid);
 		
 		return $this->db->count_all_results() == 0;
