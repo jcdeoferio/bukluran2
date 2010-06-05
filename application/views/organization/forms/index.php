@@ -155,7 +155,11 @@
 		<div title= "<?=$org['orgstatusdesc']?>">
 		<span id="progress_reqs" class="ui-icon ui-icon-<?=($org['orgstatusid']>1)?"check":"closethick"?> progress-check-icon"></span>
 		<?=anchor("organization/submit_forms","Submit to OSA");?><br />
-		</div><br /><br />
+		</div>
+		<p class="notes">
+			Note: Clicking on "Submit to OSA" will make the forms final and uneditable. Make sure all of the forms are filled up correctly before clicking on "Submit to OSA".
+		</p>
+		<br /><br />
 	<? endif;?>
 	</div>
 	
