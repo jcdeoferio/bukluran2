@@ -205,11 +205,13 @@ CREATE TABLE orgdisbursements(
 );
 
 	
+/*
 INSERT INTO organizations(organizationid,orgname) VALUES (-1,'');
 INSERT INTO faculty(facultyid) VALUES (-1);
 INSERT INTO students(studentid) VALUES (-1);
 INSERT INTO announcements(announcementid) VALUES (-1);
 INSERT INTO orgclarifications(orgclarificationid) VALUES (-1);
+*/
 
 COPY email_types (description) FROM stdin;
 member confirmation
@@ -259,16 +261,23 @@ Organization - Capacity Building Activities
 UP Community Service
 \.
 
+/*
 INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'osa'), 'osa', md5('password'));
-INSERT INTO variables (varname,value) VALUES ('current_aysem','20093');
+*/
+INSERT INTO variables (varname,value) VALUES ('current_aysem','20101');
 INSERT INTO appsems (appsemid, insertedby) VALUES (cast((SELECT value FROM variables WHERE varname = 'current_aysem') as smallint), (SELECT loginaccountid FROM loginaccounts WHERE username = 'osa'));
+/*
 INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'organization'), 'org1', md5('password'));
+INSERT INTO loginaccounts (groupid, username, password) VALUES ((SELECT groupid FROM groups WHERE groupname = 'organization'), 'org2', md5('password'));
 INSERT INTO linkaccounts (groupid, hashcode) VALUES ((SELECT groupid FROM groups WHERE groupname = 'student'), 'student');
 INSERT INTO linkaccounts (groupid, hashcode) VALUES ((SELECT groupid FROM groups WHERE groupname = 'faculty'), 'faculty');
 INSERT INTO faculty (useraccountid, webmail) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'faculty'), 'faculty@up.edu.ph');
 INSERT INTO students (useraccountid, webmail) VALUES ((SELECT linkaccountid FROM linkaccounts WHERE hashcode = 'student'), 'student@up.edu.ph');
 INSERT INTO organizations (loginaccountid, orgname) VALUES ((SELECT loginaccountid FROM loginaccounts WHERE username = 'org1'),'organization 1');
+INSERT INTO organizations (loginaccountid, orgname) VALUES ((SELECT loginaccountid FROM loginaccounts WHERE username = 'org2'),'organization 2');
 INSERT INTO orgadvisers (organizationid, facultyid, appsemid, email) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT facultyid FROM faculty WHERE webmail = 'faculty@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'),'faculty@up.edu.ph');
 INSERT INTO orgmemberships (organizationid, studentid, appsemid , email) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),(SELECT studentid FROM students WHERE webmail = 'student@up.edu.ph'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'), '99999'),'student@up.edu.ph');
 INSERT INTO orgprofiles (organizationid, appsemid, orgcategoryid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 1'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'),(SELECT orgcategoryid FROM orgcategories WHERE description='Fraternity'));
+INSERT INTO orgprofiles (organizationid, appsemid, orgcategoryid) VALUES ((SELECT organizationid FROM organizations WHERE orgname = 'organization 2'),to_number((SELECT value FROM variables WHERE varname = 'current_aysem'),'99999'),(SELECT orgcategoryid FROM orgcategories WHERE description='Fraternity'));
 INSERT INTO announcements (title,loginaccountid,date_created,date_modified,content) VALUES ('Sample announcement1',(SELECT loginaccountid FROM loginaccounts WHERE username = 'osa'),now(),now(),'Sample announcement content1');
+*/
