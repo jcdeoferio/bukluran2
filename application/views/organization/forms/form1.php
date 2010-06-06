@@ -61,7 +61,7 @@
 		</tr>
 		<tr>
 			<td><?=form_label('Mailing Address:','mailaddr')?></td>
-			<td><?=form_input('mailaddr',set_value('mailaddr',$organization['mailaddr']))?></td>
+			<td><?=form_textarea('mailaddr',set_value('mailaddr',$organization['mailaddr']))?></td>
 		</tr>
 		<tr>
 			<td><?=form_label("Permanent Email Address:",'orgemail')?></td>
@@ -76,9 +76,11 @@
 			<td><?=form_label("Description:",'description')?></td>
 			<td><?=$this->fckeditor->Create();?></td>
 		</tr>
+		<tr>
+			<td></td>
+			<td><?=form_submit('submit','Save')?></td>
+		</tr>
 	</table>
-	
-	<?=form_submit('submit','Save')?>
 	<?=form_close()?>
 	<?endif;?>
 </div>

@@ -143,15 +143,15 @@ class Organization extends Controller {
 		if($this->session->user_group_is(OSA_GROUPID)){
 			$this->form_validation->set_rules('name', 'Organization Name', 'required');
 		}
-		$this->form_validation->set_rules('acronym', 'Acronym', 'required');
+		$this->form_validation->set_rules('acronym', 'Acronym', 'required|max_length[32]');
 		$this->form_validation->set_rules('date_established', 'Date Established', 'required|callback__valid_date');
 		if($this->input->post('sec_incorporated')){
 			$this->form_validation->set_rules('date_incorporated', 'Date Incorporated', 'required|callback__valid_date');
 		}
-		$this->form_validation->set_rules('mailaddr', 'Mailing Address', 'required');
-		$this->form_validation->set_rules('orgemail', 'Email Address', 'required|valid_email');
-		$this->form_validation->set_rules('heademail', "Head's Email Address", 'required|valid_email');
-		$this->form_validation->set_rules('description', 'Description', 'required');
+		$this->form_validation->set_rules('mailaddr', 'Mailing Address', 'required|max_length[512]');
+		$this->form_validation->set_rules('orgemail', 'Email Address', 'required|valid_email|max_length[128]');
+		$this->form_validation->set_rules('heademail', "Head's Email Address", 'required|valid_email|max_length[128]');
+		$this->form_validation->set_rules('description', 'Description', 'required|max_length[1024]');
 		$this->form_validation->set_rules('category', 'Category', 'required');
 		$this->form_validation->set_rules('sec_incorporated', 'SEC Incorporation', 'required');
 		
