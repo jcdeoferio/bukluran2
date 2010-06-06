@@ -205,13 +205,13 @@ CREATE TABLE orgdisbursements(
 );
 
 	
-/*
+
 INSERT INTO organizations(organizationid,orgname) VALUES (-1,'');
 INSERT INTO faculty(facultyid) VALUES (-1);
 INSERT INTO students(studentid) VALUES (-1);
 INSERT INTO announcements(announcementid) VALUES (-1);
 INSERT INTO orgclarifications(orgclarificationid) VALUES (-1);
-*/
+
 
 COPY email_types (description) FROM stdin;
 member confirmation
