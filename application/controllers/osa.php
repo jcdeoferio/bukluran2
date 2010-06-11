@@ -26,8 +26,8 @@ class Osa extends Controller {
 		$this->sidebar_data['links'][2]['anchors'] = array('Manage');
 		$this->sidebar_data['links'][2]['selected'] = -1;
 		
-		//$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
-		//$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
+		$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
+		$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
 		
 		$this->load->helper('html');
 		$this->load->helper('form');

@@ -102,7 +102,9 @@ CREATE TABLE plannedevents(
 	appsemid integer NOT NULL REFERENCES appsems,
 	eventname varchar(128),
 	eventcategoryid integer NOT NULL REFERENCES eventcategories,
-	description varchar(1024));
+	description varchar(1024),
+	venue varchar(256),
+	eventdate timestamp without time zone);
 
 CREATE TABLE eventreports(
 	eventreportid serial PRIMARY KEY,
@@ -110,7 +112,9 @@ CREATE TABLE eventreports(
 	appsemid integer NOT NULL REFERENCES appsems,
 	eventname varchar(128),
 	eventcategoryid integer NOT NULL REFERENCES eventcategories,
-	description varchar(1024));
+	description varchar(1024),
+	venue varchar(256),
+	eventdate timestamp without time zone);
 	
 CREATE TABLE requirements(
 	requirementid serial PRIMARY KEY,
