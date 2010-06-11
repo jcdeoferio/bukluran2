@@ -12,11 +12,22 @@ class Email_queue_model extends Model{
 			return;
 		foreach($students as $student){
 			$id = $student['studentid'];
-			$rows[] = "{$organizationid},{$id},".MEMBER_CONFIRMATION_EMAIL;
+			// $rows[] = "{$organizationid},{$id},".MEMBER_CONFIRMATION_EMAIL;
+			
+			$this->db->where('organizationid',$organizationid);
+			$this->db->where('studentid',$id);
+			$this->db->where('emailtypeid',MEMBER_CONFIRMATION_EMAIL);
+			$this->db->from('email_queue');
+			if($this->db->count_all_results()==0){
+				$this->db->set('organizationid',$organizationid);
+				$this->db->set('studentid',$id);
+				$this->db->set('emailtypeid',MEMBER_CONFIRMATION_EMAIL);
+				$this->db->insert('email_queue');
+			}
 		}
-		$values = "(".implode('),(',$rows).")";
-		$sql = "INSERT INTO email_queue (organizationid, studentid, emailtypeid) VALUES {$values}";
-		return $this->db->simple_query($sql);
+		// $values = "(".implode('),(',$rows).")";
+		// $sql = "INSERT INTO email_queue (organizationid, studentid, emailtypeid) VALUES {$values}";
+		// return $this->db->simple_query($sql);
 	}
 	
 	function queue_faculty_confirmation_email($organizationid,$advisers)
@@ -25,11 +36,22 @@ class Email_queue_model extends Model{
 			return;
 		foreach($advisers as $adviser){
 			$id = $adviser['facultyid'];
-			$rows[] = "{$organizationid},{$id},".FACULTY_CONFIRMATION_EMAIL;
+			// $rows[] = "{$organizationid},{$id},".FACULTY_CONFIRMATION_EMAIL;
+			
+			$this->db->where('organizationid',$organizationid);
+			$this->db->where('facultyid',$id);
+			$this->db->where('emailtypeid',FACULTY_CONFIRMATION_EMAIL);
+			$this->db->from('email_queue');
+			if($this->db->count_all_results()==0){
+				$this->db->set('organizationid',$organizationid);
+				$this->db->set('facultyid',$id);
+				$this->db->set('emailtypeid',FACULTY_CONFIRMATION_EMAIL);
+				$this->db->insert('email_queue');
+			}
 		}
-		$values = "(".implode('),(',$rows).")";
-		$sql = "INSERT INTO email_queue (organizationid, facultyid, emailtypeid) VALUES {$values}";
-		return $this->db->simple_query($sql);
+		// $values = "(".implode('),(',$rows).")";
+		// $sql = "INSERT INTO email_queue (organizationid, facultyid, emailtypeid) VALUES {$values}";
+		// return $this->db->simple_query($sql);
 	}
 	
 	function queue_osa_to_organization_email($orgclarificationid,$organizationid)
@@ -47,11 +69,22 @@ class Email_queue_model extends Model{
 			return;
 		foreach($organizations as $org){
 			$id = $org['organizationid'];
-			$rows[] = "{$announcementid},{$id},".ANNOUNCEMENT_EMAIL;
+			// $rows[] = "{$announcementid},{$id},".ANNOUNCEMENT_EMAIL;
+			
+			$this->db->where('announcementid',$announcementid);
+			$this->db->where('organizationid',$id);
+			$this->db->where('emailtypeid',ANNOUNCEMENT_EMAIL);
+			$this->db->from('email_queue');
+			if($this->db->count_all_results()==0){
+				$this->db->set('announcementid',$announcementid);
+				$this->db->set('organizationid',$id);
+				$this->db->set('emailtypeid',ANNOUNCEMENT_EMAIL);
+				$this->db->insert('email_queue');
+			}
 		}
-		$values = "(".implode('),(',$rows).")";
-		$sql = "INSERT INTO email_queue (announcementid, organizationid, emailtypeid) VALUES {$values}";
-		return $this->db->simple_query($sql);
+		// $values = "(".implode('),(',$rows).")";
+		// $sql = "INSERT INTO email_queue (announcementid, organizationid, emailtypeid) VALUES {$values}";
+		// return $this->db->simple_query($sql);
 	}
 	
 	function get_queued_emails($limit = 5)

@@ -54,6 +54,8 @@ class Osa extends Controller {
 		
 		$this->load->library('views',$params);
 		$this->load->model('announcement_model');
+		
+		$this->form_validation->set_error_delimiters('<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>', '<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
 	}
 	
 	function index(){

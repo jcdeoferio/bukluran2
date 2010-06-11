@@ -591,7 +591,7 @@ class Organization extends Controller {
 		else
 		$isofficerstr = 'false';
 
-		$data['title'] = "Add Officer - ".$this->session->username();
+		$data['title'] = "Add Member - ".$this->session->username();
 
 		if(!$this->session->user_group_is(OSA_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
