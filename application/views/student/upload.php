@@ -1,6 +1,6 @@
 <div class="span-<?=isset($span)?$span:24?> last" id="content_main">
 	<div class="contentHeader_text">
-		Upload UP ID
+		Upload UP ID - <?=$username?>
 	</div>
 	<?if($message):?>
 	<div class="ui-widget">
