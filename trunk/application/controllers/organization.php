@@ -35,6 +35,10 @@ class Organization extends Controller {
 			$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
 			$this->sidebar_data['links'][2]['anchors'] = array('Manage');
 			$this->sidebar_data['links'][2]['selected'] = -1;
+			$this->sidebar_data['links'][3]['title'] = 'Account';
+			$this->sidebar_data['links'][3]['hrefs'] = array('osa/change_password');
+			$this->sidebar_data['links'][3]['anchors'] = array('Change Password');
+			$this->sidebar_data['links'][3]['selected'] = -1;
 		}else{
 			$this->sidebar_data['links'][0]['title'] = 'Announcements';
 			$this->sidebar_data['links'][0]['hrefs'] = array('organization/announcements');

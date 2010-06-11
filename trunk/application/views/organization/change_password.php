@@ -5,7 +5,7 @@
 	<? if(validation_errors()):?>
 		<?= validation_errors(); ?>
 	<?endif?>	
-	<?= form_open('organization/change_password_submit',array('class'=>'form_large'))."\n";?>
+	<?= form_open(($this->session->user_group_is(OSA_GROUPID)?'osa':'organization')."/change_password_submit",array('class'=>'form_large'))."\n";?>
 			<?= form_label('Current Password','old_pass',array('class'=>'label')).br(1)."\n"; ?>
 			<?= form_input(array('type'=>'password','name'=>'old_pass','id'=>'old_pass','size'=>'23','class'=>'text_input')).br(3)."\n";?>
 			

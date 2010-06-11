@@ -3,6 +3,6 @@
 		Change Password Success!
 	</div>
 	
-	<?= anchor('organization','Back to Main Page')?>
+	<?= anchor(($this->session->user_group_is(OSA_GROUPID)?'osa':'organization'),'Back to Main Page')?>
 	
 </div>

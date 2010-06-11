@@ -25,6 +25,10 @@ class Osa extends Controller {
 		$this->sidebar_data['links'][2]['hrefs'] = array('osa/manage_app_period');
 		$this->sidebar_data['links'][2]['anchors'] = array('Manage');
 		$this->sidebar_data['links'][2]['selected'] = -1;
+		$this->sidebar_data['links'][3]['title'] = 'Account';
+		$this->sidebar_data['links'][3]['hrefs'] = array('osa/change_password');
+		$this->sidebar_data['links'][3]['anchors'] = array('Change Password');
+		$this->sidebar_data['links'][3]['selected'] = -1;
 		
 		$this->sidebar_data['hrefs'] = array('osa/announcements','osa/create_announcement', 'osa/organizations', 'osa/manage_reqs', 'osa/manage_app_period');
 		$this->sidebar_data['anchors'] = array('Announcements','Create Announcement', 'Manage Organizations', 'Manage Requirements', 'Manage Application Period');
@@ -647,6 +651,45 @@ class Osa extends Controller {
 	function delete_clarification($id,$orgid,$aysem){
 		$this->organization_model->delete_clarification($id);
 		$this->view_application($orgid,$aysem);
+	}
+	
+	function change_password()
+	{
+		$data['title'] = "Change Password  - ".$this->session->username();
+		$data['span'] = 19;
+		$data['stylesheets'] = array('login.css');
+
+		$this->sidebar_data['links'][3]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/change_password',$data);
+		$this->views->footer();
+		$this->sidebar_data['links'][3]['selected'] = -1;
+	}
+
+	function change_password_submit()
+	{
+		$this->form_validation->set_rules('old_pass', '"Current Password"', 'required|callback__password_check');
+		$this->form_validation->set_message('_password_check', "The %s field doesn't match the current password of your account.");
+		$this->form_validation->set_rules('new_pass_1', '"New Password"', 'required');
+		$this->form_validation->set_rules('new_pass_2', '"New Password Confirmation"', 'required|matches[new_pass_1]');
+
+		if (!$this->form_validation->run())
+		{
+			$this->change_password();
+		}else{
+			$this->load->model('osa_model');
+			$this->osa_model->change_organization_password($this->session->username(),$this->input->post('new_pass_1'));
+
+			$data['title'] = "Change Password  - ".$this->session->username();
+			$data['span'] = 19;
+			$data['stylesheets'] = array('login.css');
+
+			$this->sidebar_data['links'][3]['selected'] = 0;
+			$this->views->header($data,$this->sidebar_data);
+			$this->load->view('organization/change_password_success',$data);
+			$this->views->footer();
+			$this->sidebar_data['links'][3]['selected'] = -1;
+		}
 	}
 
 	//function send_to_all_orgs($subject, $message){
