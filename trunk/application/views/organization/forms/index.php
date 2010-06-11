@@ -82,7 +82,7 @@
 		<?=anchor("organization/form2/{$appsemid}/{$org['organizationid']}","Form 2 - Finance Statement");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form3_officers)?(($progress_form3_members)?"OK":"You need at least 15 confirmed members"):($progress_form3_members)?"You need at least 5 confirmed officers":"You need at least 5 confirmed officers and 15 confirmed members"?>">
+		<div title= "<?=($progress_form3_officers)?(($progress_form3_members)?"OK":"You need at least 15 confirmed members with their IDs uploaded"):(($progress_form3_members)?"You need at least 5 confirmed officers with their IDs uploaded":"You need at least 5 confirmed officers and 15 confirmed members with their IDs uploaded")?>">
 		<span id="progress_form3" class="ui-icon ui-icon-<?=($progress_form3_officers && $progress_form3_members)?"check":"closethick"?> progress-check-icon"></span>
 		<?=anchor("organization/form3/{$appsemid}/{$org['organizationid']}","Forms 3 and 4 - Officer and Member Roster");?><br />
 		</div>
@@ -127,7 +127,7 @@
 		<?=anchor("organization/form2","Form 2 - Finance Statement");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form3_officers)?(($progress_form3_members)?"OK":"You need at least 15 confirmed members"):($progress_form3_members)?"You need at least 5 confirmed officers":"You need at least 5 confirmed officers and 15 confirmed members"?>">
+		<div title= "<?=($progress_form3_officers)?(($progress_form3_members)?"OK":"You need at least 15 confirmed members with their IDs uploaded"):(($progress_form3_members)?"You need at least 5 confirmed officers with their IDs uploaded":"You need at least 5 confirmed officers and 15 confirmed members with their IDs uploaded")?>">
 		<span id="progress_form3" class="ui-icon ui-icon-<?=($progress_form3_officers && $progress_form3_members)?"check":"closethick"?> progress-check-icon"></span>
 		<?=anchor("organization/form3","Forms 3 and 4 - Officer and Member Roster");?><br />
 		</div>

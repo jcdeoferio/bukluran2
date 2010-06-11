@@ -51,20 +51,22 @@ class Orgregistration_model extends Model{
 		return $org['startingbalance'] > 0 && $collections > 0 && $disbursements;
 	}
 	
-	function form3_members($organizationid, $appsemid){
-		$this->db->from('orgmemberships');
+	function form3_members($organizationid, $appsemid){		
+		$this->db->from('orgmemberships m');
+		$this->db->join('studentpictures p','p.studentid=m.studentid and p.appsemid=m.appsemid');
 		$this->db->where('organizationid',$organizationid);
-		$this->db->where('appsemid',$appsemid);
+		$this->db->where('m.appsemid',$appsemid);
 		$this->db->where('confirmed','true');
 		$this->db->where('position', NULL);
 		
 		return $this->db->count_all_results() >= 15;
 	}
 	
-	function form3_officers($organizationid, $appsemid){
-		$this->db->from('orgmemberships');
+	function form3_officers($organizationid, $appsemid){		
+		$this->db->from('orgmemberships m');
+		$this->db->join('studentpictures p','p.studentid=m.studentid and p.appsemid=m.appsemid');
 		$this->db->where('organizationid',$organizationid);
-		$this->db->where('appsemid',$appsemid);
+		$this->db->where('m.appsemid',$appsemid);
 		$this->db->where('confirmed','true');
 		$this->db->where('position IS NOT NULL', NULL, FALSE);
 		
@@ -178,5 +180,23 @@ class Orgregistration_model extends Model{
 		}
 		
 		return $result;
+	}
+	
+	private function total_members($organizationid,$appsemid){
+		$this->db->from('orgmemberships');
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('appsemid',$appsemid);
+		$this->db->where('position', NULL);
+		
+		return $this->db->count_all_results();
+	}
+	
+	private function total_officers($organizationid,$appsemid){
+		$this->db->from('orgmemberships');
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('appsemid',$appsemid);
+		$this->db->where('position IS NOT NULL', NULL, FALSE);
+		
+		return $this->db->count_all_results();
 	}
 }

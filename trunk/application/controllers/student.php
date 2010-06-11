@@ -124,6 +124,7 @@ class Student extends Controller {
 			$this->sidebar_data['links'][1]['selected'] = 0;
 		}
 		
+		$data['username'] = $this->Student_model->get_studentusername($studentid);
 		$data['title'] = 'Upload UP ID - '.$this->session->username();
 		$data['span'] = 19;
 		$data['message'] = FALSE;
@@ -168,6 +169,7 @@ class Student extends Controller {
 		$config['max_size']	= '250';
 		$this->load->library('upload', $config);
 		
+		$data['username'] = $this->Student_model->get_studentusername($studentid);
 		$data['title'] = 'Upload UP ID - '.$this->session->username();
 		$data['span'] = 19;
 		$data['message'] = FALSE;

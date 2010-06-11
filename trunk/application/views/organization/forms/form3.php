@@ -47,9 +47,9 @@
 			<td><?= $officer['position'] ?></td>
 			<td><?=$officer['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
-				<?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
-				<?= anchor("organization/send_member_confirmation_email/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
-				<?= anchor("student/upload/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?>
+				<?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete').br()?>
+				<?= anchor("organization/send_member_confirmation_email/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation').br()?>
+				<?= anchor("student/upload/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?> <span id="progress_form3" class="ui-icon ui-icon-<?=($officer['studentpictureid'])?"check":"closethick"?> progress-check-icon"></span>
 			</td>
 		</tr>
 	<? endforeach; ?>
@@ -119,9 +119,9 @@
 			<td><?= $member['email'] ?></td>
 			<td><?=$member['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
-				<?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
-				<?= anchor("organization/send_member_confirmation_email/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
-				<?= anchor("student/upload/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?>
+				<?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete').br()?>
+				<?= anchor("organization/send_member_confirmation_email/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation').br()?>
+				<?= anchor("student/upload/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?> <span id="progress_form3" class="ui-icon ui-icon-<?=($member['studentpictureid'])?"check":"closethick"?> progress-check-icon"></span>
 			</td>
 		</tr>
 	<? endforeach; ?>
