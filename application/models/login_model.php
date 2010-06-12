@@ -58,7 +58,7 @@ class Login_model extends Model{
 		$res['webmail'] = $res2['webmail'];
 		$res['username'] = explode('@',$res['webmail']);
 		$res['username'] = $res['username'][0];
-		$res['email'] = $res2['email'];
+		// $res['email'] = $res2['email'];
 		
 		return($res);
 	}
