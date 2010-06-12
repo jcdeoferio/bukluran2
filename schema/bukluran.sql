@@ -190,7 +190,7 @@ CREATE TABLE email_queue(
 	announcementid integer REFERENCES announcements DEFAULT -1,
 	orgclarificationid integer REFERENCES orgclarifications DEFAULT -1,
 	sent boolean DEFAULT false,
-	UNIQUE(emailtypeid,organizationid,facultyid,studentid,announcementid,orgclarificationid,sent));
+	UNIQUE(emailtypeid,organizationid,facultyid,studentid,announcementid,orgclarificationid));
 	
 CREATE TABLE orgcollections(
 	orgcollectionid serial PRIMARY KEY,
