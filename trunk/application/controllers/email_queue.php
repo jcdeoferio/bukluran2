@@ -28,8 +28,8 @@ class Email_queue extends Controller {
 	
 	function send_email($N = 5)
 	{
-		
 		$result = $this->email_queue_model->get_queued_emails($N);
+		$done = array();
 		foreach($result as $row){
 			$done[] = $row['emailqueueid'];
 			switch($row['emailtypeid']){
@@ -88,7 +88,7 @@ class Email_queue extends Controller {
 				break;
 			}
 		}
-		if(count($result))
+		if(count($done))
 			$this->email_queue_model->done($done);
 	}
 }

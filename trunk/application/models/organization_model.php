@@ -357,11 +357,12 @@ class Organization_model extends Model{
 	function get_member($organizationid, $appsemid, $studentid)
 	{
 		$this->db->select('s.studentid,useraccountid,webmail,organizationid,m.appsemid,email,position,confirmed,studentpictureid,filepath');
-		$this->db->from('orgmemberships');
+		$this->db->from('students s');
+		$this->db->join('orgmemberships m', 's.studentid = m.studentid');
 		$this->db->join('studentpictures p','m.studentid=p.studentid','left');
 		$this->db->where('organizationid', $organizationid);
 		$this->db->where('m.appsemid', $appsemid);
-		$this->db->where('studentid', $studentid);
+		$this->db->where('s.studentid', $studentid);
 		$query = $this->db->get();
 		return $query->row_array();
 	}

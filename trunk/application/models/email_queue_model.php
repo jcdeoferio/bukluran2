@@ -99,7 +99,7 @@ class Email_queue_model extends Model{
 	
 	function done($ids)
 	{
-		$this->db->where_in('emailqueueid',$ids);
+		$this->db->where_in('emailqueueid',$ids,false);
 		$this->db->update('email_queue', array('sent'=>'true')); 
 	}
 }
