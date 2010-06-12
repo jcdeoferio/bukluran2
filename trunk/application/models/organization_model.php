@@ -40,11 +40,21 @@ class Organization_model extends Model{
 	}
 	
 	function get_organization_profiles($aysem){
-		$this->db->from('orgprofiles p');
+		$this->db->from('organizations o');
+		$this->db->join('loginaccounts l', 'o.loginaccountid = l.loginaccountid', 'right');
+		$this->db->join('orgprofiles p', 'p.organizationid = o.organizationid');
+		$this->db->where('groupid', ORG_GROUPID);
 		$this->db->where('p.appsemid', $aysem);
+		$this->db->order_by('orgname');
+		$this->db->order_by('username');
 		
 		$query = $this->db->get();
 		return($query->result_array());
+		// $this->db->from('orgprofiles p');
+		// $this->db->where('p.appsemid', $aysem);
+		
+		// $query = $this->db->get();
+		// return($query->result_array());
 	}
 	
 	function get_orgstatus($orgstatusid){
