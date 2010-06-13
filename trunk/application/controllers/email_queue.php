@@ -38,6 +38,7 @@ class Email_queue extends Controller {
 					$data['member'] = $this->student_model->get_profile($row['studentid']);
 					$data['member']['position'] = $this->organization_model->get_position($row['studentid'],$row['organizationid'],$this->variable->current_application_aysem());
 					$data['organization'] = $this->organization_model->get_organization($row['organizationid'],$this->variable->current_application_aysem());
+					
 					$subject = "Bukluran: ".$data['organization']['orgname']." has added you as a member";
 					$content = $this->load->view('emails/member_confirmation',$data,true);
 					// echo($subject.br(2).$content.br(3));
@@ -45,6 +46,7 @@ class Email_queue extends Controller {
 					
 					$data['message'] = "{$data['organization']['orgname']} has added you as a member";
 					$member = $this->organization_model->get_member($row['organizationid'], $this->variable->current_application_aysem(), $row['studentid']);
+					
 					$subject = "Bukluran: A message has been sent to your UP Webmail Account";
 					$content = $this->load->view('emails/notification',$data,true);
 					// echo($subject.br(2).$content.br(3));
@@ -55,7 +57,10 @@ class Email_queue extends Controller {
 					$data = array();
 					$data['faculty'] = $this->faculty_model->get_profile_and_details($row['facultyid']);
 					$data['organization'] = $this->organization_model->get_organization($row['organizationid'],$this->variable->current_application_aysem());
+/*
 					$data['clarification'] = $this->organization_model->get_clarification($row['orgclarificationid']);
+*/
+					
 					$subject = "Bukluran: ".$data['organization']['orgname']." has added you as a faculty adviser";
 					$content = $this->load->view('emails/faculty_confirmation',$data,true);
 					// echo($subject.br(2).$content.br(3));
@@ -63,6 +68,7 @@ class Email_queue extends Controller {
 					
 					$data['message'] = "{$data['organization']['orgname']} has added you as a faculty adviser";
 					$adviser = $this->organization_model->get_adviser($row['organizationid'], $this->variable->current_application_aysem(), $row['facultyid']);
+					
 					$subject = "Bukluran: A message has been sent to your UP Webmail Account";
 					$content = $this->load->view('emails/notification',$data,true);
 					// echo($subject.br(2).$content.br(3));
