@@ -29,7 +29,7 @@ body{background:url('../images/background.png');}
 
 #content_sidebar{}
 #content_main{}
-#content_main p{line-height:150%;}
+#content_main p{line-height:125%;}
 
 .progress-check-icon{display:inline-block;margin-right: 0.3em;}
 
