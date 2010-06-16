@@ -3,13 +3,7 @@
 		Login for Students and Faculty
 	</div>
 		<? if(validation_errors()):?>
-		<div class="ui-widget">
-		<div class="ui-state-error ui-corner-all notification" title="Login Error">
-			<span class="ui-icon ui-icon-alert notification-icon"></span>
 			<?= validation_errors(); ?>
-			<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span>
-		</div>
-		</div>
 		<?endif?>
 		<?= form_open('login/link_submit',array('class'=>'form_large','method'=>'post'))."\n";?>
 			<?= form_label('Code','link',array('class'=>'label')).br(1)."\n"; ?>

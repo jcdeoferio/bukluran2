@@ -222,6 +222,9 @@ member confirmation
 faculty confirmation
 osa to organization
 announcement
+lost password
+lost student hashcode
+lost faculty hashcode
 \.
 
 COPY groups (groupname) FROM stdin;

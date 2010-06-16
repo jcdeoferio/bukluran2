@@ -87,6 +87,51 @@ class Email_queue_model extends Model{
 		// return $this->db->simple_query($sql);
 	}
 	
+	function queue_lost_password_email($organizationid){
+		$this->db->from('email_queue');
+		$this->db->where('organizationid',$organizationid);
+		$this->db->where('emailtypeid',LOST_PASS_EMAIL);
+		if($this->db->count_all_results()==1){
+			$this->db->where('organizationid',$organizationid);
+			$this->db->where('emailtypeid',LOST_PASS_EMAIL);
+			$this->db->update('email_queue',array('sent'=>'false'));
+		}else{
+			$this->db->set('organizationid',$organizationid);
+			$this->db->set('emailtypeid',LOST_PASS_EMAIL);
+			$this->db->insert('email_queue');
+		}
+	}
+	
+	function queue_lost_faculty_hashcode_email($facultyid){
+		$this->db->from('email_queue');
+		$this->db->where('facultyid',$facultyid);
+		$this->db->where('emailtypeid',LOST_FACULTY_CODE_EMAIL);
+		if($this->db->count_all_results()==1){
+			$this->db->where('facultyid',$facultyid);
+			$this->db->where('emailtypeid',LOST_FACULTY_CODE_EMAIL);
+			$this->db->update('email_queue',array('sent'=>'false'));
+		}else{
+			$this->db->set('facultyid',$facultyid);
+			$this->db->set('emailtypeid',LOST_FACULTY_CODE_EMAIL);
+			$this->db->insert('email_queue');
+		}
+	}
+	
+	function queue_lost_student_hashcode_email($studentid){
+		$this->db->from('email_queue');
+		$this->db->where('studentid',$studentid);
+		$this->db->where('emailtypeid',LOST_STUDENT_CODE_EMAIL);
+		if($this->db->count_all_results()==1){
+			$this->db->where('studentid',$studentid);
+			$this->db->where('emailtypeid',LOST_STUDENT_CODE_EMAIL);;
+			$this->db->update('email_queue',array('sent'=>'false'));
+		}else{
+			$this->db->set('studentid',$studentid);
+			$this->db->set('emailtypeid',LOST_STUDENT_CODE_EMAIL);
+			$this->db->insert('email_queue');
+		}
+	}
+	
 	function get_queued_emails($limit = 5)
 	{
 		$this->db->from('email_queue q');

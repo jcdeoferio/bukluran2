@@ -22,6 +22,7 @@
 					<?= form_input(array('class'=>'field','type'=>'text','name'=>'link','id'=>'link','value'=>'','size'=>'23'))."\n";?>
 					<div class="clear"></div>
 					<?= form_submit('submit','Login','class="bt_login"')."\n";?>
+					<?=anchor('login/lost_link','Lost your confirmation code?','class="lost-pwd"')?>
 				<?= form_close()."\n";?>
 				<?= br(16)."\n";?>
 			<!--
@@ -52,9 +53,9 @@
 					-->
 					<div class="clear"></div>
 					<?= form_submit('submit','Login','class="bt_login"')."\n";?>
-					<!--
-					<a class="lost-pwd" href="#">Lost your password?</a>
-					-->
+					
+					<?=anchor('login/lost_pass','Lost your password?','class="lost-pwd"')?>
+					
 				<?= form_close()."\n";?>
 			</div>
 		</div>

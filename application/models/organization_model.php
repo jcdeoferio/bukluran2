@@ -31,7 +31,9 @@ class Organization_model extends Model{
 	}
 	
 	function get_organization_profile($orgid, $sem){
-		$this->db->from('orgprofiles p');
+		$this->db->from('organizations o');
+		$this->db->join('loginaccounts l', 'o.loginaccountid = l.loginaccountid', 'right');
+		$this->db->join('orgprofiles p', 'p.organizationid = o.organizationid');
 		$this->db->where('p.appsemid', $sem);
 		$this->db->where('p.organizationid', $orgid);
 		
