@@ -22,46 +22,47 @@
 	<? endif; ?>
 	
 	<!--insert actual form here-->
+	<?php 
 
-	<h2>Accomplishment Report</h2>
-	
-	<!-- links -->
+	echo heading('Accomplishment Report',2);
 
-	<!-- report of activities -->
+	//report of activities
+	echo heading('Activities',2);
+	echo anchor($add_event_url, 'Add An Event');
+	echo br(2);
+	foreach($eventcategories as $eventcategory) {
+		echo heading($eventcategory['description'],3);
+		if (count($eventcategory['eventrecords']) > 0) {
+			$this->table->set_heading('TITLE OF ACTIVITY','BRIEF DESCRIPTION OF ACTIVITY','VENUE','DATE','ACTION');
+			foreach ($eventcategory['eventrecords'] as $event) {
+				//TODO edit url and delete url
+				$this->table->add_row($event['eventname'],$event['description'],$event['venue'],date("F j, Y",strtotime($event['eventdate'])),anchor('dummy','Edit').' '.anchor('dummy','Delete'));
+			}
+			echo $this->table->generate();
+			$this->table->clear();
+		}
+		else {
+			echo nbs(5).'<p>There are no events listed</p>';
+		}
+		echo '<hr>';
+	}
 
-	<h2>Activities</h2>
-	<?= anchor($add_event_url, 'Add An Event') ?>
-	<?=br(2)?>
-	<?foreach($eventcategories as $eventcategory):?>
-		<h3><?=$eventcategory['description']?></h3>
-		<? if(count($eventcategory['plannedevents']) > 0): ?>
-			<?$this->table->set_heading('TITLE OF ACTIVITY','BRIEF DESCRIPTION OF ACTIVITY','VENUE','DATE');?>
-			<?foreach ($eventcategory['plannedevents'] as $event): ?>
-				<?$this->table->add_row($event['eventname'],$event['description'],$event['venue'],$event['eventdate'])?>
-			<?endforeach;?>
-			<?=$this->table->generate()?>
-			<?$this->table->clear()?>
-		<? else: ?>
-			<p><?=nbs(5)?>There are no events listed.</p>
-		<? endif;?>
-		<hr/>
-	<?endforeach;?>
-
-	<!-- awards -->
-
-	<h2>Awards/Citations Received</h2>
-	<?= anchor($add_award_url, 'Add An Award') ?>
-	<?=br(2)?>
-	<? if (count($orgawards) > 0):?>
-		<? $this->table->set_heading('AWARD CLASSIFICATION','AWARD/CITATION','DESCRIPTION','AWARD-GIVING BODY');?>	
-		<? foreach($orgawards as $award):?>
-			<?$this->table->add_row($awardclassifications[$award['awardclassificationid']],$award['awardname'],$award['description'],$award['giver'])?>
-		<? endforeach;?>	
-		<?=$this->table->generate()?>
-		<?$this->table->clear()?>
-	<? else :?>
-		<p><?=nbs(5)?>There are no awards listed.</p>		
-	<? endif;?>
+	//awards
+	echo heading('Awards/Citations Received');
+	echo anchor($add_award_url, 'Add An Award');
+	echo br(2);
+	if (count($orgawards) > 0) {
+		$this->table->set_heading('AWARD CLASSIFICATION','AWARD/CITATION','DESCRIPTION','AWARD-GIVING BODY','ACTION');
+		foreach($orgawards as $award) {
+			$this->table->add_row($awardclassifications[$award['awardclassificationid']],$award['awardname'],$award['description'],$award['giver'],anchor('dummy','Edit').'<br>'.anchor('dummy','Delete'));
+		}
+		echo $this->table->generate();
+		$this->table->clear();
+	} else {
+		echo nbs(5).'<p>There are no awards listed.</p>';
+	}
+	echo '<hr>';
+	?>
 	
 	<? endif; ?>
 </div>
