@@ -43,7 +43,8 @@
 	<?else:?>
 	<? if($this->session->user_group_is(OSA_GROUPID) && count($appsems) > 1): ?>	
 		<?= form_open('osa/form_change_appsem_submit') ?>
-		View application form for different application period:
+		Currently viewing regisration of organization <strong><?= $org['orgname'] ?></strong><br/>
+		View registration for different application period:
 		<?= form_dropdown('appsem', $appsems, $appsemid) ?>
 		<?= form_hidden('orgid',$org['organizationid'])?>
 		<?= form_submit('submit', 'Go') ?>
