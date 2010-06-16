@@ -23,24 +23,30 @@
 	<?= form_close(); ?>
 	
 	<? endif; ?>
-	<h2>Calendar of Activities</h2>
+	<?php 
 	
-	<?= anchor($add_event_url, 'Add An Event') ?>
-	<?=br(2)?>
-	<?foreach($eventcategories as $eventcategory):?>
-		<h3><?=$eventcategory['description']?></h3>
-		<? if(count($eventcategory['plannedevents']) > 0): ?>
-			<?$this->table->set_heading('TITLE OF ACTIVITY','BRIEF DESCRIPTION OF ACTIVITY','VENUE','DATE');?>
-			<?foreach ($eventcategory['plannedevents'] as $event): ?>
-				<?$this->table->add_row($event['eventname'],$event['description'],$event['venue'],$event['eventdate'])?>
-			<?endforeach;?>
-			<?=$this->table->generate()?>
-			<?$this->table->clear()?>
-		<? else: ?>
-			<p><?=nbs(5)?>There are no events listed.</p>
-		<? endif;?>
-		<hr/>
-	<?endforeach;?>
+	echo heading('Calendar of Activities',2);
+	echo anchor($add_event_url, 'Add An Event');
+	echo br(2);
+	foreach($eventcategories as $eventcategory) {
+		echo heading($eventcategory['description'],3);
+		if (count($eventcategory['plannedevents']) > 0) {
+			$this->table->set_heading('TITLE OF ACTIVITY','BRIEF DESCRIPTION OF ACTIVITY','VENUE','DATE','ACTION');
+			foreach ($eventcategory['plannedevents'] as $event) {
+				//TODO edit url and delete url
+				$edit_url = $edit_event_url."{$event['plannedeventid']}";
+				$remove_url = $remove_event_url."{$event['plannedeventid']}";
+				$this->table->add_row($event['eventname'],$event['description'],$event['venue'],date("F j, Y",strtotime($event['eventdate'])),anchor($edit_url,'Edit').' '.anchor($remove_url,'Delete'));
+			}
+			echo $this->table->generate();
+			$this->table->clear();
+		}
+		else {
+			echo nbs(5).'<p>There are no events listed</p>';
+		}
+		echo '<hr>';
+	}
+	?>
 	
 	<? endif; ?>
 </div>

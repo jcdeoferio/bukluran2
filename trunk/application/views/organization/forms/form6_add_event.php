@@ -14,7 +14,7 @@
 	</p>
 	
 	<?= validation_errors() ?>
-	<?=form_open("organization/form6_add_event_submit/{$appsemid}/{$orgid}")?>
+	<?=form_open($submit_url)?>
 	<table>
 		<tr>
 			<td><?=form_label('Event name: ','')?></td>
@@ -51,8 +51,7 @@
 				changeMonth: true,
 				changeYear: true,
 				dateFormat: 'yy-mm-dd',
-				minDate: '1908-06-01',
-				maxDate: '2108-05-31'
+				minDate: '1908-06-01'
 			});
 			$('.radio').buttonset();
 			if($('#sec_incorporated_no').attr('checked')){

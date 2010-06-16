@@ -698,7 +698,7 @@ class Organization extends Controller {
 		$eventcategories = $this->event_model->get_eventcategories();
 		foreach($eventcategories as $eventcategory){
 			$content_data['eventcategories'][$eventcategory['eventcategoryid']]['description'] = $eventcategory['description'];
-			$content_data['eventcategories'][$eventcategory['eventcategoryid']]['plannedevents'] = $this->event_model->get_eventreports($appsemid, $organizationid, $eventcategory['eventcategoryid']);
+			$content_data['eventcategories'][$eventcategory['eventcategoryid']]['eventrecords'] = $this->event_model->get_eventreports($appsemid, $organizationid, $eventcategory['eventcategoryid']);
 		}
 		$awardclassifications = $this->award_model->get_awardclassifications();
 		foreach($awardclassifications as $classification) {
@@ -787,12 +787,6 @@ class Organization extends Controller {
 
 		}
 
-		//		if($this->session->user_group_is(OSA_GROUPID)){
-		//			redirect("osa/view_application/{$organizationid}/{$appsemid}");
-		//		}else{
-		//			redirect('organization/forms');
-		//		}
-
 		//INSERT Code Here
 		$this->form_validation->set_rules('eventname','Event Name','required');
 		$this->form_validation->set_rules('eventdate','Event Date','required|callback__valid_date');
@@ -822,6 +816,14 @@ class Organization extends Controller {
 			$this->event_model->add_eventreport($appsemid,$organizationid,$eventdetails);
 			redirect("organization/form5/{$appsemid}/{$organizationid}");
 		}
+	}
+	
+	function form5_edit_event() {
+		
+	}
+	
+	function form5_remove_event() {
+		
 	}
 
 	function form5_add_award($appsemid = CURRENT_APPSEM, $organizationid = null) {
@@ -895,12 +897,6 @@ class Organization extends Controller {
 
 		}
 
-		//		if($this->session->user_group_is(OSA_GROUPID)){
-		//			redirect("osa/view_application/{$organizationid}/{$appsemid}");
-		//		}else{
-		//			redirect('organization/forms');
-		//		}
-
 		//INSERT Code Here
 		$this->form_validation->set_rules('awardname','Award Name','required');
 		$this->form_validation->set_rules('awardclassification','Award Classification','required');
@@ -928,6 +924,14 @@ class Organization extends Controller {
 			redirect("organization/form5/{$appsemid}/{$organizationid}");
 		}
 	}
+	
+	function form5_edit_award() {
+		
+	}
+	
+	function form5_remove_award() {
+		
+	}	
 
 	function form6($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
@@ -963,6 +967,8 @@ class Organization extends Controller {
 			$content_data['eventcategories'][$eventcategory['eventcategoryid']]['plannedevents'] = $this->event_model->get_plannedevents($appsemid,$organizationid,$eventcategory['eventcategoryid']);
 		}
 		$content_data['add_event_url'] = "organization/form6_add_event/{$appsemid}/{$organizationid}";
+		$content_data['edit_event_url'] = "organization/form6_edit_event/{$appsemid}/{$organizationid}/";
+		$content_data['remove_event_url'] = "organization/form6_remove_event/{$appsemid}/{$organizationid}/";
 
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
@@ -995,7 +1001,8 @@ class Organization extends Controller {
 		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form6/';
 		$content_data['orgname'] = $orgname;
 		$content_data['orgid'] = $organizationid;
-
+		$content_data['submit_url'] = "organization/form6_add_event_submit/{$appsemid}/{$organizationid}";	
+		
 		//dagdag
 		$fckeditorConfig = array(
 			'instanceName' => 'description',
@@ -1005,21 +1012,21 @@ class Organization extends Controller {
 			'Height' => '200',
 			'Value' => ''
 			);
-			$this->load->library('fckeditor', $fckeditorConfig);
+		$this->load->library('fckeditor', $fckeditorConfig);
 
-			$eventcategories = $this->event_model->get_eventcategories();
-			foreach($eventcategories as $eventcategory){
-				$content_data['eventcategories'][$eventcategory['eventcategoryid']] = $eventcategory['description'];
-			}
+		$eventcategories = $this->event_model->get_eventcategories();
+		foreach($eventcategories as $eventcategory){
+			$content_data['eventcategories'][$eventcategory['eventcategoryid']] = $eventcategory['description'];
+		}
 
-			$this->sidebar_data['links'][1]['selected'] = 0;
-			$this->views->header($data,$this->sidebar_data);
-			$this->load->view('organization/forms/form6_add_event', $content_data);
-			$this->views->footer();
-			$this->sidebar_data['links'][1]['selected'] = -1;
+		$this->sidebar_data['links'][1]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form6_add_event', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 
-	function form6_add_event_submit($appsemid = CURRENT_APPSEM, $organizationid = NULL)
+	function form6_add_event_submit($appsemid, $organizationid)
 	{
 		if(!is_numeric($appsemid) || !is_numeric($organizationid))
 		redirect('organization/forms');
@@ -1041,16 +1048,11 @@ class Organization extends Controller {
 			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
 
 		}
-
-		//		if($this->session->user_group_is(OSA_GROUPID)){
-		//			redirect("osa/view_application/{$organizationid}/{$appsemid}");
-		//		}else{
-		//			redirect('organization/forms');
-		//		}
-
+		
 		//INSERT Code Here
 		$this->form_validation->set_rules('eventname','Event Name','required');
 		$this->form_validation->set_rules('eventdate','Event Date','required|callback__valid_date');
+		$this->form_validation->set_rules('venue','Venue','required');
 		$this->form_validation->set_rules('eventcategory','Event Category','required');
 		$this->form_validation->set_rules('description','Event Description','required');
 
@@ -1078,6 +1080,142 @@ class Organization extends Controller {
 		}
 	}
 
+	function form6_edit_event($appsemid,$organizationid,$plannedeventid) {
+		$orgname = NULL;
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+			$orgname = $organization['orgname'];
+		}
+		
+		$data['title'] = "Calendar of Activites - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form6/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
+		$content_data['submit_url'] = "organization/form6_edit_event_submit/{$appsemid}/{$organizationid}/{$plannedeventid}";
+		
+		//insert code here
+		$plannedevent = $this->event_model->get_plannedevent($appsemid, $organizationid, $plannedeventid);
+		
+		$fckeditorConfig = array(
+			'instanceName' => 'description',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '200',
+			'Value' => ''
+		);
+		$this->load->library('fckeditor', $fckeditorConfig);
+		
+		$eventcategories = $this->event_model->get_eventcategories();
+		foreach($eventcategories as $eventcategory){
+			$content_data['eventcategories'][$eventcategory['eventcategoryid']] = $eventcategory['description'];
+		}
+		
+		$content_data['plannedevent'] = $plannedevent;
+		$content_data['submit_url'] = "organization/form6_edit_event_submit/{$appsemid}/{$organizationid}/{$plannedeventid}";
+		//
+
+		$this->sidebar_data['links'][1]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form6_edit_event', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
+	}
+	
+	function form6_edit_event_submit($appsemid,$organizationid,$plannedeventid) {
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+			redirect('organization/forms');
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+
+		}
+		
+		//INSERT Code Here
+		$this->form_validation->set_rules('eventname','Event Name','required');
+		$this->form_validation->set_rules('eventdate','Event Date','required|callback__valid_date');
+		$this->form_validation->set_rules('venue','Venue','required');
+		$this->form_validation->set_rules('eventcategory','Event Category','required');
+		$this->form_validation->set_rules('description','Event Description','required');
+
+		$postback['eventname'] = $this->input->post('eventname');
+		$postback['eventdate'] = $this->input->post('eventdate');
+		$postback['eventcategory'] = $this->input->post('eventcategory');
+		$postback['venue'] = $this->input->post('venue');
+		$postback['description'] = $this->input->post('description');
+
+		if(!$this->form_validation->run()){
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+
+			$this->form6_edit_event($appsemid,$organizationid,$plannedeventid);
+		}
+		else {
+			$eventdetails['eventname'] = $this->input->post('eventname');
+			$eventdetails['eventcategoryid'] = $this->input->post('eventcategory');
+			$eventdetails['venue'] = $this->input->post('venue');
+			$eventdetails['description'] = $this->input->post('description');
+			$eventdetails['eventdate'] = $this->input->post('eventdate');
+
+			$this->event_model->update_plannedevent($appsemid,$organizationid,$plannedeventid,$eventdetails);
+			redirect("organization/form6/{$appsemid}/{$organizationid}");
+		}		
+	}
+	
+	function form6_remove_event($appsemid,$organizationid,$plannedeventid) {
+		//TODO check user groups
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+		redirect('organization/forms');
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+
+		}
+
+		//TODO insert remove code here
+		$this->event_model->remove_plannedevent($appsemid, $organizationid, $plannedeventid);
+		redirect("organization/form6/{$appsemid}/{$organizationid}");
+	}
+	
 	function form7($appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
 		$orgname = NULL;

@@ -19,14 +19,35 @@ class Award_model extends Model {
 		$this->db->insert('orgawards', $awarddetails);
 	}
 	
+	function update_award($appsemid,$organizationid, $orgawardid, $awarddetails) {
+		$params = array('appsemid' => $appsemid,
+						'organizationid' => $organizationid,
+						'orgawardid' => $orgawardid);
+		$this->db->where($params);
+		$this->db->update('orgawards', $awarddetails);	
+	}
+	
+	function remove_award($appsemid,$organizationid, $orgawardid) {
+		$params = array('appsemid' => $appsemid,
+						'organizationid' => $organizationid,
+						'orgawardid' => $orgawardid);
+		$this->db->where($params);
+		$this->db->remove('orgawards');
+	}
+	
+	function get_award($appsemid,$organizationid, $orgawardid) {
+		$params = array('appsemid' => $appsemid,
+						'organizationid' => $organizationid,
+						'orgawardid' => $orgawardid);
+		$this->db->where($params);
+		$query = $this->db->get('orgawards');
+		$return ($query->first_row('array'));		
+	}
+	
 	function get_awardclassifications() {
 		$this->db->from('awardclassifications');
 		$query = $this->db->get();
 		return ($query->result_array());
-	}
-	
-	function get_awardcategories() {
-		
 	}
 }
 

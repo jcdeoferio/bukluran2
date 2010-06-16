@@ -52,7 +52,6 @@
 				changeYear: true,
 				dateFormat: 'yy-mm-dd',
 				minDate: '1908-06-01',
-				maxDate: '2108-05-31'
 			});
 			$('.radio').buttonset();
 			if($('#sec_incorporated_no').attr('checked')){
