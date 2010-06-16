@@ -18,6 +18,14 @@ class Osa_model extends Model{
 		return($query->result_array());
 	}
 	*/
+	
+	function orgusername_exists($username){
+		$this->db->from('loginaccounts');
+		$this->db->where('username', $username);
+		
+		return($this->db->count_all_results() == 1);
+	}
+	
 	function is_unique_orgusername($username){
 		$this->db->from('loginaccounts');
 		$this->db->where('username', $username);

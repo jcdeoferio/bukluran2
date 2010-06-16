@@ -8,6 +8,12 @@ class Login extends Controller {
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->library('views');
+		$this->load->model('lostcredentials_model');
+		$this->load->model('osa_model');
+		$this->load->model('email_queue_model');
+		$this->load->model('organization_model');
+		
+		$this->form_validation->set_error_delimiters('<div class="ui-widget"><div class="ui-state-error ui-corner-all notification" title="Login Error"><span class="ui-icon ui-icon-alert notification-icon"></span>', '<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span></div></div>');
 	}
 	
 	function index()
@@ -105,19 +111,70 @@ class Login extends Controller {
 	}
 	
 	function lost_link(){
-		
+		$data['stylesheets'] = array('login.css');
+		$data['title'] = 'Lost Confirmation Code';
+		$this->views->header($data);
+		$this->load->view('login/lost_link');
+		$this->views->footer();
 	}
 	
 	function lost_link_submit(){
-		
+		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email|callback__valid_upwebmail|callback__webmail_exists');
+		$this->form_validation->set_message('_valid_upwebmail', "The %s field is not a valid UP Webmail Address.");
+		$this->form_validation->set_message('_webmail_exists', "The UP Webmail Address doesn't exist.");
+		if(!$this->form_validation->run()){
+			$this->lost_link();
+		}else{
+			$webmail = $this->input->post('webmail');
+			$user = $this->lostcredentials_model->get_link($webmail);
+			if(array_key_exists('facultyid',$user)){
+				$this->email_queue_model->queue_lost_faculty_hashcode_email($user['facultyid']);
+			}else{
+				$this->email_queue_model->queue_lost_student_hashcode_email($user['studentid']);
+			}
+			$data['title'] = 'Lost Confirmation Code Retrieval Success';
+			$this->views->header($data);
+			$this->load->view('login/lost_success');
+			$this->views->footer();
+		}
 	}
 	
 	function lost_pass(){
-		
+		$data['stylesheets'] = array('login.css');
+		$data['title'] = 'Lost Password';
+		$this->views->header($data);
+		$this->load->view('login/lost_pass');
+		$this->views->footer();
 	}
 	
 	function lost_pass_submit(){
-		
+		$this->form_validation->set_rules('username', 'Username', 'required|callback__username_exists');
+		$this->form_validation->set_message('_username_exists', "The %s doesn't exist.");		
+		if(!$this->form_validation->run()){
+			$this->lost_pass();
+		}else{
+			$username = $this->input->post('username');
+			$orgid = $this->lostcredentials_model->get_organizationid($username);
+			$this->email_queue_model->queue_lost_password_email($orgid);
+			
+			$data['title'] = 'Lost Password Retrieval Success';
+			$this->views->header($data);
+			$this->load->view('login/lost_success');
+			$this->views->footer();
+		}
+	}
+	
+	function _username_exists($username){
+		return $this->osa_model->orgusername_exists($username);
+	}
+	
+	function _webmail_exists($webmail){
+		return $this->lostcredentials_model->webmail_exists($webmail);
+	}
+	
+	function _valid_upwebmail($string){
+		$array = explode('@',$string);
+		return $array[1]=='up.edu.ph';
 	}
 }
 

@@ -7,6 +7,7 @@ class Email_queue extends Controller {
 		$this->load->model('organization_model');
 		$this->load->model('announcement_model');
 		$this->load->model('student_model');
+		$this->load->model('osa_model');
 		$this->load->model('faculty_model');
 		$this->load->model('variable');
 		$this->load->library('emailer');
@@ -91,6 +92,29 @@ class Email_queue extends Controller {
 					$content = $this->load->view('emails/announcement',$data,true);
 					// echo($subject.br(2).$content.br(3));
 					$this->emailer->send_email($org['heademail'],$subject,$content);
+				break;
+				case LOST_PASS_EMAIL:
+					$org = $this->organization_model->get_organization_profile($row['organizationid'],$this->variable->current_application_aysem());
+					$org['newpass'] = $this->osa_model->reset_organization_password($org['username']);
+					$data['organization'] = $org;
+					$subject = "Bukluran: Lost Login Details";
+					$content = $this->load->view('emails/lost_pass',$data,true);
+					// echo($subject.br(2).$content.br(3));
+					$this->emailer->send_email($org['heademail'],$subject,$content);
+				break;
+				case LOST_STUDENT_CODE_EMAIL:
+					$data['user'] = $this->student_model->get_profile($row['studentid']);
+					$subject = "Bukluran: Lost Confirmation Code";
+					$content = $this->load->view('emails/lost_code',$data,true);
+					// echo($subject.br(2).$content.br(3));
+					$this->emailer->send_email($data['user']['email'],$subject,$content);
+				break;
+				case LOST_FACULTY_CODE_EMAIL:
+					$data['user'] = $this->faculty_model->get_profile_and_details($row['facultyid']);
+					$subject = "Bukluran: Lost Confirmation Code";
+					$content = $this->load->view('emails/lost_code',$data,true);
+					// echo($subject.br(2).$content.br(3));
+					$this->emailer->send_email($data['user']['email'],$subject,$content);
 				break;
 			}
 		}
