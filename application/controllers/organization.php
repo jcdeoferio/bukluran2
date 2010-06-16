@@ -705,9 +705,14 @@ class Organization extends Controller {
 			$content_data['awardclassifications'][$classification['awardclassificationid']] = $classification['description'];
 		}
 		$content_data['orgawards'] = $this->award_model->get_awards($appsemid,$organizationid);
-			
+
 		$content_data['add_event_url'] = "organization/form5_add_event/{$appsemid}/{$organizationid}";
+		$content_data['edit_event_url'] = "organization/form5_edit_event/{$appsemid}/{$organizationid}/";
+		$content_data['remove_event_url'] = "organization/form5_remove_event/{$appsemid}/{$organizationid}/";
+		
 		$content_data['add_award_url'] = "organization/form5_add_award/{$appsemid}/{$organizationid}";
+		$content_data['edit_award_url'] = "organization/form5_edit_award/{$appsemid}/{$organizationid}/";
+		$content_data['remove_award_url'] = "organization/form5_remove_award/{$appsemid}/{$organizationid}/";
 
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
@@ -818,12 +823,132 @@ class Organization extends Controller {
 		}
 	}
 	
-	function form5_edit_event() {
-		
+	function form5_edit_event($appsemid = CURRENT_APPSEM,$organizationid = NULL,$eventreportid) {
+		$orgname = NULL;
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+			$orgname = $organization['orgname'];
+		}
+
+		$data['title'] = "Accomplishment Report: Events - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form5/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
+
+		//dagdag
+		$eventreport = $this->event_model->get_eventreport($appsemid,$organizationid,$eventreportid);
+		$fckeditorConfig = array(
+			'instanceName' => 'description',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '200',
+			'Value' => ''
+			);
+			$this->load->library('fckeditor', $fckeditorConfig);
+
+			$eventcategories = $this->event_model->get_eventcategories();
+			foreach($eventcategories as $eventcategory){
+				$content_data['eventcategories'][$eventcategory['eventcategoryid']] = $eventcategory['description'];
+			}
+			$content_data['submit_url'] = "organization/form5_edit_event_submit/{$appsemid}/{$organizationid}/{$eventreportid}";
+			$content_data['eventreport'] = $eventreport;
+			
+			$this->sidebar_data['links'][1]['selected'] = 0;
+			$this->views->header($data,$this->sidebar_data);
+			$this->load->view('organization/forms/form5_edit_event', $content_data);
+			$this->views->footer();
+			$this->sidebar_data['links'][1]['selected'] = -1;		
 	}
 	
-	function form5_remove_event() {
+	function form5_edit_event_submit($appsemid,$organizationid,$eventreportid) {
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+			redirect('organization/forms');
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+
+		}
 		
+		$this->form_validation->set_rules('eventname','Event Name','required');
+		$this->form_validation->set_rules('eventdate','Event Date','required|callback__valid_date');
+		$this->form_validation->set_rules('venue','Venue','required');
+		$this->form_validation->set_rules('eventcategory','Event Category','required');
+		$this->form_validation->set_rules('description','Event Description','required');
+
+		$postback['eventname'] = $this->input->post('eventname');
+		$postback['eventdate'] = $this->input->post('eventdate');
+		$postback['eventcategory'] = $this->input->post('eventcategory');
+		$postback['venue'] = $this->input->post('venue');
+		$postback['description'] = $this->input->post('description');
+
+		if(!$this->form_validation->run()){
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+
+			$this->form5_edit_event($appsemid,$organizationid,$plannedeventid);
+		}
+		else {
+			$eventdetails['eventname'] = $this->input->post('eventname');
+			$eventdetails['eventcategoryid'] = $this->input->post('eventcategory');
+			$eventdetails['venue'] = $this->input->post('venue');
+			$eventdetails['description'] = $this->input->post('description');
+			$eventdetails['eventdate'] = $this->input->post('eventdate');
+
+			$this->event_model->update_eventreport($appsemid,$organizationid,$eventreportid,$eventdetails);
+			$this->form5($appsemid,$organizationid);
+		}		
+	}
+	
+	function form5_remove_event($appsemid,$organizationid,$eventreportid) {
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+		redirect('organization/forms');
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+		}
+
+		$this->event_model->remove_eventreport($appsemid, $organizationid, $eventreportid);
+		$this->form5($appsemid,$organizationid);
 	}
 
 	function form5_add_award($appsemid = CURRENT_APPSEM, $organizationid = null) {
@@ -860,19 +985,19 @@ class Organization extends Controller {
 			'Height' => '200',
 			'Value' => ''
 			);
-			$this->load->library('fckeditor', $fckeditorConfig);
+		$this->load->library('fckeditor', $fckeditorConfig);
 
-			$awardclassifications = $this->award_model->get_awardclassifications();
-			foreach($awardclassifications as $classification){
-				$content_data['awardclassifications'][$classification['awardclassificationid']] = $classification['description'];
-			}
-			$content_data['submit_url'] = "organization/form5_add_award_submit/{$appsemid}/{$organizationid}";
+		$awardclassifications = $this->award_model->get_awardclassifications();
+		foreach($awardclassifications as $classification){
+			$content_data['awardclassifications'][$classification['awardclassificationid']] = $classification['description'];
+		}
+		$content_data['submit_url'] = "organization/form5_add_award_submit/{$appsemid}/{$organizationid}";
 
-			$this->sidebar_data['links'][1]['selected'] = 0;
-			$this->views->header($data,$this->sidebar_data);
-			$this->load->view('organization/forms/form5_add_award', $content_data);
-			$this->views->footer();
-			$this->sidebar_data['links'][1]['selected'] = -1;
+		$this->sidebar_data['links'][1]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form5_add_award', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 
 	function form5_add_award_submit($appsemid, $organizationid) {
@@ -925,12 +1050,131 @@ class Organization extends Controller {
 		}
 	}
 	
-	function form5_edit_award() {
+	function form5_edit_award($appsemid = CURRENT_APPSEM, $organizationid = NULL, $orgawardid) {
+		$orgname = NULL;
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+			$orgname = $this->session->orgname();
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+			$orgname = $organization['orgname'];
+		}
+
+		$data['title'] = "Accomplishment Report: Events - ".$this->session->username();
+		$content_data['appsemid'] = $appsemid;
+		$content_data['pretty_application_aysem'] = $this->Variable->pretty_application_aysem($appsemid);
+		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
+		$content_data['change_appsem_submit_url'] = 'organization/form_change_appsem_submit/form5/';
+		$content_data['orgname'] = $orgname;
+		$content_data['orgid'] = $organizationid;
+
+		//dagdag
+		$orgaward = $this->award_model->get_award($appsemid,$organizationid, $orgawardid);
+		$fckeditorConfig = array(
+			'instanceName' => 'description',
+			'BasePath' => base_url().'system/plugins/fckeditor/',
+			'ToolbarSet' => 'Basic',
+			'Width' => '100%',
+			'Height' => '200',
+			'Value' => ''
+		);
+		$this->load->library('fckeditor', $fckeditorConfig);
+
+		$awardclassifications = $this->award_model->get_awardclassifications();
+		foreach($awardclassifications as $classification){
+			$content_data['awardclassifications'][$classification['awardclassificationid']] = $classification['description'];
+		}
+		$content_data['submit_url'] = "organization/form5_edit_award_submit/{$appsemid}/{$organizationid}/{$orgawardid}";
+		$content_data['orgaward'] = $orgaward;
 		
+		$this->sidebar_data['links'][1]['selected'] = 0;
+		$this->views->header($data,$this->sidebar_data);
+		$this->load->view('organization/forms/form5_edit_award', $content_data);
+		$this->views->footer();
+		$this->sidebar_data['links'][1]['selected'] = -1;
 	}
 	
-	function form5_remove_award() {
-		
+	function form5_edit_award_submit($appsemid, $organizationid, $orgawardid) {
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+		redirect('organization/forms');
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+
+		if(is_null($organizationid))
+		redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+
+		}
+
+		//INSERT Code Here
+		$this->form_validation->set_rules('awardname','Award Name','required');
+		$this->form_validation->set_rules('awardclassification','Award Classification','required');
+		$this->form_validation->set_rules('description','Award Description','required');
+		$this->form_validation->set_rules('giver','Giver','required');
+
+		$postback['awardname'] = $this->input->post('awardname');
+		$postback['awardclassification'] = $this->input->post('awardclassification');
+		$postback['giver'] = $this->input->post('giver');
+		$postback['description'] = $this->input->post('description');
+
+		if(!$this->form_validation->run()){
+			$this->session->save_validation_errors();
+			$this->session->save_postback_variable($postback);
+
+			$this->form5_edit_award($appsemid,$organizationid);
+		}
+		else {
+			$awarddetails['awardname'] = $this->input->post('awardname');
+			$awarddetails['awardclassificationid'] = $this->input->post('awardclassification');
+			$awarddetails['giver'] = $this->input->post('giver');
+			$awarddetails['description'] = $this->input->post('description');
+				
+			$this->award_model->update_award($appsemid,$organizationid,$orgawardid,$awarddetails);
+			$this->form5($appsemid,$organizationid);
+		}
+	}
+	
+	function form5_remove_award($appsemid,$organizationid,$orgawardid) {
+		if(!is_numeric($appsemid) || !is_numeric($organizationid))
+		redirect('organization/forms');
+
+		if($this->session->user_group_is(ORG_GROUPID)){
+			$appsemid = CURRENT_APPSEM;
+			$organizationid = $this->session->organizationid();
+
+			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
+			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+		}
+
+		if(is_null($organizationid))
+			redirect('organization');
+			
+		if($this->session->user_group_is(OSA_GROUPID)){
+			$organization = $this->organization_model->get_organization($organizationid,$appsemid);
+
+		}
+
+		$this->award_model->remove_award($appsemid, $organizationid, $orgawardid);
+		$this->form5($appsemid,$organizationid);
 	}	
 
 	function form6($appsemid = CURRENT_APPSEM, $organizationid = NULL)
@@ -1052,7 +1296,6 @@ class Organization extends Controller {
 		//INSERT Code Here
 		$this->form_validation->set_rules('eventname','Event Name','required');
 		$this->form_validation->set_rules('eventdate','Event Date','required|callback__valid_date');
-		$this->form_validation->set_rules('venue','Venue','required');
 		$this->form_validation->set_rules('eventcategory','Event Category','required');
 		$this->form_validation->set_rules('description','Event Description','required');
 
@@ -1080,7 +1323,7 @@ class Organization extends Controller {
 		}
 	}
 
-	function form6_edit_event($appsemid,$organizationid,$plannedeventid) {
+	function form6_edit_event($appsemid = CURRENT_APPSEM,$organizationid = NULL,$plannedeventid) {
 		$orgname = NULL;
 
 		if($this->session->user_group_is(ORG_GROUPID)){
@@ -1157,7 +1400,6 @@ class Organization extends Controller {
 
 		}
 		
-		//INSERT Code Here
 		$this->form_validation->set_rules('eventname','Event Name','required');
 		$this->form_validation->set_rules('eventdate','Event Date','required|callback__valid_date');
 		$this->form_validation->set_rules('venue','Venue','required');
@@ -1189,7 +1431,6 @@ class Organization extends Controller {
 	}
 	
 	function form6_remove_event($appsemid,$organizationid,$plannedeventid) {
-		//TODO check user groups
 		if(!is_numeric($appsemid) || !is_numeric($organizationid))
 		redirect('organization/forms');
 
@@ -1211,9 +1452,8 @@ class Organization extends Controller {
 
 		}
 
-		//TODO insert remove code here
 		$this->event_model->remove_plannedevent($appsemid, $organizationid, $plannedeventid);
-		redirect("organization/form6/{$appsemid}/{$organizationid}");
+		$this->form6($appsemid,$organizationid);
 	}
 	
 	function form7($appsemid = CURRENT_APPSEM, $organizationid = NULL)

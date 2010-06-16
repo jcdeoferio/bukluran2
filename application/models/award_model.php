@@ -32,7 +32,7 @@ class Award_model extends Model {
 						'organizationid' => $organizationid,
 						'orgawardid' => $orgawardid);
 		$this->db->where($params);
-		$this->db->remove('orgawards');
+		$this->db->delete('orgawards');
 	}
 	
 	function get_award($appsemid,$organizationid, $orgawardid) {
@@ -41,7 +41,7 @@ class Award_model extends Model {
 						'orgawardid' => $orgawardid);
 		$this->db->where($params);
 		$query = $this->db->get('orgawards');
-		$return ($query->first_row('array'));		
+		return ($query->first_row('array'));		
 	}
 	
 	function get_awardclassifications() {

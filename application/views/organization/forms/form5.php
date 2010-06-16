@@ -35,8 +35,9 @@
 		if (count($eventcategory['eventrecords']) > 0) {
 			$this->table->set_heading('TITLE OF ACTIVITY','BRIEF DESCRIPTION OF ACTIVITY','VENUE','DATE','ACTION');
 			foreach ($eventcategory['eventrecords'] as $event) {
-				//TODO edit url and delete url
-				$this->table->add_row($event['eventname'],$event['description'],$event['venue'],date("F j, Y",strtotime($event['eventdate'])),anchor('dummy','Edit').' '.anchor('dummy','Delete'));
+				$edit_url = $edit_event_url."{$event['eventreportid']}";
+				$remove_url = $remove_event_url."{$event['eventreportid']}";
+				$this->table->add_row($event['eventname'],$event['description'],$event['venue'],date("F j, Y",strtotime($event['eventdate'])),anchor($edit_url,'Edit').' '.anchor($remove_url,'Delete'));
 			}
 			echo $this->table->generate();
 			$this->table->clear();
@@ -54,7 +55,9 @@
 	if (count($orgawards) > 0) {
 		$this->table->set_heading('AWARD CLASSIFICATION','AWARD/CITATION','DESCRIPTION','AWARD-GIVING BODY','ACTION');
 		foreach($orgawards as $award) {
-			$this->table->add_row($awardclassifications[$award['awardclassificationid']],$award['awardname'],$award['description'],$award['giver'],anchor('dummy','Edit').'<br>'.anchor('dummy','Delete'));
+			$edit_url = $edit_award_url."{$award['orgawardid']}";
+			$remove_url = $remove_award_url."{$award['orgawardid']}";
+			$this->table->add_row($awardclassifications[$award['awardclassificationid']],$award['awardname'],$award['description'],$award['giver'],anchor($edit_url,'Edit').' '.anchor($remove_url,'Delete'));
 		}
 		echo $this->table->generate();
 		$this->table->clear();

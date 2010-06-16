@@ -76,7 +76,7 @@ class Event_model extends Model {
 						'organizationid' => $organizationid,
 						'eventreportid' => $eventreportid);
 		$this->db->where($params);
-		$this->db->remove('eventreports');
+		$this->db->delete('eventreports');
 	}
 	
 	function get_eventreport($appsemid,$organizationid,$eventreportid) {

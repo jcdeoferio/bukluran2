@@ -103,7 +103,7 @@ CREATE TABLE plannedevents(
 	eventname varchar(128),
 	eventcategoryid integer NOT NULL REFERENCES eventcategories,
 	description varchar(1024),
-	venue varchar(256),
+	venue varchar(256) default 'TBA',
 	eventdate timestamp without time zone);
 
 CREATE TABLE eventreports(
