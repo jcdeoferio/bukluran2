@@ -71,6 +71,7 @@
 
 	<?= link_tag('layout/css/print.css','stylesheet','text/css','','print')."\n";?>
 	<?= link_tag('layout/css/style.css','stylesheet','text/css','','screen, projection')."\n";?>
+
 <!--page specific stylesheets-->
 	<?php if(isset($stylesheets)):?>
 		<?php foreach ($stylesheets as $stylesheet):?>
