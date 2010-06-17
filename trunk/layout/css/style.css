@@ -17,6 +17,7 @@ body{background:url('../images/background.png');}
 #toppanel #panel a {color: #999999;}
 #contentWrapper a{color: #cc0000;}
 #contentWrapper a:hover{color: #000000;}
+#contentWrapper img{max-width:100%;}
 
 #footer{color:white; font-size:14px; vertical-align:middle; min-height: 50px; text-shadow: 0px 0px 5px #000;}
 #footer a{color:white;}
