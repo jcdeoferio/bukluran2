@@ -273,8 +273,8 @@ class Organization extends Controller {
 			}
 		}
 
-		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email|callback__valid_upwebmail');
-		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
+		$this->form_validation->set_rules('webmail', 'UP Webmail', 'trim|required|valid_email|callback__valid_upwebmail');
+		$this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
 		$this->form_validation->set_message('_valid_upwebmail', "The %s field is not a valid UP Webmail Address.");
 		$postback['webmail'] = $this->input->post('webmail');
 		$postback['email'] = $this->input->post('email');
@@ -634,8 +634,8 @@ class Organization extends Controller {
 			}
 		}
 
-		$this->form_validation->set_rules('webmail', 'UP Webmail', 'required|valid_email|callback__valid_upwebmail');
-		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
+		$this->form_validation->set_rules('webmail', 'UP Webmail', 'trim|required|valid_email|callback__valid_upwebmail');
+		$this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
 		$this->form_validation->set_message('_valid_upwebmail', "The %s field is not a valid UP Webmail Address.");
 		if($isofficer)
 		$this->form_validation->set_rules('position', 'Position', 'required');
@@ -1789,7 +1789,9 @@ class Organization extends Controller {
 	
 	function _valid_upwebmail($string){
 		$array = explode('@',$string);
-		return $array[1]=='up.edu.ph';
+		$username = $array[0];
+		
+		return preg_match('/^[a-zA-Z0-9]{1,}$/',$username) && $array[1]=='up.edu.ph';
 	}
 }
 

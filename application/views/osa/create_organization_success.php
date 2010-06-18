@@ -4,7 +4,7 @@
 </div>
 <div class="last" id="content_main">
 	Username: <?= $username ?><br/>
-	Password: <?= $password ?><br/>
+	Password: <code><?= $password ?></code><br/>
 
 	<?= anchor('osa/create_organization', 'Add Another Organization') ?><br/>
 	<?= anchor('osa/organizations', 'Manage Organizations') ?>
