@@ -23,7 +23,7 @@
 	<?= form_open($submit_url) ?>
 	<table>
 	<tr>
-		<td><?= form_label('UP Webmail', 'webmail') ?></td>
+		<td><?= form_label('UP Webmail (e.g., fmlastname@up.edu.ph)', 'webmail') ?></td>
 		<td><?= form_input('webmail', $postback['webmail']) ?></td>
 	</tr>
 	<tr>
