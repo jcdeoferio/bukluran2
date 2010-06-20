@@ -14,6 +14,16 @@ class Main extends Controller {
 		$this->load->library('views',$params);
 		$this->load->model('Organization_model');
 		$this->load->model('Variable');
+		
+		$this->load->helper('cookie');
+		set_cookie('cookie_test','value','86500');
+	}
+	
+	function test(){
+		$this->load->helper('cookie');
+		set_cookie('cookie_test','value','86500');
+		echo get_cookie('cookie_test');
+		delete_cookie('cookie_test');
 	}
 	
 	function index()
