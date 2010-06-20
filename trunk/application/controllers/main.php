@@ -19,13 +19,6 @@ class Main extends Controller {
 		set_cookie('cookie_test','value','86500');
 	}
 	
-	function test(){
-		$this->load->helper('cookie');
-		set_cookie('cookie_test','value','86500');
-		echo get_cookie('cookie_test');
-		delete_cookie('cookie_test');
-	}
-	
 	function index()
 	{
 		if($this->session->logged_in()){
