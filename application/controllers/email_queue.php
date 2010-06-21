@@ -107,14 +107,14 @@ class Email_queue extends Controller {
 					$subject = "Bukluran: Lost Confirmation Code";
 					$content = $this->load->view('emails/lost_code',$data,true);
 					// echo($subject.br(2).$content.br(3));
-					$this->emailer->send_email($data['user']['email'],$subject,$content);
+					$this->emailer->send_email($data['user']['webmail'],$subject,$content);
 				break;
 				case LOST_FACULTY_CODE_EMAIL:
 					$data['user'] = $this->faculty_model->get_profile_and_details($row['facultyid']);
 					$subject = "Bukluran: Lost Confirmation Code";
 					$content = $this->load->view('emails/lost_code',$data,true);
 					// echo($subject.br(2).$content.br(3));
-					$this->emailer->send_email($data['user']['email'],$subject,$content);
+					$this->emailer->send_email($data['user']['webmail'],$subject,$content);
 				break;
 			}
 		}
