@@ -57,19 +57,21 @@ body{background:url('../images/background.png');}
 	margin-bottom:0px;
 }
 
-.sidebar_links a{
+.sidebar_links a,.sidebar_links span{
 	display:block;
 	padding: 10px;
 	border-bottom:1px solid #CCC;
 	text-decoration:none;
+	font-size:13px;
 }
 
 .sidebar_links a:hover{
 	background:#EEE;
 }
 
-.sidebar_links a.selected{
+.sidebar_links .selected{
 	background:#EEE;
+	font-weight:bold;
 }
 
 /*
