@@ -24,10 +24,10 @@ class Login extends Controller {
 		}
 		
 		$this->form_validation->set_rules('username', 'Username', 'required');
-		$this->form_validation->set_rules('password', 'Password', 'callback__cookies_enabled_check|required|callback__authenticate_login');
+		$this->form_validation->set_rules('password', 'Password', 'required|callback__authenticate_login');
 		
 		$this->form_validation->set_message('_authenticate_login', 'Invalid username/password combination.');
-		$this->form_validation->set_message('_cookies_enabled_check', 'Cookies should be enabled in your browser.');
+		// $this->form_validation->set_message('_cookies_enabled_check', 'Cookies should be enabled in your browser.');
 		
 		if(!$this->form_validation->run()){
 			$this->page();
@@ -91,10 +91,10 @@ class Login extends Controller {
 	}
 	
 	function link_submit(){
-		$this->form_validation->set_rules('link', 'Link', 'callback__cookies_enabled_check|required|callback__authenticate_link');
+		$this->form_validation->set_rules('link', 'Link', 'required|callback__authenticate_link');
 		
 		$this->form_validation->set_message('_authenticate_link', 'Invalid code.');
-		$this->form_validation->set_message('_cookies_enabled_check', 'Cookies should be enabled in your browser.');
+		// $this->form_validation->set_message('_cookies_enabled_check', 'Cookies should be enabled in your browser.');
 		
 		if(!$this->form_validation->run()){
 			$this->link();
@@ -184,15 +184,16 @@ class Login extends Controller {
 		$array = explode('@',$string);
 		return $array[1]=='up.edu.ph';
 	}
-	
+	/* 
 	function _cookies_enabled_check(){
 		$this->load->helper('cookie');
-		// set_cookie('cookie_test','value','86500');
+		set_cookie('cookie_test','value','86500');
 		$var = get_cookie('cookie_test');
 		delete_cookie('cookie_test');
 		
 		return $var='value';
 	}
+	*/
 }
 
 /* End of file login.php */

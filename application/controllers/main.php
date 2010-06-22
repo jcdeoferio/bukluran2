@@ -16,7 +16,7 @@ class Main extends Controller {
 		$this->load->model('Variable');
 		
 		$this->load->helper('cookie');
-		set_cookie('cookie_test','value','86500');
+		// set_cookie('cookie_test','value','86500');
 	}
 	
 	function index()
