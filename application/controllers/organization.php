@@ -166,7 +166,7 @@ class Organization extends Controller {
 		$this->form_validation->set_message('_valid_date', "The %s field is not a valid date.");
 
 		if(!$this->form_validation->run()){
-			$this->form1();
+			$this->form1($appsemid, $organizationid);
 		}else{
 			if($this->session->user_group_is(OSA_GROUPID)){
 				$this->organization_model->save_organization($organizationid,$this->input->post('name'));
