@@ -151,8 +151,8 @@ class Orgregistration_model extends Model{
 		$progress_form6 = $this->form6($organizationid,$appsemid);
 		$progress_form7 = $this->form7($organizationid,$appsemid);
 		$progress_reqs = $this->requirements($organizationid,$appsemid);
-		$progress_total = $progress_form1+$progress_form1_advisers+$progress_form2+($progress_form3_members&&$progress_form3_officers)+$progress_form5_eventreports+$progress_form6+$progress_form7+$progress_reqs;
-		return $progress_total == 8;
+		$progress_total = $progress_form1+$progress_form1_advisers+$progress_form2+($progress_form3_members&&$progress_form3_officers)+$progress_form5_eventreports+$progress_form6+$progress_form7;
+		return $progress_total == 7;
 	}
 	
 	private function get_profile($organizationid, $appsemid){
