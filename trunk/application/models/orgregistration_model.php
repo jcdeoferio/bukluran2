@@ -48,7 +48,7 @@ class Orgregistration_model extends Model{
 		$this->db->where('appsemid',$appsemid);
 		$disbursements = $this->db->count_all_results();
 		
-		return $org['startingbalance'] > 0 && $collections > 0 && $disbursements;
+		return $collections > 0 && $disbursements;
 	}
 	
 	function form3_members($organizationid, $appsemid){		
