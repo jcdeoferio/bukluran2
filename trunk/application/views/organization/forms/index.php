@@ -39,8 +39,15 @@
 		Registration
 	</div>
 	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+	<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all notification">
+		<span class="ui-icon ui-icon-info notification-icon"></span> 
 		Registration is Currently Closed.
-	<?else:?>
+		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span> 
+	</div>
+	</div>
+	<?=br()?>
+	<?endif;?>
 	<? if($this->session->user_group_is(OSA_GROUPID) && count($appsems) > 1): ?>	
 		<?= form_open('osa/form_change_appsem_submit') ?>
 		Currently viewing regisration of organization <strong><?= $org['orgname'] ?></strong><br/>
@@ -224,6 +231,6 @@
 		$('#progress').progressbar({value:0});
 		$('#progress .ui-progressbar-value').delay(300).animate({width:progress+"%"},3000,"easeOutBounce",function(){$('#progress').progressbar({value:progress});});
 	</script>
-	<?endif;?>
+	
 </div>
 

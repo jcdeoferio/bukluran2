@@ -6,8 +6,15 @@
 	</div>
 	
 	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+	<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all notification">
+		<span class="ui-icon ui-icon-info notification-icon"></span> 
 		Registration is Currently Closed.
-	<?else:?>
+		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span> 
+	</div>
+	</div>
+	<?=br()?>
+	<?endif;?>
 	
 	<p>
 	Currently viewing form 1 of organization <strong><?= $organization['orgname'] ?></strong><br/>
@@ -82,7 +89,6 @@
 		</tr>
 	</table>
 	<?=form_close()?>
-	<?endif;?>
 </div>
 
 <script>

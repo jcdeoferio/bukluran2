@@ -133,6 +133,9 @@ class Faculty extends Controller {
 	
 	function confirm($orgid)
 	{
+		if(!$this->Variable->app_is_open()){
+			redirect('faculty/organizations');
+		}
 		$user = $this->session->userdata('user');
 		$this->Faculty_model->confirm($user['facultyid'], $this->aysem, $orgid);
 		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
@@ -141,6 +144,9 @@ class Faculty extends Controller {
 	
 	function unconfirm($orgid)
 	{
+		if(!$this->Variable->app_is_open()){
+			redirect('faculty/organizations');
+		}
 		$user = $this->session->userdata('user');
 		$this->Faculty_model->unconfirm($user['facultyid'], $this->aysem, $orgid);
 		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());

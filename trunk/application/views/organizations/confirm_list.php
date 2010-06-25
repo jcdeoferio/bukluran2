@@ -36,13 +36,15 @@ $this->pagination->initialize($config);
 		<td><?if($org['confirmed']=='t'):?>
 				Confirmed
 			<?else:?>
-				Unconfirmed
+				Not Yet Confirmed
 			<?endif;?></td>
 		<td>
-			<?if($org['confirmed']=='t'):?>
-				<?= anchor($unconfirm_link.$org['organizationid'],'Unconfirm') ?>
-			<?else:?>
-				<?= anchor($confirm_link.$org['organizationid'],'Confirm') ?>
+			<?if( !$this->session->user_group_is(OSA_GROUPID) && $this->Variable->app_is_open()):?>
+				<?if($org['confirmed']=='t'):?>
+					<?= anchor($unconfirm_link.$org['organizationid'],'Unconfirm') ?>
+				<?else:?>
+					<?= anchor($confirm_link.$org['organizationid'],'Confirm') ?>
+				<?endif;?>
 			<?endif;?>
 		</td>
 		</tr>
