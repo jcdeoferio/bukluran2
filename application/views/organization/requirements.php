@@ -4,8 +4,15 @@
 	</div>
 	
 	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+	<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all notification">
+		<span class="ui-icon ui-icon-info notification-icon"></span> 
 		Registration is Currently Closed.
-	<?else:?>
+		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span> 
+	</div>
+	</div>
+	<?=br()?>
+	<?endif;?>
 
 	<p>
 	Managing requirements for <strong><?= $org['orgname'] ?></strong> for application period <strong><?= $pretty_application_aysem ?></strong>
@@ -66,6 +73,5 @@
 	<? endif; ?>
 	<?if($this->session->user_group_is(OSA_GROUPID)):?>
 	<?= anchor("osa/organizations", 'Back to Organization List') ?>
-	<? endif; ?>
 	<? endif; ?>
 </div>

@@ -90,6 +90,9 @@ class Student extends Controller {
 	
 	function confirm($orgid)
 	{
+		if(!$this->Variable->app_is_open()){
+			redirect('student/organizations');
+		}
 		$user = $this->session->userdata('user');
 		$this->Student_model->confirm($user['studentid'], $orgid, $this->Variable->current_application_aysem());
 		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
@@ -98,6 +101,9 @@ class Student extends Controller {
 	
 	function unconfirm($orgid)
 	{
+		if(!$this->Variable->app_is_open()){
+			redirect('student/organizations');
+		}
 		$user = $this->session->userdata('user');
 		$this->Student_model->unconfirm($user['studentid'], $orgid, $this->Variable->current_application_aysem());
 		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
@@ -145,12 +151,18 @@ class Student extends Controller {
 	function do_upload($studentid = NULL, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
 	{
 		if($this->session->user_group_is(STUDENT_GROUPID)){
+			if(!$this->Variable->app_is_open()){
+				redirect('student/upload');
+			}
 			$user_data = $this->session->userdata(USER);
 			$studentid = $user_data['studentid'];
 			$appsemid = CURRENT_APPSEM;
 			$data['submit_url'] = "student/do_upload";
 			$this->sidebar_data['links'][2]['selected'] = 0;
 		}else if($this->session->user_group_is(ORG_GROUPID)){
+			if(!$this->Variable->app_is_open()){
+				redirect("student/upload/{$studentid}");
+			}
 			$appsemid = CURRENT_APPSEM;
 			if(!$this->Organization_model->membership_exists($studentid, $this->session->organizationid(), $appsemid)){
 				redirect('organization');

@@ -4,8 +4,15 @@
 	</div>
 	
 	<?if($this->session->user_group_is(ORG_GROUPID) && !$this->Variable->app_is_open()):?>
+	<div class="ui-widget">
+	<div class="ui-state-highlight ui-corner-all notification">
+		<span class="ui-icon ui-icon-info notification-icon"></span> 
 		Registration is Currently Closed.
-	<?else:?>
+		<span class="ui-icon ui-icon-close notification-close" style="display:none;"></span> 
+	</div>
+	</div>
+	<?=br()?>
+	<?endif;?>
 	
 	<p>
 	Currently viewing form 3 of organization <strong><?= $orgname ?></strong><br/>
@@ -80,6 +87,5 @@
 	<?= anchor($add_adviser_url, 'Add A Faculty Adviser') ?>
 	</p>
 	<?= anchor("organization/send_adviser_confirmation_emails".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation Emails')?>
-	<?endif;?>
 </div>
 

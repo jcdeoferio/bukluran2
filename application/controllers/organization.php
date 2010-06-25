@@ -146,6 +146,10 @@ class Organization extends Controller {
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization');
+			}
 		}
 
 		if($this->session->user_group_is(OSA_GROUPID)){
@@ -271,6 +275,10 @@ class Organization extends Controller {
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form1_faculty_adviser');
+			}
 		}
 
 		$this->form_validation->set_rules('webmail', 'UP Webmail', 'trim|required|valid_email|callback__valid_upwebmail');
@@ -348,6 +356,10 @@ class Organization extends Controller {
 
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
 				redirect('organization');
 			}
 		}
@@ -433,6 +445,10 @@ class Organization extends Controller {
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form2');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -491,6 +507,10 @@ class Organization extends Controller {
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form2');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -509,6 +529,10 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form2');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -529,6 +553,10 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form2');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -631,6 +659,10 @@ class Organization extends Controller {
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form3');
 			}
 		}
 
@@ -782,6 +814,10 @@ class Organization extends Controller {
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -886,6 +922,10 @@ class Organization extends Controller {
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -937,6 +977,10 @@ class Organization extends Controller {
 			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
 			}
 		}
 
@@ -1011,6 +1055,10 @@ class Organization extends Controller {
 			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
 			}
 		}
 
@@ -1113,6 +1161,10 @@ class Organization extends Controller {
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -1162,6 +1214,10 @@ class Organization extends Controller {
 			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
 			}
 		}
 
@@ -1283,6 +1339,10 @@ class Organization extends Controller {
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -1390,6 +1450,10 @@ class Organization extends Controller {
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
 			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -1441,6 +1505,10 @@ class Organization extends Controller {
 			$organization = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($organization['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
 			}
 		}
 
@@ -1500,6 +1568,10 @@ class Organization extends Controller {
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
 				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form5');
 			}
 		}
 
@@ -1586,7 +1658,7 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
-			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED || !$this->Variable->app_is_open()){
 				redirect('organization');
 			}
 		}
@@ -1606,7 +1678,7 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
-			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED || !$this->Variable->app_is_open()){
 				redirect('organization');
 			}
 		}
@@ -1626,7 +1698,7 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
-			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED || !$this->Variable->app_is_open()){
 				redirect('organization');
 			}
 		}
@@ -1646,7 +1718,7 @@ class Organization extends Controller {
 			$organizationid = $this->session->organizationid();
 
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
-			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+			if($org['orgstatusid'] > APP_NOT_SUBMITTED || !$this->Variable->app_is_open()){
 				redirect('organization');
 			}
 		}
@@ -1684,6 +1756,10 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form3');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -1702,6 +1778,10 @@ class Organization extends Controller {
 		if($this->session->user_group_is(ORG_GROUPID)){
 			$appsemid = CURRENT_APPSEM;
 			$organizationid = $this->session->organizationid();
+			
+			if(!$this->Variable->app_is_open()){
+				redirect('organization/form1_faculty_adviser');
+			}
 		}
 
 		if(is_null($organizationid))
@@ -1768,6 +1848,10 @@ class Organization extends Controller {
 
 			$org = $this->organization_model->get_organization($organizationid, $appsemid);
 			if($org['orgstatusid'] > APP_NOT_SUBMITTED){
+				redirect('organization');
+			}
+			
+			if(!$this->Variable->app_is_open()){
 				redirect('organization');
 			}
 		}else{
