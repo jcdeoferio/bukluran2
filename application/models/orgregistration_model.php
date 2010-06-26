@@ -155,6 +155,21 @@ class Orgregistration_model extends Model{
 		return $progress_total == 7;
 	}
 	
+	function progress_array($organizationid,$appsemid){
+		$progress['form1'] = $this->form1($organizationid,$appsemid);
+		$progress['form1_advisers'] = $this->form1_advisers($organizationid,$appsemid);
+		$progress['form2'] = $this->form2($organizationid,$appsemid);
+		$progress['form3_members'] = $this->form3_members($organizationid,$appsemid);
+		$progress['form3_officers'] = $this->form3_officers($organizationid,$appsemid);
+		$progress['form5_eventreports'] = $this->form5_eventreports($organizationid,$appsemid);
+		$progress['form5_awards'] = $this->form5_awards($organizationid,$appsemid);
+		$progress['form6'] = $this->form6($organizationid,$appsemid);
+		$progress['form7'] = $this->form7($organizationid,$appsemid);
+		$progress['reqs'] = $this->requirements($organizationid,$appsemid);
+		
+		return $progress;
+	}
+	
 	private function get_profile($organizationid, $appsemid){
 		$this->db->from('orgprofiles');
 		$this->db->where('organizationid',$organizationid);

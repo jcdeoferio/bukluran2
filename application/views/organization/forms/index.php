@@ -1,39 +1,3 @@
-<?
-	if($this->session->user_group_is(ORG_GROUPID)){
-		$progress_form1 = $this->orgregistration_model->form1($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form1_advisers = $this->orgregistration_model->form1_advisers($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form2 = $this->orgregistration_model->form2($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form3_members = $this->orgregistration_model->form3_members($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form3_officers = $this->orgregistration_model->form3_officers($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form5_eventreports = $this->orgregistration_model->form5_eventreports($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form5_awards = $this->orgregistration_model->form5_awards($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form6 = $this->orgregistration_model->form6($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_form7 = $this->orgregistration_model->form7($this->session->organizationid(),$this->Variable->current_application_aysem());
-		$progress_reqs = $this->orgregistration_model->requirements($this->session->organizationid(),$this->Variable->current_application_aysem());
-	}else{
-		$progress_form1 = $this->orgregistration_model->form1($org['organizationid'],$appsemid);
-		$progress_form1_advisers = $this->orgregistration_model->form1_advisers($org['organizationid'],$appsemid);
-		$progress_form2 = $this->orgregistration_model->form2($org['organizationid'],$appsemid);
-		$progress_form3_members = $this->orgregistration_model->form3_members($org['organizationid'],$appsemid);
-		$progress_form3_officers = $this->orgregistration_model->form3_officers($org['organizationid'],$appsemid);
-		$progress_form5_eventreports = $this->orgregistration_model->form5_eventreports($org['organizationid'],$appsemid);
-		$progress_form5_awards = $this->orgregistration_model->form5_awards($org['organizationid'],$appsemid);
-		$progress_form6 = $this->orgregistration_model->form6($org['organizationid'],$appsemid);
-		$progress_form7 = $this->orgregistration_model->form7($org['organizationid'],$appsemid);
-		$progress_reqs = $this->orgregistration_model->requirements($org['organizationid'],$appsemid);
-	}
-	$progress_total = $progress_form1+
-		$progress_form1_advisers+
-		$progress_form2+
-		($progress_form3_members&&$progress_form3_officers)+
-		$progress_form5_eventreports+
-		$progress_form6+
-		$progress_form7+
-		$progress_reqs+
-		($org['orgstatusid']>APP_NOT_SUBMITTED)+
-		($org['orgstatusid']==APP_RENEWED);
-?>
-
 <div class="span-19 last" id="content_main">
 	<div class="contentHeader_text">
 		Registration
@@ -62,6 +26,7 @@
 	
 	<?if($this->session->user_group_is(ORG_GROUPID)):?>
 		Status: <?=$org['orgstatusdesc']?>
+		<?=br(2)?>
 	<?else:?>
 		<?= form_open('osa/change_application_status') ?>
 			<?= form_label('Status:','orgstatus')?>
@@ -70,105 +35,57 @@
 			<?= form_hidden('appsemid',$appsemid)?>
 			<?= form_submit('submit', 'Change') ?>
 		<?= form_close() ?>
-	<?endif;?>
+	<?endif;?>	
 	
-	<?=br(2)?>
-	<div>
-	<? if($this->session->user_group_is(OSA_GROUPID)):?>
-		<div title= "<?=($progress_form1)?"OK":"Form1 Needs to be filled up"?>">
-		<span id="progress_form1" class="ui-icon ui-icon-<?=($progress_form1)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form1/{$appsemid}/{$org['organizationid']}","Form 1 - Information Sheet");?><br />
+	<div id="progress_list">
+		<div title= "<?=($progress['form1'])?"OK":"Form1 Needs to be filled up"?>">
+		<span id="progress_form1" class="ui-icon ui-icon-<?=($progress['form1'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form1{$forms_suffix}","Form 1 - Information Sheet");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form1_advisers)?"OK":"You need at least one confirmed adviser"?>">
-		<span id="progress_form1_advisers" class="ui-icon ui-icon-<?=($progress_form1_advisers)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form1_faculty_adviser/{$appsemid}/{$org['organizationid']}","Form 1 - Faculty Advisers");?><br />
+		<div title= "<?=($progress['form1_advisers'])?"OK":"You need at least one confirmed adviser"?>">
+		<span id="progress_form1_advisers" class="ui-icon ui-icon-<?=($progress['form1_advisers'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form1_faculty_adviser{$forms_suffix}","Form 1 - Faculty Advisers");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form2)?"OK":"You need to have an entry in the Starting Balance Field and the Collections and Disbursements Table"?>">
-		<span id="progress_form2" class="ui-icon ui-icon-<?=($progress_form2)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form2/{$appsemid}/{$org['organizationid']}","Form 2 - Finance Statement");?><br />
+		<div title= "<?=($progress['form2'])?"OK":"You need to have an entry in the Starting Balance Field and the Collections and Disbursements Table"?>">
+		<span id="progress_form2" class="ui-icon ui-icon-<?=($progress['form2'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form2{$forms_suffix}","Form 2 - Finance Statement");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form3_officers)?(($progress_form3_members)?"OK":"You need at least 15 confirmed members with their IDs uploaded"):(($progress_form3_members)?"You need at least 5 confirmed officers with their IDs uploaded":"You need at least 5 confirmed officers and 15 confirmed members with their IDs uploaded")?>">
-		<span id="progress_form3" class="ui-icon ui-icon-<?=($progress_form3_officers && $progress_form3_members)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form3/{$appsemid}/{$org['organizationid']}","Forms 3 and 4 - Officer and Member Roster");?><br />
+		<div title= "<?=($progress['form3_officers'])?(($progress['form3_members'])?"OK":"You need at least 15 confirmed members with their IDs uploaded"):(($progress['form3_members'])?"You need at least 5 confirmed officers with their IDs uploaded":"You need at least 5 confirmed officers and 15 confirmed members with their IDs uploaded")?>">
+		<span id="progress_form3" class="ui-icon ui-icon-<?=($progress['form3_officers'] && $progress['form3_members'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form3{$forms_suffix}","Forms 3 and 4 - Officer and Member Roster");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form5_eventreports)?(($progress_form5_awards)?"OK":"There are no Awards [Not Required]"):"All event categories should have at least one event"?>">
-		<span id="progress_form5" class="ui-icon ui-icon-<?=($progress_form5_eventreports)?(($progress_form5_awards)?"check":"alert"):"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form5/{$appsemid}/{$org['organizationid']}","Form 5 - Accomplishment Report");?><br />
+		<div title= "<?=($progress['form5_eventreports'])?(($progress['form5_awards'])?"OK":"There are no Awards [Not Required]"):"All event categories should have at least one event"?>">
+		<span id="progress_form5" class="ui-icon ui-icon-<?=($progress['form5_eventreports'])?(($progress['form5_awards'])?"check":"alert"):"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form5{$forms_suffix}","Form 5 - Accomplishment Report");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form6)?"OK":"All event categories should have at least one event"?>">
-		<span id="progress_form6" class="ui-icon ui-icon-<?=($progress_form6)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form6/{$appsemid}/{$org['organizationid']}","Form 6 - Calendar of Activities");?><br />
+		<div title= "<?=($progress['form6'])?"OK":"All event categories should have at least one event"?>">
+		<span id="progress['form6']" class="ui-icon ui-icon-<?=($progress['form6'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form6{$forms_suffix}","Form 6 - Calendar of Activities");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form7)?"OK":"Acknowledgment needed"?>">
-		<span id="progress_form7" class="ui-icon ui-icon-<?=($progress_form7)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form7/{$appsemid}/{$org['organizationid']}","Form 7 - Acknowledgment");?><br />
+		<div title= "<?=($progress['form7'])?"OK":"Acknowledgment needed"?>">
+		<span id="progress['form7']" class="ui-icon ui-icon-<?=($progress['form7'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/form7{$forms_suffix}","Form 7 - Acknowledgment");?><br />
 		</div>
 		
-		<div title= "<?=($progress_reqs)?"OK":"Some requirements are not yet submitted"?>">
-		<span id="progress_reqs" class="ui-icon ui-icon-<?=($progress_reqs)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("osa/org_reqs/{$org['organizationid']}","Requirements");?><br />
+		<div title= "<?=($progress['reqs'])?"OK":"Some requirements are not yet submitted"?>">
+		<span id="progress['reqs']" class="ui-icon ui-icon-<?=($progress['reqs'])?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor($this->session->user_group_is(OSA_GROUPID)?"osa/org_reqs/{$org['organizationid']}":"organization/requirements","Requirements");?><br />
 		</div>
 		
 		<div title= "<?=$org['orgstatusdesc']?>">
-		<span id="progress_reqs" class="ui-icon ui-icon-<?=($org['orgstatusid']>1)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/submit_forms/{$appsemid}/{$org['organizationid']}","Submit to OSA");?><br />
-		</div><br /><br />
-	<? else:?>
-		<div title= "<?=($progress_form1)?"OK":"Form1 Needs to be filled up"?>">
-		<span id="progress_form1" class="ui-icon ui-icon-<?=($progress_form1)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form1","Form 1 - Information Sheet");?><br />
+		<span id="progress['reqs']" class="ui-icon ui-icon-<?=($org['orgstatusid']>APP_NOT_SUBMITTED)?"check":"closethick"?> progress-check-icon"></span>
+		<?=anchor("organization/submit_forms{$forms_suffix}","Submit to OSA");?><br />
 		</div>
 		
-		<div title= "<?=($progress_form1_advisers)?"OK":"You need at least one confirmed adviser"?>">
-		<span id="progress_form1_advisers" class="ui-icon ui-icon-<?=($progress_form1_advisers)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form1_faculty_adviser","Form 1 - Faculty Advisers");?><br />
-		</div>
-		
-		<div title= "<?=($progress_form2)?"OK":"You need to have an entry in the Starting Balance Field and the Collections and Disbursements Table"?>">
-		<span id="progress_form2" class="ui-icon ui-icon-<?=($progress_form2)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form2","Form 2 - Finance Statement");?><br />
-		</div>
-		
-		<div title= "<?=($progress_form3_officers)?(($progress_form3_members)?"OK":"You need at least 15 confirmed members with their IDs uploaded"):(($progress_form3_members)?"You need at least 5 confirmed officers with their IDs uploaded":"You need at least 5 confirmed officers and 15 confirmed members with their IDs uploaded")?>">
-		<span id="progress_form3" class="ui-icon ui-icon-<?=($progress_form3_officers && $progress_form3_members)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form3","Forms 3 and 4 - Officer and Member Roster");?><br />
-		</div>
-		
-		<div title= "<?=($progress_form5_eventreports)?(($progress_form5_awards)?"OK":"There are no Awards [Not Required]"):"All event categories should have at least one event"?>">
-		<span id="progress_form5" class="ui-icon ui-icon-<?=($progress_form5_eventreports)?(($progress_form5_awards)?"check":"alert"):"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form5","Form 5 - Accomplishment Report");?><br />
-		</div>
-		
-		<div title= "<?=($progress_form6)?"OK":"All event categories should have at least one event"?>">
-		<span id="progress_form6" class="ui-icon ui-icon-<?=($progress_form6)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form6","Form 6 - Calendar of Activities");?><br />
-		</div>
-		
-		<div title= "<?=($progress_form7)?"OK":"Acknowledgment needed"?>">
-		<span id="progress_form7" class="ui-icon ui-icon-<?=($progress_form7)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/form7","Form 7 - Acknowledgment");?><br />
-		</div>
-		
-		<div title= "<?=($progress_reqs)?"OK":"Some requirements are not yet submitted"?>">
-		<span id="progress_reqs" class="ui-icon ui-icon-<?=($progress_reqs)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/requirements","Requirements");?><br />
-		</div>
-		
-		<div title= "<?=$org['orgstatusdesc']?>">
-		<span id="progress_reqs" class="ui-icon ui-icon-<?=($org['orgstatusid']>1)?"check":"closethick"?> progress-check-icon"></span>
-		<?=anchor("organization/submit_forms","Submit to OSA");?><br />
-		</div>
 		<p class="notes">
-			Note: Clicking on "Submit to OSA" will make the forms final and uneditable. Make sure all of the forms are filled up correctly before clicking on "Submit to OSA".
-		</p>
-		<br /><br />
-	<? endif;?>
+			<strong>Note:</strong> Clicking on "Submit to OSA" will make the forms final and uneditable. Make sure all of the forms are filled up correctly before clicking on "Submit to OSA".
+		</p><br /><br />
 	</div>
 	
 	<div class="contentHeader_text">

@@ -80,6 +80,19 @@ class Organization extends Controller {
 		$user = $this->session->userdata(USER);
 		$data['clarifications'] = $this->organization_model->get_clarifications($user['organizationid'], $this->Variable->current_application_aysem());
 		$data['org'] = $this->organization_model->get_organization($user['organizationid'], $this->Variable->current_application_aysem());
+		$data['progress'] = $this->orgregistration_model->progress_array($user['organizationid'], $this->Variable->current_application_aysem());
+		$data['progress_total'] = 
+			$data['progress']['form1']+
+			$data['progress']['form1_advisers']+
+			$data['progress']['form2']+
+			($data['progress']['form3_members']&&$data['progress']['form3_officers'])+
+			$data['progress']['form5_eventreports']+
+			$data['progress']['form6']+
+			$data['progress']['form7']+
+			$data['progress']['reqs']+
+			($data['org']['orgstatusid']>APP_NOT_SUBMITTED)+
+			($data['org']['orgstatusid']==APP_RENEWED);
+		$data['forms_suffix'] = '';
 
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);
