@@ -52,11 +52,18 @@
 			<td><?= $officer['webmail'] ?></td>
 			<td><?= $officer['email'] ?></td>
 			<td><?= $officer['position'] ?></td>
-			<td><?=$officer['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
+			<td><?= $officer['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
 				<?= anchor("organization/delete_member/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete').br()?>
 				<?= anchor("organization/send_member_confirmation_email/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation').br()?>
-				<?= anchor("student/upload/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?> <span id="progress_form3" class="ui-icon ui-icon-<?=($officer['studentpictureid'])?"check":"closethick"?> progress-check-icon"></span>
+				<?= anchor("student/upload/{$officer['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?> <span id="progress_form3" class="ui-icon ui-icon-<?=($officer['studentpictureid'])?"check":"closethick"?> progress-check-icon"></span><?=br()?>
+				<?if($this->session->user_group_is(OSA_GROUPID)){
+					if($officer['confirmed']=='t'){
+						echo anchor("student/unconfirm/{$orgid}/{$appsemid}/{$officer['studentid']}",'Unconfirm');
+					}else{
+						echo anchor("student/confirm/{$orgid}/{$appsemid}/{$officer['studentid']}",'Confirm');
+					}
+				}?>
 			</td>
 		</tr>
 	<? endforeach; ?>
@@ -124,11 +131,18 @@
 		<tr>
 			<td><?= $member['webmail'] ?></td>
 			<td><?= $member['email'] ?></td>
-			<td><?=$member['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
+			<td><?= $member['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
 				<?= anchor("organization/delete_member/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete').br()?>
 				<?= anchor("organization/send_member_confirmation_email/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation').br()?>
-				<?= anchor("student/upload/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?> <span id="progress_form3" class="ui-icon ui-icon-<?=($member['studentpictureid'])?"check":"closethick"?> progress-check-icon"></span>
+				<?= anchor("student/upload/{$member['studentid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Upload UP ID')?> <span id="progress_form3" class="ui-icon ui-icon-<?=($member['studentpictureid'])?"check":"closethick"?> progress-check-icon"></span><?=br()?>
+				<?if($this->session->user_group_is(OSA_GROUPID)){
+					if($member['confirmed']=='t'){
+						echo anchor("student/unconfirm/{$orgid}/{$appsemid}/{$member['studentid']}",'Unconfirm');
+					}else{
+						echo anchor("student/confirm/{$orgid}/{$appsemid}/{$member['studentid']}",'Confirm');
+					}
+				}?>
 			</td>
 		</tr>
 	<? endforeach; ?>

@@ -54,8 +54,15 @@
 			<td><?= $adviser['email'] ?></td>
 			<td><?=$adviser['confirmed'] == 't'?'Confirmed':'Not Confirmed'?></td>
 			<td>
-				<?= anchor("organization/delete_adviser/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete')?>
-				<?= anchor("organization/send_adviser_confirmation_email/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation')?>
+				<?= anchor("organization/delete_adviser/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Delete').br()?>
+				<?= anchor("organization/send_adviser_confirmation_email/{$adviser['facultyid']}".($this->session->user_group_is(OSA_GROUPID)?"/{$appsemid}/{$orgid}":''),'Send Confirmation').br()?>
+				<?if($this->session->user_group_is(OSA_GROUPID)){
+					if($adviser['confirmed']=='t'){
+						echo anchor("faculty/unconfirm/{$orgid}/{$appsemid}/{$adviser['facultyid']}",'Unconfirm');
+					}else{
+						echo anchor("faculty/confirm/{$orgid}/{$appsemid}/{$adviser['facultyid']}",'Confirm');
+					}
+				}?>
 			</td>
 		</tr>
 	<? endforeach; ?>

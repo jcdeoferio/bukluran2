@@ -5,7 +5,7 @@ class Faculty extends Controller {
 	{
 		parent::Controller();
 		
-		if(!$this->session->user_group_is(FACULTY_GROUPID))
+		if(!$this->session->user_group_is(FACULTY_GROUPID) && !$this->session->user_group_is(OSA_GROUPID))
 			redirect('login');
 			
 		$this->load->helper('html');
@@ -45,7 +45,8 @@ class Faculty extends Controller {
 		$this->load->library('views',$params);
 		$this->load->model('Faculty_model');
 		$this->load->model('Organization_model');
-		$this->aysem = $this->Variable->current_application_aysem();
+		
+		define('CURRENT_APPSEM', $this->Variable->current_application_aysem());
 	}
 	
 	function announcements($page_no = 0,$announcement_id = -1)
@@ -131,26 +132,52 @@ class Faculty extends Controller {
 		}
 	}
 	
-	function confirm($orgid)
+	function confirm($orgid, $appsemid = CURRENT_APPSEM, $facultyid = null)
 	{
-		if(!$this->Variable->app_is_open()){
-			redirect('faculty/organizations');
+		if($this->session->user_group_is(FACULTY_GROUPID)){
+			$user = $this->session->userdata('user');
+			$facultyid = $user['facultyid'];
+			$appsemid = CURRENT_APPSEM;
+			if(!$this->Variable->app_is_open()){
+				redirect('faculty/organizations');
+			}
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			if($facultyid == null)
+				redirect("osa/view_application/{$orgid}/{$appsemid}");
+		}else{
+			redirect('login');
+		}	
+		$this->Faculty_model->confirm($facultyid, $appsemid, $orgid);
+		$org = $this->Organization_model->get_organization($orgid,$appsemid);
+		if($this->session->user_group_is(FACULTY_GROUPID)){
+			$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("organization/form1_faculty_adviser/{$appsemid}/{$orgid}");
 		}
-		$user = $this->session->userdata('user');
-		$this->Faculty_model->confirm($user['facultyid'], $this->aysem, $orgid);
-		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
-		$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
 	}
 	
-	function unconfirm($orgid)
+	function unconfirm($orgid, $appsemid = CURRENT_APPSEM, $facultyid = null)
 	{
-		if(!$this->Variable->app_is_open()){
-			redirect('faculty/organizations');
+		if($this->session->user_group_is(FACULTY_GROUPID)){
+			$user = $this->session->userdata('user');
+			$facultyid = $user['facultyid'];
+			$appsemid = CURRENT_APPSEM;
+			if(!$this->Variable->app_is_open()){
+				redirect('faculty/organizations');
+			}
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			if($facultyid == null)
+				redirect("osa/view_application/{$orgid}/{$appsemid}");
+		}else{
+			redirect('login');
+		}		
+		$this->Faculty_model->unconfirm($facultyid, $appsemid, $orgid);
+		$org = $this->Organization_model->get_organization($orgid,$appsemid);
+		if($this->session->user_group_is(FACULTY_GROUPID)){
+			$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("organization/form1_faculty_adviser/{$appsemid}/{$orgid}");
 		}
-		$user = $this->session->userdata('user');
-		$this->Faculty_model->unconfirm($user['facultyid'], $this->aysem, $orgid);
-		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
-		$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
 	}
 	
 	function index()
