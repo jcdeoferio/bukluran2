@@ -220,7 +220,9 @@ class Osa extends Controller {
 			
 			if($orgs[$i]['profile']['orgcategoryid']){
 				$orgs[$i]['profile']['orgcategorydesc'] = $this->organization_model->get_orgcategory($orgs[$i]['profile']['orgcategoryid']);
-			}			
+			}
+			
+			$orgs[$i]['progress'] = $this->orgregistration_model->progress_total($orgs[$i]['organizationid'],$this->Variable->current_application_aysem())*10;
 		}
 		
 		$content_data['orgs'] = $orgs;

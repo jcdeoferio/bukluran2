@@ -170,6 +170,22 @@ class Orgregistration_model extends Model{
 		return $progress;
 	}
 	
+	function progress_total($organizationid,$appsemid){
+		$progress = $this->progress_array($organizationid,$appsemid);
+		$profile = $this->get_profile($organizationid,$appsemid);
+		
+		return $progress['form1']+
+			$progress['form1_advisers']+
+			$progress['form2']+
+			($progress['form3_members']&&$progress['form3_officers'])+
+			$progress['form5_eventreports']+
+			$progress['form6']+
+			$progress['form7']+
+			$progress['reqs']+
+			($profile['orgstatusid']>APP_NOT_SUBMITTED)+
+			($profile['orgstatusid']==APP_RENEWED);
+	}
+	
 	private function get_profile($organizationid, $appsemid){
 		$this->db->from('orgprofiles');
 		$this->db->where('organizationid',$organizationid);
