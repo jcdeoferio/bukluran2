@@ -24,7 +24,7 @@ $this->pagination->initialize($config);
 		<?php foreach($orgs as $org): ?>
 		<tr>
 		<td><?= $org['orgname'] ?></td>
-		<td><?= $org['profile']['orgstatusdesc'] ?></td>
+		<td><?= "{$org['profile']['orgstatusdesc']} - {$org['progress']}%" ?></td>
 		<td>
 			<? if($org['organizationid']): ?><?= anchor($forward_link.$org['organizationid'].'/'.$aysem, 'View Application') ?><br/><? endif; ?>
 			<?= anchor("osa/org_reqs/{$org['organizationid']}", 'Manage Requirements') ?><br/>
