@@ -88,26 +88,52 @@ class Student extends Controller {
 		$this->views->load_organizations($page_no, $messages);
 	}
 	
-	function confirm($orgid)
-	{
-		if(!$this->Variable->app_is_open()){
-			redirect('student/organizations');
+	function confirm($orgid, $appsemid = CURRENT_APPSEM, $studentid = null)
+	{		
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$user = $this->session->userdata('user');
+			$studentid = $user['studentid'];
+			$appsemid = CURRENT_APPSEM;
+			if(!$this->Variable->app_is_open()){
+				redirect('student/organizations');
+			}
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			if($studentid == null)
+				redirect("osa/view_application/{$orgid}/{$appsemid}");
+		}else{
+			redirect('login');
 		}
-		$user = $this->session->userdata('user');
-		$this->Student_model->confirm($user['studentid'], $orgid, $this->Variable->current_application_aysem());
-		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
-		$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
+		$this->Student_model->confirm($studentid, $orgid, $appsemid);
+		$org = $this->Organization_model->get_organization($orgid,$appsemid);
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$this->organizations(0,array('You have successfully confirmed your membership to '.$org['orgname'].'!'));
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("organization/form3/{$appsemid}/{$orgid}");
+		}
 	}
 	
-	function unconfirm($orgid)
+	function unconfirm($orgid, $appsemid = CURRENT_APPSEM, $studentid = null)
 	{
-		if(!$this->Variable->app_is_open()){
-			redirect('student/organizations');
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$user = $this->session->userdata('user');
+			$studentid = $user['studentid'];
+			$appsemid = CURRENT_APPSEM;
+			if(!$this->Variable->app_is_open()){
+				redirect('student/organizations');
+			}
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			if($studentid == null)
+				redirect("osa/view_application/{$orgid}/{$appsemid}");
+		}else{
+			redirect('login');
+		}	
+		$this->Student_model->unconfirm($studentid, $orgid, $appsemid);
+		$org = $this->Organization_model->get_organization($orgid,$appsemid);
+		if($this->session->user_group_is(STUDENT_GROUPID)){
+			$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
+		}else if($this->session->user_group_is(OSA_GROUPID)){
+			redirect("organization/form3/{$appsemid}/{$orgid}");
 		}
-		$user = $this->session->userdata('user');
-		$this->Student_model->unconfirm($user['studentid'], $orgid, $this->Variable->current_application_aysem());
-		$org = $this->Organization_model->get_organization($orgid,$this->Variable->current_application_aysem());
-		$this->organizations(0,array('You have successfully removed your membership from '.$org['orgname'].'!'));
 	}
 	
 	function upload($studentid = NULL, $appsemid = CURRENT_APPSEM, $organizationid = NULL)
