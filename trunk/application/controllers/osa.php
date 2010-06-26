@@ -563,6 +563,19 @@ class Osa extends Controller {
 		$content_data['clarifications'] = $this->organization_model->get_clarifications($orgid, $aysem);
 		$content_data['appsems'] = result_to_option_array($this->Variable->get_valid_appsems_pretty(), 'appsemid', 'pretty');
 		$content_data['statuses'] = result_to_option_array($this->organization_model->get_orgstatuses(), 'orgstatusid', 'description');
+		$content_data['progress'] = $this->orgregistration_model->progress_array($orgid,$aysem);
+		$content_data['progress_total'] = 
+			$content_data['progress']['form1']+
+			$content_data['progress']['form1_advisers']+
+			$content_data['progress']['form2']+
+			($content_data['progress']['form3_members']&&$content_data['progress']['form3_officers'])+
+			$content_data['progress']['form5_eventreports']+
+			$content_data['progress']['form6']+
+			$content_data['progress']['form7']+
+			$content_data['progress']['reqs']+
+			($content_data['org']['orgstatusid']>APP_NOT_SUBMITTED)+
+			($content_data['org']['orgstatusid']==APP_RENEWED);
+		$content_data['forms_suffix'] = "/{$aysem}/{$orgid}";			
 		
 		$this->sidebar_data['links'][1]['selected'] = 0;
 		$this->views->header($data,$this->sidebar_data);		
