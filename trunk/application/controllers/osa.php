@@ -222,7 +222,19 @@ class Osa extends Controller {
 				$orgs[$i]['profile']['orgcategorydesc'] = $this->organization_model->get_orgcategory($orgs[$i]['profile']['orgcategoryid']);
 			}
 			
-			$orgs[$i]['progress'] = $this->orgregistration_model->progress_total($orgs[$i]['organizationid'],$this->Variable->current_application_aysem())*10;
+			$progress = $this->orgregistration_model->progress_array($orgs[$i]['organizationid'],$this->Variable->current_application_aysem());
+			$orgs[$i]['progress'] = $progress['form1']+
+				$progress['form1_advisers']+
+				$progress['form2']+
+				($progress['form3_members']&&$progress['form3_officers'])+
+				$progress['form5_eventreports']+
+				$progress['form6']+
+				$progress['form7']+
+				$progress['reqs']+
+				($orgs[$i]['profile']['orgstatusid']>APP_NOT_SUBMITTED)+
+				($orgs[$i]['profile']['orgstatusid']==APP_RENEWED);
+				
+			$orgs[$i]['progress']*=10;
 		}
 		
 		$content_data['orgs'] = $orgs;
