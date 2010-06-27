@@ -85,6 +85,10 @@ class Student extends Controller {
 	
 	function organizations($page_no = 0, $messages = FALSE)
 	{
+		if(!$this->Variable->app_is_open()){
+			if(!$messages)$messages = array();
+			$messages[] = "The Registration Period is currently closed. You can only view your list of organizations."; 
+		}
 		$this->views->load_organizations($page_no, $messages);
 	}
 	
