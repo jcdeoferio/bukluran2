@@ -8,15 +8,14 @@
 			<div class="left">
 				<h1>Welcome to Bukluran</h1>
 				<p class="grey">Online registration system for organizations of University of the Philippines Diliman</p>
-				<h3>For Students and Faculty:</h3>
-				<p class="grey">use the code provided in the email sent to you.</p>
-				<h3>For Organizations:</h3>
-				<p class="grey">use the account details provided by OSA.</p>
+				<h3>For Problems and Other Concerns:</h3>
+				<p class="grey">send an email to <?=mailto('up.bukluran@gmail.com','up.bukluran@gmail.com')?></p>
 				<?= br(11)."\n";?>
 			</div>
 			<div class="left">
 				<?= form_open('login/link_submit', array('class'=>'clearfix'))."\n";?>
 					<h1>Login for Students and Faculty</h1>
+					<p class="grey">use the code provided in the email sent to you.</p>
 					<?= form_label('Code:','link',array('class'=>'grey'))."\n"; ?>
 					<?= form_input(array('class'=>'field','type'=>'text','name'=>'link','id'=>'link','value'=>'','size'=>'23'))."\n";?>
 					<div class="clear"></div>
@@ -43,6 +42,7 @@
 			<div class="left right">
 				<?= form_open('login/', array('class'=>'clearfix'))."\n";?>
 					<h1>Login for Organizations and OSA</h1>
+					<p class="grey">use the account details provided by OSA.</p>
 					<?= form_label('Username:','username',array('class'=>'grey'))."\n"; ?>
 					<?= form_input(array('class'=>'field','type'=>'text','name'=>'username','id'=>'username','value'=>'','size'=>'23'))."\n";?>
 					<?= form_label('Password:','password',array('class'=>'grey'))."\n"; ?>
@@ -100,7 +100,7 @@
 <div id="topnavWrapper">
 <div class="container">
 <div class="span-24 last" id="topnav">
-
+<?=anchor('main/contact','Contact Us')?>
 </div>
 </div>
 </div>
