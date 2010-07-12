@@ -6,13 +6,13 @@ class Login_model extends Model{
 		parent::__construct();
 	}
 	
-	function authenticate_login($username, $password){
+	function authenticate_login($username, $password, $ishashed = false){
 		$this->db->from('loginaccounts l');
 		$this->db->join('groups g', 'l.groupid = g.groupid');
 		// $this->db->join('organizations o', 'l.loginaccountid = o.loginaccountid', 'left');
 		// $this->db->join('orgprofiles p', 'p.organizationid = o.organizationid', 'left');
 		$this->db->where('username', $username);
-		$this->db->where('password', md5($password));
+		$this->db->where('password', $ishashed?$password:md5($password));
 		
 		$query = $this->db->get();
 		$row = $query->row_array();

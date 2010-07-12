@@ -208,7 +208,11 @@ CREATE TABLE orgdisbursements(
 	description varchar(128)
 );
 
-	
+CREATE TABLE apikeys(
+	apikeyid serial PRIMARY KEY,
+	apikey varchar(32) UNIQUE,
+	description varchar(32)
+);
 
 INSERT INTO organizations(organizationid,orgname) VALUES (-1,'');
 INSERT INTO faculty(facultyid) VALUES (-1);
