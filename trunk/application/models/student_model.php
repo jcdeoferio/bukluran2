@@ -46,7 +46,7 @@ class Student_model extends Model{
 			$this->db->where('studentid', $studentid);
 			$this->db->update('studentpictures',array('filepath'=>$path));
 		}else{
-			$this->db->insert('studentpictures',array('studentid'=>$studentid,'appsemid'=>$aysem,'filepath'=>$path));//TODO current aysem
+			$this->db->insert('studentpictures',array('studentid'=>$studentid,'filepath'=>$path));
 		}
 	}
 	

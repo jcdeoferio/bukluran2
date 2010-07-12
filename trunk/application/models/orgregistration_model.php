@@ -53,7 +53,7 @@ class Orgregistration_model extends Model{
 	
 	function form3_members($organizationid, $appsemid){		
 		$this->db->from('orgmemberships m');
-		$this->db->join('studentpictures p','p.studentid=m.studentid and p.appsemid=m.appsemid');
+		$this->db->join('studentpictures p','p.studentid=m.studentid');
 		$this->db->where('organizationid',$organizationid);
 		$this->db->where('m.appsemid',$appsemid);
 		$this->db->where('confirmed','true');
@@ -64,7 +64,7 @@ class Orgregistration_model extends Model{
 	
 	function form3_officers($organizationid, $appsemid){		
 		$this->db->from('orgmemberships m');
-		$this->db->join('studentpictures p','p.studentid=m.studentid and p.appsemid=m.appsemid');
+		$this->db->join('studentpictures p','p.studentid=m.studentid');
 		$this->db->where('organizationid',$organizationid);
 		$this->db->where('m.appsemid',$appsemid);
 		$this->db->where('confirmed','true');
