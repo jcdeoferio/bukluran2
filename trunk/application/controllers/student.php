@@ -169,7 +169,7 @@ class Student extends Controller {
 		$data['span'] = 19;
 		$data['message'] = FALSE;
 		$data['stylesheets'] = array('login.css');
-		$data['image'] = $this->Student_model->get_studentpicture($studentid, $appsemid);
+		$data['image'] = $this->Student_model->get_studentpicture($studentid);
 		
 		$this->views->header($data,$this->sidebar_data);
 		$this->load->view('student/upload',$data);
@@ -228,16 +228,16 @@ class Student extends Controller {
 		if (!$this->upload->do_upload())
 		{
 			$data['message'] = $this->upload->display_errors();	
-			$data['image'] = $this->Student_model->get_studentpicture($studentid, $appsemid);
+			$data['image'] = $this->Student_model->get_studentpicture($studentid);
 			$this->load->view('student/upload', $data);
 		}	
 		else
 		{	
 			$img_data = $this->upload->data();
-			$this->Student_model->set_studentpicture($studentid, $appsemid, $img_data['file_name']);
+			$this->Student_model->set_studentpicture($studentid, $img_data['file_name']);
 			
 			$data['message'] = "Upload Successful!";			
-			$data['image'] = $this->Student_model->get_studentpicture($studentid, $appsemid);
+			$data['image'] = $this->Student_model->get_studentpicture($studentid);
 			
 			$this->load->view('student/upload', $data);
 		}

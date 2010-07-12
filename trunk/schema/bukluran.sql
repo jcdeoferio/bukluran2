@@ -153,7 +153,6 @@ CREATE TABLE announcements(
 CREATE TABLE studentpictures(
 	studentpictureid serial PRIMARY KEY,
 	studentid integer REFERENCES students,
-	appsemid smallint REFERENCES appsems,
 	filepath text,
 	UNIQUE(studentid, appsemid));
 	
